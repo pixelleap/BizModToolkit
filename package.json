@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node build.mjs .",
     "desktop": "electron .",
-    "desktop:dist": "electron-builder --win nsis portable"
+    "desktop:dist": "electron-builder --win nsis portable --publish never"
   },
   "devDependencies": {
     "electron": "^35.7.5",
