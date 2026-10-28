@@ -8,7 +8,22 @@ import { fileURLToPath } from 'node:url';
 import { buildRepo, removeImage, workspaceInfo, writeImage, writeState } from '../lib/repo.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const USER_DATA = 'D:\\Workspace\\module-board\\.electron-data';
+function pickUserData() {
+  const candidates = [
+    path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'ModuleBoard'),
+    'D:\\Workspace\\module-board\\.electron-data',
+    path.join(os.tmpdir(), 'ModuleBoard')
+  ];
+  for (const dir of candidates) {
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+      fs.accessSync(dir, fs.constants.W_OK);
+      return dir;
+    } catch { /* try next */ }
+  }
+  return path.join(os.tmpdir(), 'ModuleBoard');
+}
+const USER_DATA = pickUserData();
 fs.mkdirSync(USER_DATA, { recursive: true });
 app.setPath('userData', USER_DATA);
 app.commandLine.appendSwitch('no-sandbox');
