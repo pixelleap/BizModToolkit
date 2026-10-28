@@ -362,7 +362,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.2.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.2.1</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
@@ -714,7 +714,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.2.0';
+const APP_VERSION = '2.2.1';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1617,7 +1617,12 @@ function loadImageCache() {
 }
 function getShot(cardId) { return imageCache.get(cardId) || null; }
 function hasShot(cardId) { return imageCache.has(cardId); }
-function saveShot(cardId, dataUrl) {
+function thumbOwnerId(id) {
+  if (!state || !state.cards) return null;
+  const card = state.cards.find(function (c) { return c.thumb && c.thumb.id === id; });
+  return card ? card.id : null;
+}
+function saveShot(cardId, dataUrl, syncTarget) {
   imageCache.set(cardId, dataUrl);
   thumbImageCache.delete(cardId);
   idbPutImage(cardId, dataUrl);
@@ -1629,14 +1634,14 @@ function saveShot(cardId, dataUrl) {
       toast('本地存储空间不足，图片已转存到浏览器数据库；建议在「分享 → 数据与身份」导出备份', 5600);
     }
   }
-  localSyncImage(cardId, dataUrl);
+  localSyncImage(syncTarget || thumbOwnerId(cardId) || cardId, dataUrl);
 }
-function removeShot(cardId) {
+function removeShot(cardId, syncTarget) {
   imageCache.delete(cardId);
   thumbImageCache.delete(cardId);
   idbDeleteImage(cardId);
   try { localStorage.removeItem(NS.imgPrefix + cardId); } catch (e) { /* ignore */ }
-  localRemoveImage(cardId);
+  localRemoveImage(syncTarget || thumbOwnerId(cardId) || cardId);
 }
 function hydrateSeedImages() {
   const seed = NS.seed;
@@ -3338,7 +3343,7 @@ async function setThumbFile(file) {
     const img = await compressThumbFile(file);
     const existing = card.thumb && card.thumb.id;
     const id = (existing && String(existing).indexOf('thumb_builtin_') !== 0) ? existing : uid('thumb');
-    saveShot(id, img.dataUrl);
+    saveShot(id, img.dataUrl, card.id);
     patchCard(card.id, { thumb: { id: id, mime: img.mime, w: img.w, h: img.h, updatedAt: nowISO() } }, { label: '设置卡片缩略图' });
     fillInspector();
     toast('卡片缩略图已保存');
@@ -3350,7 +3355,7 @@ function removeThumb() {
   if (!view.inspectingId) return;
   const card = findCard(view.inspectingId);
   if (!card || !card.thumb) return;
-  removeShot(card.thumb.id);
+  removeShot(card.thumb.id, card.id);
   patchCard(card.id, { thumb: null }, { label: '删除卡片缩略图' });
   fillInspector();
 }
