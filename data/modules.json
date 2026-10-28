@@ -538,7 +538,7 @@
     "order": 30,
     "title": "体力与次数",
     "rowId": "row_other",
-    "categoryId": "cat_growth",
+    "categoryId": "cat_paid",
     "tags": [
       "消耗"
     ],
@@ -556,7 +556,7 @@
     "order": 31,
     "title": "局外成长",
     "rowId": "row_other",
-    "categoryId": "cat_growth",
+    "categoryId": "cat_paid",
     "tags": [
       "消耗",
       "付费"
