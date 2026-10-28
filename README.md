@@ -95,6 +95,21 @@ npm run build
 - 未在 `selected` 里的模块 = 未选；不要复制整份模块表到每个游戏。
 - 新增游戏直接加一条，`id` 用 `prj_xxx`。
 
+## 从现有应用导入一次
+
+如果某人已经在 HTML 里改过标题/正文/缩略图：
+
+1. 让对方在应用里打开「分享 → 数据与身份 → 导出 JSON」。
+2. 执行：
+
+```bash
+node tools/import-state.mjs <导出的.json> .
+node build.mjs .
+```
+
+会把 `cards` 映射到 `data/modules.json`、`projects` 映射到 `data/games.json`，并导出缩略图到 `thumbs/`。  
+导入前建议先提交当前仓库，方便回滚。
+
 ## 缩略图规范
 
 - 640×360，16:9，WebP，文件名必须是 `<模块id>.webp`。

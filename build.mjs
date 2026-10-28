@@ -15,6 +15,13 @@ function fail(msg) { console.error('BUILD FAILED: ' + msg); process.exit(1); }
 function isStr(v, max = 100000) { return typeof v === 'string' && v.length <= max; }
 function isStrArray(v) { return Array.isArray(v) && v.every(x => typeof x === 'string'); }
 function js(v) { return JSON.stringify(v).replace(/<\/script/gi, '<\\/script'); }
+function findThumb(id) {
+  for (const ext of ['.webp', '.png', '.jpg', '.jpeg']) {
+    const p = path.join(thumbsDir, id + ext);
+    if (fs.existsSync(p)) return p;
+  }
+  return null;
+}
 function mimeOf(file) {
   const ext = path.extname(file).toLowerCase();
   if (ext === '.webp') return 'image/webp';
@@ -48,8 +55,8 @@ for (const m of modules) {
   if (!isStrArray(m.body)) fail(m.id + ' body 必须是字符串数组');
   if (!isStr(m.desc || '', 2000)) fail(m.id + ' desc 过长');
   if (m.note != null && !isStr(m.note, 80)) fail(m.id + ' note 无效');
-  const thumb = path.join(thumbsDir, m.id + '.webp');
-  if (!fs.existsSync(thumb)) fail('缺少缩略图: thumbs/' + m.id + '.webp');
+  const thumb = findThumb(m.id);
+  if (!thumb) fail('缺少缩略图: thumbs/' + m.id + '.(webp|png|jpg)');
 }
 const games = gamesRaw.map((g, i) => {
   const id = String(g.id || ('prj_' + i));
@@ -62,7 +69,7 @@ if (!games.length) fail('没有有效 game');
 const thumbData = {};
 let thumbBytes = 0;
 for (const m of modules) {
-  const file = path.join(thumbsDir, m.id + '.webp');
+  const file = findThumb(m.id);
   const buf = fs.readFileSync(file);
   thumbBytes += buf.length;
   thumbData[m.id] = 'data:' + mimeOf(file) + ';base64,' + buf.toString('base64');
@@ -73,7 +80,7 @@ const hash = crypto.createHash('sha1')
   .update(JSON.stringify(games))
   .update(JSON.stringify(categories))
   .update(JSON.stringify(rows))
-  .update(Buffer.concat(modules.map(m => fs.readFileSync(path.join(thumbsDir, m.id + '.webp')))))
+  .update(Buffer.concat(modules.map(m => fs.readFileSync(findThumb(m.id)))))
   .digest('hex').slice(0, 12);
 const seed = 'collab-' + hash;
 
