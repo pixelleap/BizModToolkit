@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cat_paid",
+    "name": "付费点",
+    "color": "#D9534F",
+    "order": 0
+  },
+  {
+    "id": "cat_ad",
+    "name": "广告点",
+    "color": "#E06A5E",
+    "order": 1
+  },
+  {
+    "id": "cat_retention",
+    "name": "留存活动",
+    "color": "#5B8DEF",
+    "order": 2
+  },
+  {
+    "id": "cat_growth",
+    "name": "内容成长",
+    "color": "#4E9CD8",
+    "order": 3
+  },
+  {
+    "id": "cat_infra",
+    "name": "底座能力",
+    "color": "#8B7BE0",
+    "order": 4
+  },
+  {
+    "id": "cat_none",
+    "name": "未分类",
+    "color": "#94A3B8",
+    "order": 5
+  }
+]

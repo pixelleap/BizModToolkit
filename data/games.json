@@ -1,0 +1,18 @@
+[
+  {
+    "id": "prj_demo",
+    "name": "示例游戏",
+    "selected": [
+      "card_reward_choice",
+      "card_level_result",
+      "card_revive",
+      "card_checkin",
+      "card_pass",
+      "card_shop",
+      "card_bundle",
+      "card_energy"
+    ],
+    "createdAt": "2026-10-28T11:04:25.449Z",
+    "updatedAt": "2026-10-28T11:04:25.449Z"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "row_level",
+    "name": "关卡",
+    "order": 0
+  },
+  {
+    "id": "row_event",
+    "name": "活动",
+    "order": 1
+  },
+  {
+    "id": "row_shop",
+    "name": "售卖",
+    "order": 2
+  },
+  {
+    "id": "row_other",
+    "name": "其他",
+    "order": 3
+  },
+  {
+    "id": "row_infra",
+    "name": "通用底座",
+    "order": 4
+  }
+]
