@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "build": "node build.mjs .",
+    "start": "node server.mjs",
     "import-state": "node tools/import-state.mjs"
   }
 }

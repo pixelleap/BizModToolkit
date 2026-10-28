@@ -743,6 +743,36 @@ const APP_SHELL_SOURCE = (function () {
 })();
 let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BACKUP_KEY };
 
+/* 本地编辑服务：在 http://127.0.0.1:4173 下把编辑直接写回仓库 */
+const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
+let localSyncReady = false;
+function localSyncState(s) {
+  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  try {
+    fetch('/api/state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(s)
+    }).catch(function () {});
+  } catch (e) { /* ignore */ }
+}
+function localSyncImage(id, dataUrl) {
+  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  try {
+    fetch('/api/image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: id, dataUrl: dataUrl })
+    }).catch(function () {});
+  } catch (e) { /* ignore */ }
+}
+function localRemoveImage(id) {
+  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  try {
+    fetch('/api/image?id=' + encodeURIComponent(id), { method: 'DELETE' }).catch(function () {});
+  } catch (e) { /* ignore */ }
+}
+
 const LAY = {
   width: 1900, pad: 40,
   titleH: 92, legendH: 36,
@@ -1409,6 +1439,7 @@ function initNamespace() {
   return { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BACKUP_KEY };
 }
 function loadState() {
+  if (IS_LOCAL_EDITOR) return null;
   try {
     const raw = localStorage.getItem(NS.stateKey);
     if (!raw) return null;
@@ -1424,6 +1455,7 @@ function saveNow() {
     saveError = true;
     toast('本地保存失败：' + (err && err.message ? err.message : '存储空间不足'), 4200);
   }
+  localSyncState(state);
   updateStats();
 }
 
@@ -1521,12 +1553,14 @@ function saveShot(cardId, dataUrl) {
       toast('本地存储空间不足，图片已转存到浏览器数据库；建议在「分享 → 数据与身份」导出备份', 5600);
     }
   }
+  localSyncImage(cardId, dataUrl);
 }
 function removeShot(cardId) {
   imageCache.delete(cardId);
   thumbImageCache.delete(cardId);
   idbDeleteImage(cardId);
   try { localStorage.removeItem(NS.imgPrefix + cardId); } catch (e) { /* ignore */ }
+  localRemoveImage(cardId);
 }
 function hydrateSeedImages() {
   const seed = NS.seed;
@@ -5714,6 +5748,7 @@ function init() {
   renderAll();
   preloadThumbImages();
   loadIndexedImages();
+  localSyncReady = true;
   if (NS.seed) {
     try { document.title = activeProject().name + ' · 模块工具箱（分享版）'; } catch (e) { /* ignore */ }
     updateSharedBadge();

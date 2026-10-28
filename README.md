@@ -1,18 +1,39 @@
 # 商业化模块工具箱 · 协作源（方案 B）
 
-## 先打开这个
+## 推荐：本地编辑模式（改了直接进 VSCode）
 
 双击仓库根目录的：
+
+```text
+启动编辑模式.bat
+```
+
+它会启动一个只在本机运行的编辑服务，并自动打开：
+
+```text
+http://127.0.0.1:4173
+```
+
+在这里正常用「编辑模式」改标题、正文、缩略图、游戏选择，**修改会自动写入**：
+
+- `data/modules.json`
+- `data/games.json`
+- `data/categories.json` / `data/rows.json`
+- `thumbs/card_xxx.webp`
+- `dist/`（自动重建）
+
+然后直接在 VSCode 的「源代码管理」里提交、推送即可。  
+关闭启动编辑模式的那个黑色窗口 = 停止服务。
+
+## 只看 / 演示
+
+双击：
 
 ```text
 打开工具箱.bat
 ```
 
-或进入 `dist/`，双击：
-
-```text
-商业化模块工具箱编辑器.html
-```
+或进入 `dist/` 双击 HTML。这个方式只读，改了不会写回 `data/`。
 
 `dist/` 里的 HTML 才是能直接用的工具；`data/`、`thumbs/`、`build.mjs` 是源数据，不是双击打开的。
 
@@ -60,9 +81,9 @@ dist/商业化模块工具箱编辑器.html
 npm run build
 ```
 
-## 一键保存并上传
+## 备用：不用本地编辑模式时
 
-改完 `data/` 或 `thumbs/` 后，双击：
+如果你直接改 `data/` 或 `thumbs/`，改完双击：
 
 ```text
 publish.bat
@@ -85,7 +106,7 @@ cd D:\Workspace\module-board
 
 拉取同事更新 + 重新构建，双击 `pull.bat`。
 
-## 我在网页里换了缩略图，为什么 publish 没反应？
+## 我在网页里换了缩略图，为什么 publish 没反应？\n\n> 用 `启动编辑模式.bat` 时不会出现这个问题，编辑会自动写入 `thumbs/`。以下针对「直接双击 dist 里的 HTML」的旧方式。
 
 网页里上传的缩略图只存在浏览器 localStorage/IndexedDB，**不会自动写进 `thumbs/`**。  
 `publish.bat` 只提交 `data/`、`thumbs/`、`dist/`，所以它看不到网页里的改动。
