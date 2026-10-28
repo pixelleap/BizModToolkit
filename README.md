@@ -22,6 +22,35 @@ https://github.com/kimhui1/Commercial-module-toolbox/releases/latest
 
 > 安装包没有代码签名，Windows 首次可能提示 SmartScreen：点「更多信息 → 仍要运行」。
 
+## 本地仓库直接启动
+
+本机已经创建桌面快捷方式：
+
+```text
+桌面\商业化模块工具箱
+```
+
+双击即可，不需要 `.bat`。
+
+仓库里也有同名快捷方式：
+
+```text
+D:\Workspace\module-board\商业化模块工具箱.lnk
+```
+
+它指向：
+
+```text
+D:\Workspace\module-board\release\win-unpacked\商业化模块工具箱.exe
+```
+
+开发模式：
+
+```bash
+cd D:\Workspace\module-board
+npm run desktop
+```
+
 ## 首次启动
 
 程序优先使用这个 Git 工作区：
