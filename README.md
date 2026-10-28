@@ -175,11 +175,18 @@ node build.mjs .
 
 ## 远程仓库
 
-本地已经是一个 Git 仓库（`main` 分支）。推到 GitHub / GitLab / Gitee：
+已配置：
 
-```bash
-git remote add origin <私有仓库地址>
-git push -u origin main
+```text
+https://github.com/kimhui1/Commercial-module-toolbox
 ```
 
-建议用**私有仓库**；缩略图总大小约 0.5MB，不需要 Git LFS。
+当前分支 `main` 已跟踪 `origin/main`，直接：
+
+```bash
+git push
+```
+
+即可。缩略图总大小约 0.5MB，不需要 Git LFS。
+
+> 仓库包含内部策划数据和图片，建议在 GitHub 仓库设置里确认是 **Private**。
