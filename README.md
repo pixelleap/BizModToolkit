@@ -132,3 +132,14 @@ npm run build
 - 加 `tools/import-state.mjs`：把应用导出的 JSON 自动拆成 `modules.json` / `games.json` / `thumbs/`。
 - 加 CI：PR 时自动跑 `node build.mjs .` + HTML 自检。
 - 加发布目录：每次打 tag 时把 `dist` 复制到 `releases/vX.Y.Z/`。
+
+## 远程仓库
+
+本地已经是一个 Git 仓库（`main` 分支）。推到 GitHub / GitLab / Gitee：
+
+```bash
+git remote add origin <私有仓库地址>
+git push -u origin main
+```
+
+建议用**私有仓库**；缩略图总大小约 0.5MB，不需要 Git LFS。
