@@ -1,10 +1,37 @@
 {
   "name": "module-board-collab",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
+  "main": "desktop/main.mjs",
   "scripts": {
     "build": "node build.mjs .",
     "start": "node server.mjs",
+    "desktop": "electron .",
+    "desktop:dist": "electron-builder --win portable",
     "import-state": "node tools/import-state.mjs"
+  },
+  "devDependencies": {
+    "electron": "^35.7.5",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.pixelleap.moduleboard",
+    "productName": "商业化模块工具箱",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "desktop/**/*",
+      "lib/**/*",
+      "build.mjs",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "artifactName": "商业化模块工具箱-${version}.${ext}"
+    }
   }
 }

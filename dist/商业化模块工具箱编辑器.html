@@ -208,6 +208,14 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 /* ---------- share / tabs ---------- */
 .badge-share{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;background:#EEF3FE;color:#2F5FB3;font-size:11px;font-weight:600;border:1px solid #CFDEFB;cursor:pointer;white-space:nowrap}
 .badge-share:hover{background:#E3EDFF}
+.repo-badge{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:999px;font-size:11px;font-weight:600;white-space:nowrap;border:1px solid transparent}
+.repo-ok{background:#EAF7EE;color:#1F7A43;border-color:#BFE5CB}
+.repo-error{background:#FDECEC;color:#B42318;border-color:#F5C2C0}
+.repo-readonly{background:#FFF4E5;color:#9A5B00;border-color:#F2D1A0}
+.readonly-banner{display:flex;align-items:center;gap:8px;padding:8px 16px;background:#FFF4E5;color:#7A4300;border-bottom:1px solid #F2D1A0;font-size:12px;font-weight:600;flex:none;z-index:35}
+.readonly-banner.hidden{display:none}
+.readonly-banner b{font-weight:700}
+
 .tabs{display:flex;gap:4px;padding:0 18px;border-bottom:1px solid var(--line2);background:#FCFCFD;flex:none}
 .tab{padding:10px 12px;font-size:12.5px;color:var(--muted);font-weight:600;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
 .tab:hover{color:var(--text)}
@@ -354,13 +362,14 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.0.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.1.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
       <span class="caret">▾</span>
     </button>
     <span id="sharedBadge" class="badge-share hidden" title="这是分享版，数据保存在本机"></span>
+    <span id="repoBadge" class="repo-badge"></span>
     <div class="modebar" id="modeBar">
       <button class="seg active" data-mode="select">选择模式</button>
       <button class="seg" data-mode="edit">编辑模式</button>
@@ -372,6 +381,8 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
     <button class="btn primary" id="exportBtn" title="分享给别人的东西都在这里">分享</button>
     <button class="icon-btn" id="settingsBtn" title="设置">⚙</button>
   </header>
+
+  <div id="readonlyBanner" class="readonly-banner hidden">当前是只读文件模式：修改不会进入 Git。请关闭本页，双击「打开工具箱.bat」启动桌面版。</div>
 
   <div class="subbar">
     <div class="fgroup" id="onlyGroup">
@@ -703,7 +714,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.1.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -745,32 +756,97 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 
 /* 本地编辑服务：在 http://127.0.0.1:4173 下把编辑直接写回仓库 */
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
+const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 let localSyncReady = false;
+let repoBadgeState = '';
+function setRepoBadge(state) {
+  repoBadgeState = state;
+  const el = document.getElementById('repoBadge');
+  if (!el) return;
+  el.classList.remove('repo-ok', 'repo-error', 'repo-readonly');
+  if (state === 'error') {
+    el.classList.add('repo-error');
+    el.textContent = '同步失败 · 修改未写入仓库';
+    el.title = '本地文件写入失败，请检查程序日志';
+  } else if (IS_DESKTOP) {
+    el.classList.add('repo-ok');
+    el.textContent = '● 桌面版 · 已写入仓库';
+    el.title = '修改会直接写入工作区 data/ 和 thumbs/';
+  } else if (IS_LOCAL_EDITOR) {
+    el.classList.add('repo-ok');
+    el.textContent = '● 本地仓库 · 自动保存';
+    el.title = '修改会直接写入工作区 data/ 和 thumbs/';
+  } else {
+    el.classList.add('repo-readonly');
+    el.textContent = '只读 · 未连接仓库';
+    el.title = '请通过桌面程序或本地编辑服务打开';
+  }
+}
 function localSyncState(s) {
-  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  if (!localSyncReady) return;
+  if (IS_DESKTOP) {
+    window.desktopRepo.saveState(s).then(function (r) {
+      setRepoBadge(r && r.ok === false ? 'error' : 'ok');
+    }).catch(function () { setRepoBadge('error'); });
+    return;
+  }
+  if (!IS_LOCAL_EDITOR) return;
   try {
     fetch('/api/state', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(s)
-    }).catch(function () {});
-  } catch (e) { /* ignore */ }
+    }).then(function (r) {
+      setRepoBadge(r.ok ? 'ok' : 'error');
+    }).catch(function () { setRepoBadge('error'); });
+  } catch (e) { setRepoBadge('error'); }
 }
 function localSyncImage(id, dataUrl) {
-  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  if (!localSyncReady) return;
+  if (IS_DESKTOP) {
+    window.desktopRepo.saveImage(id, dataUrl).then(function (r) {
+      setRepoBadge(r && r.ok === false ? 'error' : 'ok');
+    }).catch(function () { setRepoBadge('error'); });
+    return;
+  }
+  if (!IS_LOCAL_EDITOR) return;
   try {
     fetch('/api/image', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: id, dataUrl: dataUrl })
-    }).catch(function () {});
-  } catch (e) { /* ignore */ }
+    }).then(function (r) {
+      setRepoBadge(r.ok ? 'ok' : 'error');
+    }).catch(function () { setRepoBadge('error'); });
+  } catch (e) { setRepoBadge('error'); }
 }
 function localRemoveImage(id) {
-  if (!IS_LOCAL_EDITOR || !localSyncReady) return;
+  if (!localSyncReady) return;
+  if (IS_DESKTOP) {
+    window.desktopRepo.removeImage(id).then(function (r) {
+      setRepoBadge(r && r.ok === false ? 'error' : 'ok');
+    }).catch(function () { setRepoBadge('error'); });
+    return;
+  }
+  if (!IS_LOCAL_EDITOR) return;
   try {
-    fetch('/api/image?id=' + encodeURIComponent(id), { method: 'DELETE' }).catch(function () {});
-  } catch (e) { /* ignore */ }
+    fetch('/api/image?id=' + encodeURIComponent(id), { method: 'DELETE' }).then(function (r) {
+      setRepoBadge(r.ok ? 'ok' : 'error');
+    }).catch(function () { setRepoBadge('error'); });
+  } catch (e) { setRepoBadge('error'); }
+}
+
+function applyRepoModeUI() {
+  const banner = document.getElementById('readonlyBanner');
+  const readonly = !IS_DESKTOP && !IS_LOCAL_EDITOR;
+  if (banner) banner.classList.toggle('hidden', !readonly);
+  setRepoBadge(readonly ? 'readonly' : 'ok');
+  if (IS_LOCAL_EDITOR) {
+    fetch('/api/health', { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('health');
+      setRepoBadge('ok');
+    }).catch(function () { setRepoBadge('error'); });
+  }
 }
 
 const LAY = {
@@ -1270,7 +1346,7 @@ function initNamespace() {
   return { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BACKUP_KEY };
 }
 function loadState() {
-  if (IS_LOCAL_EDITOR) return null;
+  if (IS_LOCAL_EDITOR || IS_DESKTOP) return null;
   try {
     const raw = localStorage.getItem(NS.stateKey);
     if (!raw) return null;
@@ -5580,6 +5656,7 @@ function init() {
   preloadThumbImages();
   loadIndexedImages();
   localSyncReady = true;
+  applyRepoModeUI();
   if (NS.seed) {
     try { document.title = activeProject().name + ' · 模块工具箱（分享版）'; } catch (e) { /* ignore */ }
     updateSharedBadge();
