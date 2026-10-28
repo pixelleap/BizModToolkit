@@ -28,7 +28,7 @@ tools/
 需要 Node.js 18+。
 
 ```bash
-cd collab
+cd D:\Workspace\module-board
 node build.mjs .
 ```
 
@@ -43,6 +43,31 @@ dist/商业化模块工具箱编辑器.html
 ```bash
 npm run build
 ```
+
+## 一键保存并上传
+
+改完 `data/` 或 `thumbs/` 后，双击：
+
+```text
+publish.bat
+```
+
+或命令行：
+
+```powershell
+cd D:\Workspace\module-board
+.\publish.ps1 -Message "补充广告奖励倍数说明"
+```
+
+它做三件事：
+
+1. `node build.mjs .` 重新生成 `dist/`
+2. `git add data thumbs dist` + `git commit`
+3. 有远程仓库时 `git push`
+
+第一次使用前先配置一次远程（见文末）。如果还没配远程，脚本会只提交到本地并提示你。
+
+拉取同事更新 + 重新构建，双击 `pull.bat`。
 
 ## 日常修改流程
 
