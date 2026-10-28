@@ -33,11 +33,38 @@ function writeConfig(patch) {
   fs.mkdirSync(path.dirname(configPath()), { recursive: true });
   fs.writeFileSync(configPath(), JSON.stringify(next, null, 2) + '\n', 'utf8');
 }
+function docWorkspace() {
+  return path.join(app.getPath('documents'), '商业化模块工具箱');
+}
+function starterRoot() {
+  const packaged = path.join(process.resourcesPath || '', 'starter');
+  if (fs.existsSync(path.join(packaged, 'data', 'modules.json'))) return packaged;
+  return path.join(__dirname, '..');
+}
+function copyStarter(dest) {
+  const src = starterRoot();
+  if (!fs.existsSync(path.join(src, 'data', 'modules.json'))) return false;
+  fs.mkdirSync(dest, { recursive: true });
+  for (const name of ['data', 'thumbs', 'template', 'build.mjs', 'dist']) {
+    const from = path.join(src, name);
+    if (!fs.existsSync(from)) continue;
+    fs.cpSync(from, path.join(dest, name), { recursive: true });
+  }
+  return workspaceInfo(dest).valid;
+}
 function loadWorkspace() {
   const cfg = readConfig();
-  const candidate = cfg.workspace || DEFAULT_WORKSPACE;
-  const info = workspaceInfo(candidate);
-  if (info.valid) { workspace = info.root; return true; }
+  const candidates = [cfg.workspace, DEFAULT_WORKSPACE, docWorkspace()].filter(Boolean);
+  for (const candidate of candidates) {
+    const info = workspaceInfo(candidate);
+    if (info.valid) { workspace = info.root; return true; }
+  }
+  const dest = docWorkspace();
+  if (copyStarter(dest) && workspaceInfo(dest).valid) {
+    workspace = dest;
+    writeConfig({ workspace });
+    return true;
+  }
   return false;
 }
 function chooseWorkspaceSync() {

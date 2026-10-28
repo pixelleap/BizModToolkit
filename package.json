@@ -1,15 +1,13 @@
 {
   "name": "module-board-collab",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "type": "module",
   "main": "desktop/main.mjs",
   "scripts": {
     "build": "node build.mjs .",
-    "start": "node server.mjs",
     "desktop": "electron .",
-    "desktop:dist": "electron-builder --win portable",
-    "import-state": "node tools/import-state.mjs"
+    "desktop:dist": "electron-builder --win nsis portable"
   },
   "devDependencies": {
     "electron": "^35.7.5",
@@ -27,11 +25,29 @@
       "build.mjs",
       "package.json"
     ],
+    "extraResources": [
+      { "from": "data", "to": "starter/data" },
+      { "from": "thumbs", "to": "starter/thumbs" },
+      { "from": "template", "to": "starter/template" },
+      { "from": "build.mjs", "to": "starter/build.mjs" },
+      { "from": "dist", "to": "starter/dist" }
+    ],
     "win": {
-      "target": [
-        "portable"
-      ],
-      "artifactName": "商业化模块工具箱-${version}.${ext}"
+      "target": ["nsis", "portable"]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "商业化模块工具箱",
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false,
+      "artifactName": "商业化模块工具箱-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "商业化模块工具箱-Portable-${version}.${ext}"
     }
   }
 }
