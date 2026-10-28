@@ -10,8 +10,8 @@ https://github.com/kimhui1/Commercial-module-toolbox/releases/latest
 
 下载：
 
-- `商业化模块工具箱-Setup-2.2.0.exe`：安装版，推荐
-- `商业化模块工具箱-Portable-2.2.0.exe`：便携版，免安装
+- `ModuleBoard-Setup-2.2.0.exe`：安装版，推荐
+- `ModuleBoard-Portable-2.2.0.exe`：便携版，免安装
 
 安装版会创建：
 

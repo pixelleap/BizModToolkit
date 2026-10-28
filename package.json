@@ -44,10 +44,10 @@
       "shortcutName": "商业化模块工具箱",
       "runAfterFinish": true,
       "deleteAppDataOnUninstall": false,
-      "artifactName": "商业化模块工具箱-Setup-${version}.${ext}"
+      "artifactName": "ModuleBoard-Setup-${version}.${ext}"
     },
     "portable": {
-      "artifactName": "商业化模块工具箱-Portable-${version}.${ext}"
+      "artifactName": "ModuleBoard-Portable-${version}.${ext}"
     }
   }
 }
