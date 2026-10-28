@@ -13,6 +13,12 @@ git add data thumbs dist
 git diff --cached --quiet
 if ($LASTEXITCODE -eq 0) {
   Write-Host "没有需要提交的改动。"
+  Write-Host ""
+  Write-Host "注意：在网页里换缩略图/改文字，不会自动进 Git。"
+  Write-Host "如果刚在网页里改过："
+  Write-Host "  1. 网页右上角「分享 -> 数据与身份 -> 导出 JSON」"
+  Write-Host "  2. 把导出的 JSON 拖到「导入网页数据.bat」"
+  Write-Host ""
   exit 0
 }
 git commit -m $Message

@@ -85,6 +85,36 @@ cd D:\Workspace\module-board
 
 拉取同事更新 + 重新构建，双击 `pull.bat`。
 
+## 我在网页里换了缩略图，为什么 publish 没反应？
+
+网页里上传的缩略图只存在浏览器 localStorage/IndexedDB，**不会自动写进 `thumbs/`**。  
+`publish.bat` 只提交 `data/`、`thumbs/`、`dist/`，所以它看不到网页里的改动。
+
+两种正确做法：
+
+### 做法 A：从网页导出，再导入（推荐）
+
+1. 网页右上角「分享 → 数据与身份 → 导出 JSON」。
+2. 把导出的 JSON 文件拖到：
+
+```text
+D:\Workspace\module-board\导入网页数据.bat
+```
+
+3. 它会执行 `import-state`、重建、提交、push。
+
+注意：这会用网页当前状态覆盖 `data/modules.json`、`data/games.json` 和缩略图；导入前先确认 Git 工作区干净，方便回滚。
+
+### 做法 B：直接替换缩略图文件
+
+把新图转成 640×360 WebP，覆盖：
+
+```text
+D:\Workspace\module-board\thumbs\card_reward_choice.webp
+```
+
+然后双击 `publish.bat`。
+
 ## 日常修改流程
 
 1. 从 `main` 拉分支，例如 `feat/add-reward-multiplier`。
