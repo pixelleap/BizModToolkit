@@ -1,2 +1,9 @@
 @echo off
-start "" "%~dp0dist\商业化模块工具箱编辑器.html"
+set "TARGET="
+for %%F in ("%~dp0dist\*.html") do if not defined TARGET set "TARGET=%%~fF"
+if defined TARGET (
+  start "" "%TARGET%"
+) else (
+  echo Cannot find dist\*.html
+  pause
+)
