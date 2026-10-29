@@ -409,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.1.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.2.0</small></div>
     </div>
     <div class="proj-btn static" id="projectBtn" title="默认配置">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -566,6 +566,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
       <div><h3>分享与导出</h3><div class="sub">给别人的东西都在这里：可编辑分享文件、图片 / PDF、数据与身份</div></div>
       <button class="icon-btn" data-close>×</button>
     </div>
+    <div style="padding:10px 18px 0"><div class="field" style="margin:0"><label>项目名称</label><input type="text" id="exportProjectName" maxlength="40" placeholder="默认配置"></div></div>
     <div class="tabs" id="shareTabs">
       <button class="tab active" data-tab="file">① 分享文件（可编辑）</button>
       <button class="tab" data-tab="export">② 导出图片 / PDF</button>
@@ -787,7 +788,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '3.1.0';
+const APP_VERSION = '3.2.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1770,9 +1771,10 @@ function webImagesPayload() {
 function buildWebPayload() {
   const payloadState = clone(state);
   delete payloadState.ui;
+  payloadState.projects[0].name = exportProjectName();
   const images = webImagesPayload();
   const revision = webHash(JSON.stringify(payloadState) + JSON.stringify(Object.keys(images).sort().map(function (k) { return [k, images[k].length]; })));
-  return { format: 'module-board-web', schemaVersion: 1, appVersion: APP_VERSION, revision: revision, exportedAt: nowISO(), state: payloadState, images: images };
+  return { format: 'module-board-web', schemaVersion: 1, appVersion: APP_VERSION, projectName: exportProjectName(), revision: revision, exportedAt: nowISO(), state: payloadState, images: images };
 }
 function exportWebData() {
   const pack = buildWebPayload();
@@ -2833,7 +2835,7 @@ function buildPdf(jpegBytes, pxW, pxH, layoutW, layoutH, title) {
 }
 
 /* ------------------------- 9. 导出 ------------------------- */
-const expState = { scope: 'all', width: 1900, scale: 2, chrome: true };
+const expState = { scope: 'all', width: 1900, scale: 2, chrome: true, projectName: '默认配置' };
 
 function downloadBlob(blob, filename) {
   const url = URL.createObjectURL(blob);
@@ -2842,15 +2844,18 @@ function downloadBlob(blob, filename) {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
-function exportBaseName() { return safeName(activeProject().name) + '-模块分配-' + fileStamp(); }
+function exportProjectName() { return String(expState.projectName || '').trim() || '默认配置'; }
+function exportBaseName() { return safeName(exportProjectName()) + '-模块分配-' + fileStamp(); }
 function exportLayout() {
-  return computeLayout({ scope: expState.scope, width: expState.width, chrome: expState.chrome });
+  return computeLayout({ scope: expState.scope, width: expState.width, chrome: expState.chrome, title: exportProjectName() });
 }
 function openExport() { openShare('export'); }
 
 let shareTab = 'file';
 function openShare(tab) {
   shareTab = tab || shareTab || 'file';
+  const nameInput = $('#exportProjectName');
+  if (nameInput) { expState.projectName = activeProject().name || '默认配置'; nameInput.value = expState.projectName; }
   $('#shareDialog').classList.remove('hidden');
   hideHoverCard();
   showShareTab(shareTab);
@@ -2878,6 +2883,7 @@ function shareStatePreview() {
   const st = clone(state);
   st.ui.mode = 'select';
   st.projects = [clone(activeProject())];
+  st.projects[0].name = exportProjectName();
   if (!includeShots) st.cards.forEach(function (c) { c.shots = []; c.thumb = null; });
   const images = includeShots ? imagesForExport(allImageIds(st.cards)) : {};
   return { state: st, images: images, includeShots: includeShots };
@@ -2894,7 +2900,7 @@ function refreshShareFileUI() {
   const est = estimateShareSize();
   const shotCount = Object.keys(p.images).length;
   const rows = [
-    ['当前游戏', activeProject().name],
+    ['项目名称', exportProjectName()],
     ['模块', state.cards.length + ' 个'],
     ['游戏项目', p.state.projects.length + ' 个'],
     ['说明图片', shotCount + ' 张'],
@@ -2916,7 +2922,7 @@ function buildShareHTML() {
   const seed = {
     app: 'module-board-editor', appVersion: APP_VERSION,
     seedId: seedId, sharedAt: nowISO(), sharedBy: by,
-    state: st, images: p.images
+    projectName: exportProjectName(), state: st, images: p.images
   };
   const json = JSON.stringify(seed).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
   const proj = st.projects.find(function (x) { return x.id === st.ui.activeProjectId; }) || st.projects[0];
@@ -2928,7 +2934,7 @@ function buildShareHTML() {
 function makeShareFile() {
   try {
     const r = buildShareHTML();
-    downloadBlob(new Blob([r.html], { type: 'text/html;charset=utf-8' }), safeName(activeProject().name) + '-模块工具箱-分享-' + fileStamp() + '.html');
+    downloadBlob(new Blob([r.html], { type: 'text/html;charset=utf-8' }), safeName(exportProjectName()) + '-模块工具箱-分享-' + fileStamp() + '.html');
     toast('已生成分享文件（' + formatMB(r.size) + '）');
     if (state.meta) {
       commit(function (s) { s.meta.shared = { seedId: r.seed.seedId, from: r.seed.sharedBy, at: r.seed.sharedAt }; }, { label: '生成分享文件', log: true });
@@ -2970,12 +2976,15 @@ function fmtMonthDay(iso) { const d = new Date(iso); return (d.getMonth() + 1) +
 function buildModifyPack(includeImages) {
   const st = clone(state);
   delete st.ui;
+  st.projects = st.projects || [];
+  if (!st.projects.length) st.projects = [defaultProject()];
+  st.projects[0].name = exportProjectName();
   if (!includeImages) st.cards.forEach(function (c) { c.shots = []; });
   const images = includeImages ? imagesForExport(allImageIds(st.cards)) : {};
   return {
     kind: 'module-board-pack', packVersion: 1,
     app: 'module-board-editor', appVersion: APP_VERSION,
-    exportedAt: nowISO(), by: (state.meta.editorName || '未署名'),
+    exportedAt: nowISO(), by: (state.meta.editorName || '未署名'), projectName: exportProjectName(),
     state: st, images: images,
     stats: { cards: st.cards.length, projects: st.projects.length, images: Object.keys(images).length }
   };
@@ -2983,7 +2992,7 @@ function buildModifyPack(includeImages) {
 function downloadModifyPack() {
   const withImages = $('#packWithImages') ? $('#packWithImages').checked : true;
   const pack = buildModifyPack(withImages);
-  downloadBlob(new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json;charset=utf-8' }), safeName(activeProject().name) + '-修改包-' + fileStamp() + '.json');
+  downloadBlob(new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json;charset=utf-8' }), safeName(exportProjectName()) + '-修改包-' + fileStamp() + '.json');
   toast('已导出修改包：' + pack.stats.cards + ' 个模块' + (pack.stats.images ? ' · ' + pack.stats.images + ' 张图片' : ''));
 }
 function readTextFile(file) {
@@ -3003,7 +3012,7 @@ function extractSeedFromHTML(text) {
   let seed = null;
   try { seed = JSON.parse(text.slice(start + marker.length, end)); } catch (e) { throw new Error('分享数据解析失败'); }
   if (!seed || !seed.state || !Array.isArray(seed.state.cards)) throw new Error('分享数据不完整');
-  return { state: seed.state, images: seed.images || {}, by: seed.sharedBy || '对方', exportedAt: seed.sharedAt || nowISO() };
+  return { state: seed.state, images: seed.images || {}, by: seed.sharedBy || '对方', projectName: seed.projectName || (seed.state.projects && seed.state.projects[0] && seed.state.projects[0].name) || '', exportedAt: seed.sharedAt || nowISO() };
 }
 async function parseMergeFile(file) {
   const text = await readTextFile(file);
@@ -3013,10 +3022,10 @@ async function parseMergeFile(file) {
     let obj = null;
     try { obj = JSON.parse(t); } catch (e) { throw new Error('JSON 解析失败'); }
     if (obj && obj.kind === 'module-board-pack' && obj.state) {
-      return { state: obj.state, images: obj.images || {}, by: obj.by || '对方', exportedAt: obj.exportedAt || nowISO() };
+      return { state: obj.state, images: obj.images || {}, by: obj.by || '对方', projectName: obj.projectName || (obj.state.projects && obj.state.projects[0] && obj.state.projects[0].name) || '', exportedAt: obj.exportedAt || nowISO() };
     }
     if (obj && Array.isArray(obj.cards)) {
-      return { state: obj, images: obj.images || {}, by: (obj.meta && obj.meta.editorName) || '对方', exportedAt: obj.exportedAt || nowISO() };
+      return { state: obj, images: obj.images || {}, by: (obj.meta && obj.meta.editorName) || '对方', projectName: obj.projectName || (obj.projects && obj.projects[0] && obj.projects[0].name) || '', exportedAt: obj.exportedAt || nowISO() };
     }
     throw new Error('不是可识别的修改包');
   }
@@ -3072,7 +3081,7 @@ function buildMergePlan(incoming) {
   const remoteTombs = new Map((remote.meta.deletedCards || []).map(function (t) { return [t.id, t]; }));
 
   const plan = {
-    by: incoming.by || '对方', at: incoming.exportedAt || nowISO(),
+    by: incoming.by || '对方', at: incoming.exportedAt || nowISO(), projectName: incoming.projectName || '',
     remote: remote, remoteImages: remoteImages,
     added: [], changed: [], deletions: [], projects: [], newProjects: [],
     newCategories: [], newRows: [], defaults: null
@@ -3334,6 +3343,7 @@ function applyMerge() {
       copy.selected = copy.selected.filter(function (id) { return s.cards.some(function (c) { return c.id === id; }); });
       s.projects.push(copy);
     });
+    if (plan.projectName && s.projects[0]) s.projects[0].name = String(plan.projectName).slice(0, 40);
 
     if (plan.defaults) {
       const mode = ch.defaults || 'union';
@@ -3417,7 +3427,7 @@ async function doExport(fmt) {
     const cv = renderCanvas(layout, expState.scale, { dim: true });
     const dataUrl = cv.toDataURL('image/jpeg', 0.92);
     const bytes = base64ToBytes(dataUrl.split(',')[1]);
-    const pdf = buildPdf(bytes, cv.width, cv.height, layout.width, layout.height, activeProject().name + ' · 功能模块分配');
+    const pdf = buildPdf(bytes, cv.width, cv.height, layout.width, layout.height, exportProjectName() + ' · 功能模块分配');
     downloadBlob(new Blob([pdf], { type: 'application/pdf' }), base + '.pdf');
     toast('已导出 PDF（单页 A3）');
   }
@@ -3936,7 +3946,7 @@ function renderAll(opts) {
   updateStats();
   renderCatFilter();
   updateHistoryButtons();
-  $('#projectName').textContent = '默认配置';
+  $('#projectName').textContent = activeProject().name || '默认配置';
   $$('#modeBar .seg').forEach(b => b.classList.toggle('active', b.dataset.mode === state.ui.mode));
   $('#dimToggle').checked = state.ui.filter.dimUnselected;
   $$('#onlyGroup .fchip').forEach(b => b.classList.toggle('on', b.dataset.only === state.ui.filter.only));
@@ -4380,9 +4390,9 @@ function openTagMenu() {
 function exportJSON() {
   const data = Object.assign({}, state, {
     images: imagesForExport(allImageIds(state.cards)),
-    exportedAt: nowISO(), app: 'module-board-editor', appVersion: APP_VERSION
+    exportedAt: nowISO(), app: 'module-board-editor', appVersion: APP_VERSION, projectName: exportProjectName()
   });
-  downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' }), safeName(activeProject().name) + '-模块数据-' + fileStamp() + '.json');
+  downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' }), safeName(exportProjectName()) + '-模块数据-' + fileStamp() + '.json');
   toast('已导出 JSON（含 ' + imageCount() + ' 张图片）');
 }
 function importJSON() {
@@ -4403,6 +4413,8 @@ function importJSON() {
         if (!ok) return;
         if (!IS_WEB) { try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ } }
         state = next;
+        const importedName = (obj && obj.projectName) || (source.projects && source.projects[0] && source.projects[0].name) || '';
+        if (importedName) state.projects[0].name = String(importedName).slice(0, 40);
         history = []; future = [];
         closeInspector();
         const cardIds = new Set(state.cards.map(function (c) { return c.id; }));
@@ -5142,6 +5154,7 @@ function bindUI() {
     expState.scale = Number(b.dataset.scale); refreshExportUI();
   });
   $('#expChrome').addEventListener('change', e => { expState.chrome = e.target.checked; refreshExportUI(); });
+  $('#exportProjectName').addEventListener('input', e => { expState.projectName = e.target.value; if (shareTab === 'export') refreshExportUI(); else refreshShareFileUI(); });
   $('#shareDialog').addEventListener('click', e => {
     const b = e.target.closest('[data-fmt]');
     if (b) { doExport(b.dataset.fmt); return; }
@@ -5352,6 +5365,15 @@ function runSelfTest() {
     if (p.id !== 'prj_default' || p.name !== '默认配置') throw new Error('默认项目不正确');
     if (JSON.stringify(p.selected) !== JSON.stringify(state.defaults.selected)) throw new Error('项目选中未同步');
     if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步');
+    const base = state.cards.filter(function (c) { return c.rowId === 'row_infra'; });
+    const nonBase = state.cards.filter(function (c) { return c.rowId !== 'row_infra'; });
+    if (state.defaults.selected.length !== nonBase.length) throw new Error('非底座模块未全选');
+    if (base.some(function (c) { return isSelected(c.id); })) throw new Error('底座模块不应选中');
+    nonBase.forEach(function (c) {
+      const ids = state.defaults.optionSelections[c.id] || [];
+      if (ids.length !== (c.options || []).length) throw new Error('选项未全选：' + c.title);
+    });
+    base.forEach(function (c) { if (state.defaults.optionSelections[c.id]) throw new Error('底座选项不应选中'); });
     return true;
   });
 
@@ -5572,8 +5594,10 @@ function runSelfTest() {
   });
 
   check('分类色不再影响卡片主色', () => {
+    const saved = saveDefaults();
+    setDefaults([], {});
     const cat = state.categories.find(c => c.id !== 'cat_none') || state.categories[0];
-    const card = state.cards.find(c => c.categoryId === cat.id && !isSelected(c.id));
+    const card = state.cards.find(c => c.categoryId === cat.id);
     if (!card) throw new Error('没有该分类的卡片');
     const old = cat.color;
     cat.color = '#123456';
@@ -5581,6 +5605,7 @@ function runSelfTest() {
     const blk = l.cardIndex[card.id];
     cat.color = old;
     if (!blk || blk.color !== CARD_COLOR_DEFAULT) throw new Error('分类色仍影响卡片');
+    restoreDefaults(saved);
     return true;
   });
 
