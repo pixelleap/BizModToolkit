@@ -409,13 +409,12 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.0.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.1.0</small></div>
     </div>
-    <button class="proj-btn" id="projectBtn" title="切换游戏项目">
-      <span class="proj-name" id="projectName">示例游戏</span>
-      <span class="proj-default" title="全部游戏共用默认配置">默认</span>
-      <span class="caret">▾</span>
-    </button>
+    <div class="proj-btn static" id="projectBtn" title="默认配置">
+      <span class="proj-name" id="projectName">默认配置</span>
+      <span class="proj-default" title="唯一默认配置">默认</span>
+    </div>
     <span id="sharedBadge" class="badge-share hidden" title="这是分享版，数据保存在本机"></span>
     <span id="repoBadge" class="repo-badge"></span>
     <div class="modebar" id="modeBar">
@@ -432,7 +431,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   </header>
 
   <div id="readonlyBanner" class="readonly-banner hidden">当前是只读文件模式：修改不会进入 Git。请通过网页版打开。</div>
-  <div id="webBanner" class="readonly-banner hidden"><span id="webBannerText"></span> <button class="btn sm" id="webDiscardDraft">放弃草稿，载入线上最新</button></div>
 
   <div class="subbar">
     <div class="fgroup" id="onlyGroup">
@@ -559,7 +557,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   </main>
 </div>
 
-<div id="projectMenu" class="menu hidden"></div>
 <div id="tagMenu" class="dropdown hidden"></div>
 
 <!-- 分享与导出 -->
@@ -579,8 +576,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
       <section class="tab-panel" data-panel="file">
         <div class="share-summary" id="shareSummary"></div>
         <div class="field">
-          <label class="check"><input type="checkbox" id="shareAllProjects"> 包含所有游戏项目（默认只带当前游戏）</label>
-        </div>
+          </div>
         <div class="field">
           <label class="check"><input type="checkbox" id="shareIncludeShots" checked> 包含缩略图与说明图片（文件会更大）</label>
         </div>
@@ -707,6 +703,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <input type="text" id="editPromptName" maxlength="20" placeholder="如：张三 / 策划-小明">
       </div>
       <label class="check"><input type="checkbox" id="editPromptMute"> 本次会话不再提醒</label>
+      <div class="field-hint" id="webNoSaveHint" style="display:none;color:#B45309">网页不保存修改；刷新会恢复 data.json 默认。改完请导出 data.json 发布。</div>
     </div>
     <div class="modal-actions">
       <button class="btn ghost" id="editPromptCancel">取消</button>
@@ -790,7 +787,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '3.0.0';
+const APP_VERSION = '3.1.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -834,11 +831,8 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const WEB_SELECTION_KEY = 'mb.web.selection.v1';
-const WEB_DRAFT_KEY = 'mb.web.editDraft.v1';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
-let webDraftActive = false;
 let localSyncReady = false;
 let repoBadgeState = '';
 function setRepoBadge(state) {
@@ -856,8 +850,8 @@ function setRepoBadge(state) {
     el.title = '本地文件写入失败，请检查程序日志';
   } else if (IS_WEB) {
     el.classList.add('repo-ok');
-    el.textContent = '● 网页版 · 本地草稿';
-    el.title = '内容来自 data.json；编辑后导出 data.json 发布';
+    el.textContent = '● 网页版 · 不保存';
+    el.title = '刷新恢复 data.json 默认；编辑后导出 data.json 发布';
   } else if (IS_DESKTOP) {
     el.classList.add('repo-ok');
     el.textContent = '● 桌面版 · 已写入仓库';
@@ -1325,7 +1319,7 @@ function defaultSelection() {
 }
 function defaultProject() {
   const d = defaultSelection();
-  return { id: 'prj_demo', name: '示例游戏', selected: d.selected, optionSelections: d.optionSelections, createdAt: nowISO(), updatedAt: nowISO() };
+  return { id: 'prj_default', name: '默认配置', selected: d.selected, optionSelections: d.optionSelections, createdAt: nowISO(), updatedAt: nowISO() };
 }
 function defaultState() {
   const defaultSel = defaultSelection();
@@ -1676,7 +1670,7 @@ function normalizeState(input) {
     s.meta.descSeed = 1;
   }
   const cardIds = new Set(s.cards.map(c => c.id));
-  s.projects = (Array.isArray(s.projects) && s.projects.length ? s.projects : [defaultProject()]).map(p => ({
+  const rawProjects = (Array.isArray(s.projects) && s.projects.length ? s.projects : [defaultProject()]).map(p => ({
     id: p.id || uid('prj'),
     name: String(p.name || '未命名游戏'),
     selected: Array.isArray(p.selected) ? p.selected.filter(id => cardIds.has(id)) : [],
@@ -1684,10 +1678,9 @@ function normalizeState(input) {
     createdAt: p.createdAt || nowISO(),
     updatedAt: p.updatedAt || p.createdAt || nowISO()
   }));
-  const baseline = s.projects.find(function (p) { return p.name === '绝密行动'; }) ||
-    s.projects.slice().sort(function (a, b) { return b.selected.length - a.selected.length; })[0] ||
+  const baseline = rawProjects.slice().sort(function (a, b) { return b.selected.length - a.selected.length; })[0] ||
     { selected: [], optionSelections: {} };
-  const sourceDefaults = (s.defaults && typeof s.defaults === 'object') ? s.defaults : baseline;
+  const sourceDefaults = (s.defaults && typeof s.defaults === 'object' && (Array.isArray(s.defaults.selected) || s.defaults.optionSelections)) ? s.defaults : baseline;
   const defaultSeen = new Set();
   const defaultOptionSelections = {};
   const rawDefaultOptions = (sourceDefaults.optionSelections && typeof sourceDefaults.optionSelections === 'object' && !Array.isArray(sourceDefaults.optionSelections)) ? sourceDefaults.optionSelections : {};
@@ -1701,10 +1694,14 @@ function normalizeState(input) {
     .filter(function (cid) { return cardIds.has(cid) && Array.isArray(defaultOptionSelections[cid]) && defaultOptionSelections[cid].length > 0; })
     .filter(function (cid) { if (defaultSeen.has(cid)) return false; defaultSeen.add(cid); return true; });
   s.defaults = { selected: defaultSelected, optionSelections: defaultOptionSelections };
-  syncProjectSelections(s);
+  s.projects = [{
+    id: 'prj_default', name: '默认配置',
+    selected: defaultSelected.slice(), optionSelections: clone(defaultOptionSelections),
+    createdAt: nowISO(), updatedAt: nowISO()
+  }];
   const ui = (s.ui && typeof s.ui === 'object') ? s.ui : {};
   s.ui = {
-    activeProjectId: s.projects.some(p => p.id === ui.activeProjectId) ? ui.activeProjectId : s.projects[0].id,
+    activeProjectId: 'prj_default',
     mode: ui.mode === 'edit' ? 'edit' : 'select',
     zoom: (ui.zoom === 'fit' || (typeof ui.zoom === 'number' && ui.zoom > 0)) ? ui.zoom : 'fit',
     filter: {
@@ -1754,72 +1751,13 @@ async function webFetchData() {
     return null;
   }
 }
-function webLoadSelection() {
+function webClearLegacyStorage() {
+  if (!IS_WEB) return;
   try {
-    const raw = localStorage.getItem(WEB_SELECTION_KEY);
-    if (!raw) return null;
-    const d = JSON.parse(raw);
-    if (!d || !d.defaults) return null;
-    return d;
-  } catch (e) { return null; }
-}
-function webSaveSelection() {
-  if (!IS_WEB || !state || !state.defaults) return;
-  try {
-    localStorage.setItem(WEB_SELECTION_KEY, JSON.stringify({ revision: (WEB_DATA && WEB_DATA.revision) || '', defaults: state.defaults, updatedAt: nowISO() }));
+    ['mb.web.selection.v1', 'mb.web.editDraft.v1', NS.stateKey].forEach(function (k) { if (k) localStorage.removeItem(k); });
+    Object.keys(localStorage).forEach(function (k) { if (k && k.indexOf(NS.imgPrefix) === 0) localStorage.removeItem(k); });
   } catch (e) { /* ignore */ }
-}
-function webValidOptionMap(st, map) {
-  const out = {};
-  Object.keys(map || {}).forEach(function (cid) {
-    const card = st.cards.find(function (c) { return c.id === cid; });
-    if (!card) return;
-    const arr = Array.isArray(map[cid]) ? map[cid].filter(function (oid) { return optionsOf(card).some(function (o) { return o.id === oid; }); }) : [];
-    if (arr.length) out[cid] = Array.from(new Set(arr));
-  });
-  return out;
-}
-function webApplySelection(st) {
-  const saved = webLoadSelection();
-  if (!saved || !saved.defaults) return;
-  const map = webValidOptionMap(st, saved.defaults.optionSelections);
-  const selected = (Array.isArray(saved.defaults.selected) ? saved.defaults.selected : []).filter(function (cid) { return Array.isArray(map[cid]) && map[cid].length > 0; });
-  st.defaults = { selected: Array.from(new Set(selected)), optionSelections: map };
-  syncProjectSelections(st);
-  if (saved.revision && WEB_DATA && saved.revision !== WEB_DATA.revision) {
-    setTimeout(function () { toast('配置已更新，已保留本地选择'); }, 500);
-  }
-}
-function webLoadDraft() {
-  if (!IS_WEB) return null;
-  try {
-    const raw = localStorage.getItem(WEB_DRAFT_KEY);
-    if (!raw) return null;
-    const d = JSON.parse(raw);
-    if (!d || !d.state) return null;
-    return d;
-  } catch (e) { return null; }
-}
-function webSaveDraft() {
-  if (!IS_WEB || !state) return;
-  try {
-    localStorage.setItem(WEB_DRAFT_KEY, JSON.stringify({ revision: (WEB_DATA && WEB_DATA.revision) || '', savedAt: nowISO(), state: state }));
-    webDraftActive = true;
-    updateWebBanner();
-  } catch (e) { toast('本地草稿保存失败：' + (e && e.message ? e.message : '空间不足'), 4200); }
-}
-function webClearDraft() {
-  try { localStorage.removeItem(WEB_DRAFT_KEY); } catch (e) { /* ignore */ }
-  webDraftActive = false;
-  updateWebBanner();
-}
-function updateWebBanner() {
-  const bar = $('#webBanner');
-  if (!bar) return;
-  if (!IS_WEB) { bar.classList.add('hidden'); return; }
-  const show = webDraftActive;
-  bar.classList.toggle('hidden', !show);
-  if (show) $('#webBannerText').textContent = '本地草稿 · 未发布：修改只在本机，导出 data.json 并提交后才会更新线上。';
+  try { indexedDB.deleteDatabase('moduleBoard.images'); } catch (e) { /* ignore */ }
 }
 function webImagesPayload() {
   const images = {};
@@ -1845,8 +1783,6 @@ function exportWebData() {
 function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 260); }
 function saveNow() {
   if (IS_WEB) {
-    webSaveSelection();
-    if (state.ui.mode === 'edit' || webDraftActive) webSaveDraft();
     updateStats();
     return;
   }
@@ -1904,6 +1840,7 @@ function idbDeleteImage(id) {
   }).catch(function () { return false; });
 }
 async function loadIndexedImages() {
+  if (IS_WEB) return;
   try {
     const db = await openImageDB();
     const keys = await new Promise(function (resolve, reject) {
@@ -1938,6 +1875,7 @@ function hydrateWebImages(images) {
 }
 function loadImageCache() {
   imageCache.clear();
+  if (IS_WEB) return;
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
@@ -1958,6 +1896,7 @@ function thumbOwnerId(id) {
 function saveShot(cardId, dataUrl, syncTarget) {
   imageCache.set(cardId, dataUrl);
   thumbImageCache.delete(cardId);
+  if (IS_WEB) return;
   idbPutImage(cardId, dataUrl);
   try {
     localStorage.setItem(NS.imgPrefix + cardId, dataUrl);
@@ -1972,6 +1911,7 @@ function saveShot(cardId, dataUrl, syncTarget) {
 function removeShot(cardId, syncTarget) {
   imageCache.delete(cardId);
   thumbImageCache.delete(cardId);
+  if (IS_WEB) return;
   idbDeleteImage(cardId);
   try { localStorage.removeItem(NS.imgPrefix + cardId); } catch (e) { /* ignore */ }
   localRemoveImage(syncTarget || thumbOwnerId(cardId) || cardId);
@@ -2933,17 +2873,14 @@ function refreshShareUI() {
 }
 function formatMB(bytes) { return (bytes / 1048576).toFixed(2) + ' MB'; }
 function shareStatePreview() {
-  const allEl = $('#shareAllProjects');
   const shotsEl = $('#shareIncludeShots');
-  const includeAll = allEl ? allEl.checked : false;
   const includeShots = shotsEl ? shotsEl.checked : true;
   const st = clone(state);
   st.ui.mode = 'select';
-  if (!includeAll) st.projects = st.projects.filter(function (p) { return p.id === state.ui.activeProjectId; });
-  if (!st.projects.length) st.projects = [clone(activeProject())];
+  st.projects = [clone(activeProject())];
   if (!includeShots) st.cards.forEach(function (c) { c.shots = []; c.thumb = null; });
   const images = includeShots ? imagesForExport(allImageIds(st.cards)) : {};
-  return { state: st, images: images, includeAll: includeAll, includeShots: includeShots };
+  return { state: st, images: images, includeShots: includeShots };
 }
 function estimateShareSize() {
   const p = shareStatePreview();
@@ -3999,7 +3936,7 @@ function renderAll(opts) {
   updateStats();
   renderCatFilter();
   updateHistoryButtons();
-  $('#projectName').textContent = activeProject().name;
+  $('#projectName').textContent = '默认配置';
   $$('#modeBar .seg').forEach(b => b.classList.toggle('active', b.dataset.mode === state.ui.mode));
   $('#dimToggle').checked = state.ui.filter.dimUnselected;
   $$('#onlyGroup .fchip').forEach(b => b.classList.toggle('on', b.dataset.only === state.ui.filter.only));
@@ -4066,6 +4003,7 @@ function requestEditMode(after) {
   input.value = name || stored;
   $('#editPromptMute').checked = false;
   if (IS_WEB) {
+    const hint = $('#webNoSaveHint'); if (hint) hint.style.display = '';
     const locked = !webIsUnlocked();
     $('#webPasswordField').style.display = locked ? '' : 'none';
     $('#webPasswordError').style.display = 'none';
@@ -4225,76 +4163,6 @@ function patchCardSilent(id, patch, label) {
 }
 
 /* ------------------------- 14. 项目 ------------------------- */
-function renderProjectMenu() {
-  const cur = activeProject();
-  const html = ['<div class="menu-head">游戏项目 · 全部共用默认配置 · ' + state.projects.length + ' 个</div>'];
-  state.projects.forEach(p => {
-    html.push('<div class="menu-item' + (p.id === cur.id ? ' active' : '') + '" data-project="' + escAttr(p.id) + '">' +
-      '<span>' + esc(p.name) + '</span>' +
-      '<span class="count">' + p.selected.length + ' 已选</span>' +
-      '<span class="ops">' +
-      '<button class="rop" data-proj-act="rename" data-id="' + escAttr(p.id) + '" title="重命名">✎</button>' +
-      '<button class="rop" data-proj-act="dup" data-id="' + escAttr(p.id) + '" title="复制">⧉</button>' +
-      '<button class="rop danger" data-proj-act="del" data-id="' + escAttr(p.id) + '" title="删除">✕</button>' +
-      '</span></div>');
-  });
-  html.push('<div class="menu-sep"></div>');
-  html.push('<div class="menu-actions"><button class="btn" data-proj-act="new">＋ 新建游戏</button>' +
-    '<button class="btn" data-proj-act="data">导入 / 导出 JSON</button></div>');
-  $('#projectMenu').innerHTML = html.join('');
-}
-function openProjectMenu() {
-  const r = $('#projectBtn').getBoundingClientRect();
-  const m = $('#projectMenu');
-  m.style.position = 'fixed';
-  m.style.left = r.left + 'px';
-  m.style.top = (r.bottom + 6) + 'px';
-  renderProjectMenu();
-  m.classList.remove('hidden');
-}
-function switchProject(id) {
-  if (!state.projects.some(p => p.id === id)) return;
-  state.ui.activeProjectId = id;
-  closeInspector();
-  scheduleSave();
-  renderAll();
-  toast('已切换到「' + activeProject().name + '」');
-}
-async function newProject() {
-  const name = await askText({ title: '新建游戏项目', value: '新游戏', okText: '创建' });
-  if (!name) return;
-  const id = uid('prj');
-  commit(s => { s.projects.push({ id: id, name: name, selected: (s.defaults.selected || []).slice(), optionSelections: clone((s.defaults && s.defaults.optionSelections) || {}), createdAt: nowISO(), updatedAt: nowISO() }); s.ui.activeProjectId = id; });
-  toast('已创建「' + name + '」');
-}
-async function renameProject(id) {
-  const p = state.projects.find(x => x.id === id); if (!p) return;
-  const name = await askText({ title: '重命名游戏', value: p.name, okText: '保存' });
-  if (!name || name === p.name) return;
-  commit(s => { const t = s.projects.find(x => x.id === id); t.name = name; });
-}
-async function duplicateProject(id) {
-  const p = state.projects.find(x => x.id === id); if (!p) return;
-  const nid = uid('prj');
-  commit(s => {
-    const src = s.projects.find(x => x.id === id);
-    s.projects.push({ id: nid, name: src.name + ' 副本', selected: (s.defaults.selected || []).slice(), optionSelections: clone((s.defaults && s.defaults.optionSelections) || {}), createdAt: nowISO(), updatedAt: nowISO() });
-    s.ui.activeProjectId = nid;
-  });
-  toast('已复制为「' + activeProject().name + '」');
-}
-async function deleteProject(id) {
-  if (state.projects.length <= 1) { toast('至少保留一个游戏项目'); return; }
-  const p = state.projects.find(x => x.id === id);
-  const ok = await askConfirm({ title: '删除游戏项目', message: '确定删除「' + p.name + '」？该项目的选中记录会一并删除，模块库不受影响。', okText: '删除', danger: true });
-  if (!ok) return;
-  commit(s => {
-    s.projects = s.projects.filter(x => x.id !== id);
-    if (s.ui.activeProjectId === id) s.ui.activeProjectId = s.projects[0].id;
-  });
-  toast('已删除项目');
-}
-
 /* ------------------------- 15. 设置 ------------------------- */
 function renderSettings() {
   const cats = state.categories.slice().sort((a, b) => a.order - b.order);
@@ -4362,8 +4230,8 @@ function renderSettings() {
     '<button class="btn danger" data-act="reset">恢复默认数据</button>' +
     '</div>' +
     '<div class="field-hint">可编辑分享文件、导出图片 / PDF、JSON 导入导出、编辑者与最后修改记录，都集中在顶栏「分享」里。</div>' +
-    '<div class="field-hint">数据与图片自动保存在本机浏览器（localStorage + IndexedDB）。换文件路径/浏览器/清理站点数据会读不到；换电脑或分享时用「分享 → 数据与身份」导出 JSON。内置缩略图嵌在 HTML 里，清缓存也会恢复。</div>' +
-    '<div class="field-hint">版本 v' + APP_VERSION + ' · 模块 ' + state.cards.length + ' 个 · 项目 ' + state.projects.length + ' 个 · 最近保存 ' + fmtTime(state.updatedAt) + '</div>' +
+    '<div class="field-hint">网页不保存选择、草稿和图片；刷新会恢复 docs/data.json 的默认配置。编辑后请导出 data.json 发布。</div>' +
+    '<div class="field-hint">版本 v' + APP_VERSION + ' · 模块 ' + state.cards.length + ' 个 · 默认配置 1 个</div>' +
     '</div>');
   $('#settingsBody').innerHTML = html.join('');
 }
@@ -4489,7 +4357,7 @@ function closeAsk(value) {
   if (r) r(value);
 }
 function hideAllMenus() {
-  ['projectMenu', 'tagMenu'].forEach(id => { const el = $('#' + id); if (el) el.classList.add('hidden'); });
+  const tagMenu = $('#tagMenu'); if (tagMenu) tagMenu.classList.add('hidden');
 }
 function openTagMenu() {
   const r = $('#tagFilterBtn').getBoundingClientRect();
@@ -4531,12 +4399,11 @@ function importJSON() {
         const source = (obj && obj.format === 'module-board-web' && obj.state) ? obj.state : obj;
         const next = normalizeState(source);
         const imgs = (obj && obj.images && typeof obj.images === 'object') ? obj.images : {};
-        const ok = await askConfirm({ title: '导入数据', message: '将用文件「' + file.name + '」覆盖当前全部数据（' + next.cards.length + ' 个模块 / ' + next.projects.length + ' 个项目）。当前数据会先备份到浏览器本地。', okText: '覆盖导入' });
+        const ok = await askConfirm({ title: '导入数据', message: '将用文件「' + file.name + '」覆盖当前页面的数据（' + next.cards.length + ' 个模块 / 1 个默认配置）' + (IS_WEB ? '。网页不保存，刷新后会恢复 data.json。' : '。当前数据会先备份到本地。'), okText: '覆盖导入' });
         if (!ok) return;
-        try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
+        if (!IS_WEB) { try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ } }
         state = next;
         history = []; future = [];
-        if (IS_WEB) { webDraftActive = true; webSaveDraft(); webSaveSelection(); updateWebBanner(); }
         closeInspector();
         const cardIds = new Set(state.cards.map(function (c) { return c.id; }));
         const shotIds = new Set();
@@ -4570,7 +4437,7 @@ function importJSON() {
 async function resetAll() {
   const ok = await askConfirm({ title: '恢复默认数据', message: '将清空所有游戏项目、模块与分类修改，恢复为初始示例数据。当前数据会先备份，可用「导入 JSON」找回。', okText: '恢复默认', danger: true });
   if (!ok) return;
-  try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
+  if (!IS_WEB) { try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ } }
   state = normalizeState(defaultState());
   history = []; future = [];
   closeInspector();
@@ -4894,7 +4761,7 @@ function closeTopOverlays() {
   if (!$('#hoverCard').classList.contains('hidden')) { hideHoverCard(); return true; }
   const dlg = $$('.dialog').find(d => !d.classList.contains('hidden'));
   if (dlg) { dlg.classList.add('hidden'); return true; }
-  if (!$('#projectMenu').classList.contains('hidden') || !$('#tagMenu').classList.contains('hidden')) { hideAllMenus(); return true; }
+  if (!$('#tagMenu').classList.contains('hidden')) { hideAllMenus(); return true; }
   if (!$('#inspector').classList.contains('hidden')) { closeInspector(); return true; }
   return false;
 }
@@ -4923,40 +4790,12 @@ function bindUI() {
     updateWebChrome();
     toast('已锁定编辑模式');
   });
-  const discardBtn = $('#webDiscardDraft');
-  if (discardBtn) discardBtn.addEventListener('click', async function () {
-    const ok = await askConfirm({ title: '放弃本地草稿', message: '将删除本机未发布的编辑内容，并载入线上最新 data.json。', okText: '放弃草稿', danger: true });
-    if (!ok) return;
-    webClearDraft();
-    location.reload();
-  });
+
   $('#editPromptDialog').addEventListener('click', e => {
     if (e.target === $('#editPromptDialog')) closeEditPrompt();
   });
 
-  /* 项目 */
-  $('#projectBtn').addEventListener('click', e => {
-    e.stopPropagation();
-    const m = $('#projectMenu');
-    if (m.classList.contains('hidden')) openProjectMenu(); else m.classList.add('hidden');
-  });
-  $('#projectMenu').addEventListener('click', e => {
-    const act = e.target.closest('[data-proj-act]');
-    if (act) {
-      const kind = act.dataset.projAct, id = act.dataset.id;
-      hideAllMenus();
-      if (kind === 'new') newProject();
-      else if (kind === 'data') openShare('data');
-      else if (kind === 'rename') renameProject(id);
-      else if (kind === 'dup') duplicateProject(id);
-      else if (kind === 'del') deleteProject(id);
-      return;
-    }
-    const item = e.target.closest('[data-project]');
-    if (item) { hideAllMenus(); switchProject(item.dataset.project); }
-  });
   document.addEventListener('pointerdown', e => {
-    if (!e.target.closest('#projectMenu') && !e.target.closest('#projectBtn')) $('#projectMenu').classList.add('hidden');
     if (!e.target.closest('#tagMenu') && !e.target.closest('#tagFilterBtn')) $('#tagMenu').classList.add('hidden');
     if (!e.target.closest('#hoverCard')) hideHoverCard();
   });
@@ -5266,7 +5105,6 @@ function bindUI() {
     const b = e.target.closest('[data-tab]');
     if (b) showShareTab(b.dataset.tab);
   });
-  $('#shareAllProjects').addEventListener('change', refreshShareFileUI);
   $('#shareIncludeShots').addEventListener('change', refreshShareFileUI);
   $('#shareMake').addEventListener('click', makeShareFile);
   $('#dataPanel').addEventListener('click', e => {
@@ -5507,13 +5345,20 @@ function runSelfTest() {
   const restoreDefaults = (d) => { state.defaults = { selected: d.selected.slice(), optionSelections: clone(d.optionSelections || {}) }; syncProjectSelections(state); };
   const setDefaults = (selected, optionSelections) => { state.defaults = { selected: selected || [], optionSelections: optionSelections || {} }; syncProjectSelections(state); };
 
-  check('默认配置与所有项目一致', () => {
+  check('只有一个默认配置项目', () => {
     if (!state.defaults || !Array.isArray(state.defaults.selected)) throw new Error('缺少默认配置');
-    state.projects.forEach(function (p) {
-      if (JSON.stringify(p.selected) !== JSON.stringify(state.defaults.selected)) throw new Error('项目选中未同步：' + p.name);
-      if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步：' + p.name);
-    });
-    if (state.projects.length >= 2 && state.projects[0].selected.length !== state.projects[1].selected.length) throw new Error('两个游戏选中数不同');
+    if (state.projects.length !== 1) throw new Error('项目数不是 1：' + state.projects.length);
+    const p = state.projects[0];
+    if (p.id !== 'prj_default' || p.name !== '默认配置') throw new Error('默认项目不正确');
+    if (JSON.stringify(p.selected) !== JSON.stringify(state.defaults.selected)) throw new Error('项目选中未同步');
+    if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步');
+    return true;
+  });
+
+  check('网页模式不保存选择/草稿/图片', () => {
+    if (!IS_WEB) return true;
+    ['mb.web.selection.v1', 'mb.web.editDraft.v1'].forEach(function (k) { if (localStorage.getItem(k)) throw new Error('不应存在 ' + k); });
+    if (Object.keys(localStorage).some(function (k) { return k.indexOf('mb.img.') === 0; })) throw new Error('不应缓存图片');
     return true;
   });
 
@@ -6635,13 +6480,8 @@ async function init() {
   let loaded = null;
   if (IS_WEB) {
     WEB_DATA = await webFetchData();
-    const draft = webLoadDraft();
-    if (draft && draft.state) {
-      loaded = normalizeState(draft.state);
-      webDraftActive = true;
-    } else if (WEB_DATA && WEB_DATA.state) {
-      loaded = normalizeState(WEB_DATA.state);
-    }
+    webClearLegacyStorage();
+    if (WEB_DATA && WEB_DATA.state) loaded = normalizeState(WEB_DATA.state);
   } else {
     try { loaded = loadState(); } catch (e) { loaded = null; }
   }
@@ -6661,7 +6501,6 @@ async function init() {
   future = [];
   loadImageCache();
   if (WEB_DATA) hydrateWebImages(WEB_DATA.images);
-  if (IS_WEB) webApplySelection(state);
   hydrateSeedImages();
   migrateLegacyShotImages();
   repairBuiltinImages();
@@ -6684,7 +6523,6 @@ async function init() {
   }
   localSyncReady = true;
   applyRepoModeUI();
-  updateWebBanner();
   if (IS_WEB && wantsEdit) setTimeout(function () { requestEditMode(); }, 120);
   if (NS.seed) {
     try { document.title = activeProject().name + ' · 模块工具箱（分享版）'; } catch (e) { /* ignore */ }
