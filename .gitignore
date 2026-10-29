@@ -4,6 +4,3 @@ Thumbs.db
 *.log
 *.tmp
 *.lnk
-.electron-data/
-release/
-.tmp-electron*/

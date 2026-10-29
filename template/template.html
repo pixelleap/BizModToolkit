@@ -409,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.5.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.0.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
@@ -422,6 +422,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
       <button class="seg active" data-mode="select">选择模式</button>
       <button class="seg" data-mode="edit">编辑模式</button>
     </div>
+    <button class="btn sm hidden" id="webLockBtn">锁定编辑</button>
     <div class="spacer"></div>
     <label class="search"><input id="searchInput" type="text" placeholder="搜索模块 / 标签 / 正文" autocomplete="off"></label>
     <button class="icon-btn" id="undoBtn" title="撤销 (Ctrl+Z)">↶</button>
@@ -430,7 +431,8 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
     <button class="icon-btn" id="settingsBtn" title="设置">⚙</button>
   </header>
 
-  <div id="readonlyBanner" class="readonly-banner hidden">当前是只读文件模式：修改不会进入 Git。请关闭本页，双击「打开工具箱.bat」启动桌面版。</div>
+  <div id="readonlyBanner" class="readonly-banner hidden">当前是只读文件模式：修改不会进入 Git。请通过网页版打开。</div>
+  <div id="webBanner" class="readonly-banner hidden"><span id="webBannerText"></span> <button class="btn sm" id="webDiscardDraft">放弃草稿，载入线上最新</button></div>
 
   <div class="subbar">
     <div class="fgroup" id="onlyGroup">
@@ -695,6 +697,11 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
     </div>
     <div class="modal-body">
       <p>标题、正文、说明、图片、分类颜色与排序都会被修改，并记录你的名字（显示在画板页脚与分享文件里）。</p>
+      <div class="field" id="webPasswordField" style="display:none">
+        <label>编辑密码</label>
+        <input type="password" id="webPasswordInput" maxlength="40" placeholder="请输入编辑密码">
+        <div class="field-hint" id="webPasswordError" style="color:#D9534F;display:none">密码错误</div>
+      </div>
       <div class="field">
         <label>你的名字</label>
         <input type="text" id="editPromptName" maxlength="20" placeholder="如：张三 / 策划-小明">
@@ -783,7 +790,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.5.0';
+const APP_VERSION = '3.0.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -826,6 +833,12 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 /* 本地编辑服务：在 http://127.0.0.1:4173 下把编辑直接写回仓库 */
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
+const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
+const WEB_SELECTION_KEY = 'mb.web.selection.v1';
+const WEB_DRAFT_KEY = 'mb.web.editDraft.v1';
+const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
+let WEB_DATA = null;
+let webDraftActive = false;
 let localSyncReady = false;
 let repoBadgeState = '';
 function setRepoBadge(state) {
@@ -841,6 +854,10 @@ function setRepoBadge(state) {
     el.classList.add('repo-error');
     el.textContent = '同步失败 · 修改未写入仓库';
     el.title = '本地文件写入失败，请检查程序日志';
+  } else if (IS_WEB) {
+    el.classList.add('repo-ok');
+    el.textContent = '● 网页版 · 本地草稿';
+    el.title = '内容来自 data.json；编辑后导出 data.json 发布';
   } else if (IS_DESKTOP) {
     el.classList.add('repo-ok');
     el.textContent = '● 桌面版 · 已写入仓库';
@@ -911,7 +928,7 @@ function localRemoveImage(id) {
 
 function applyRepoModeUI() {
   const banner = document.getElementById('readonlyBanner');
-  const readonly = !IS_DESKTOP && !IS_LOCAL_EDITOR;
+  const readonly = !IS_DESKTOP && !IS_LOCAL_EDITOR && !IS_WEB;
   if (banner) banner.classList.toggle('hidden', !readonly);
   setRepoBadge(readonly ? 'readonly' : 'ok');
   if (IS_LOCAL_EDITOR) {
@@ -1711,15 +1728,128 @@ function initNamespace() {
   return { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BACKUP_KEY };
 }
 function loadState() {
-  if (IS_LOCAL_EDITOR || IS_DESKTOP) return null;
+  if (IS_LOCAL_EDITOR || IS_DESKTOP || IS_WEB) return null;
   try {
     const raw = localStorage.getItem(NS.stateKey);
     if (!raw) return null;
     return normalizeState(JSON.parse(raw));
   } catch (err) { console.warn('[模块工具箱] 本地数据读取失败', err); return null; }
 }
+function webHash(text) {
+  let h = 2166136261;
+  const str = String(text || '');
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0).toString(16).padStart(8, '0');
+}
+async function webFetchData() {
+  if (!IS_WEB) return null;
+  try {
+    const res = await fetch('data.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data || data.format !== 'module-board-web' || !data.state) throw new Error('data.json 格式不正确');
+    return data;
+  } catch (err) {
+    console.warn('[模块工具箱] 线上数据加载失败，使用内置快照', err);
+    return null;
+  }
+}
+function webLoadSelection() {
+  try {
+    const raw = localStorage.getItem(WEB_SELECTION_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || !d.defaults) return null;
+    return d;
+  } catch (e) { return null; }
+}
+function webSaveSelection() {
+  if (!IS_WEB || !state || !state.defaults) return;
+  try {
+    localStorage.setItem(WEB_SELECTION_KEY, JSON.stringify({ revision: (WEB_DATA && WEB_DATA.revision) || '', defaults: state.defaults, updatedAt: nowISO() }));
+  } catch (e) { /* ignore */ }
+}
+function webValidOptionMap(st, map) {
+  const out = {};
+  Object.keys(map || {}).forEach(function (cid) {
+    const card = st.cards.find(function (c) { return c.id === cid; });
+    if (!card) return;
+    const arr = Array.isArray(map[cid]) ? map[cid].filter(function (oid) { return optionsOf(card).some(function (o) { return o.id === oid; }); }) : [];
+    if (arr.length) out[cid] = Array.from(new Set(arr));
+  });
+  return out;
+}
+function webApplySelection(st) {
+  const saved = webLoadSelection();
+  if (!saved || !saved.defaults) return;
+  const map = webValidOptionMap(st, saved.defaults.optionSelections);
+  const selected = (Array.isArray(saved.defaults.selected) ? saved.defaults.selected : []).filter(function (cid) { return Array.isArray(map[cid]) && map[cid].length > 0; });
+  st.defaults = { selected: Array.from(new Set(selected)), optionSelections: map };
+  syncProjectSelections(st);
+  if (saved.revision && WEB_DATA && saved.revision !== WEB_DATA.revision) {
+    setTimeout(function () { toast('配置已更新，已保留本地选择'); }, 500);
+  }
+}
+function webLoadDraft() {
+  if (!IS_WEB) return null;
+  try {
+    const raw = localStorage.getItem(WEB_DRAFT_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || !d.state) return null;
+    return d;
+  } catch (e) { return null; }
+}
+function webSaveDraft() {
+  if (!IS_WEB || !state) return;
+  try {
+    localStorage.setItem(WEB_DRAFT_KEY, JSON.stringify({ revision: (WEB_DATA && WEB_DATA.revision) || '', savedAt: nowISO(), state: state }));
+    webDraftActive = true;
+    updateWebBanner();
+  } catch (e) { toast('本地草稿保存失败：' + (e && e.message ? e.message : '空间不足'), 4200); }
+}
+function webClearDraft() {
+  try { localStorage.removeItem(WEB_DRAFT_KEY); } catch (e) { /* ignore */ }
+  webDraftActive = false;
+  updateWebBanner();
+}
+function updateWebBanner() {
+  const bar = $('#webBanner');
+  if (!bar) return;
+  if (!IS_WEB) { bar.classList.add('hidden'); return; }
+  const show = webDraftActive;
+  bar.classList.toggle('hidden', !show);
+  if (show) $('#webBannerText').textContent = '本地草稿 · 未发布：修改只在本机，导出 data.json 并提交后才会更新线上。';
+}
+function webImagesPayload() {
+  const images = {};
+  if (typeof imagesForExport === 'function') {
+    const map = imagesForExport(allImageIds(state.cards));
+    Object.keys(map).forEach(function (id) { images[id] = map[id]; });
+  }
+  return images;
+}
+function buildWebPayload() {
+  const payloadState = clone(state);
+  delete payloadState.ui;
+  const images = webImagesPayload();
+  const revision = webHash(JSON.stringify(payloadState) + JSON.stringify(Object.keys(images).sort().map(function (k) { return [k, images[k].length]; })));
+  return { format: 'module-board-web', schemaVersion: 1, appVersion: APP_VERSION, revision: revision, exportedAt: nowISO(), state: payloadState, images: images };
+}
+function exportWebData() {
+  const pack = buildWebPayload();
+  downloadBlob(new Blob([JSON.stringify(pack, null, 2)], { type: 'application/json;charset=utf-8' }), 'data.json');
+  toast('已导出 data.json：提交到 docs/data.json 即可更新线上');
+}
+
 function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 260); }
 function saveNow() {
+  if (IS_WEB) {
+    webSaveSelection();
+    if (state.ui.mode === 'edit' || webDraftActive) webSaveDraft();
+    updateStats();
+    return;
+  }
   try {
     localStorage.setItem(NS.stateKey, JSON.stringify(state));
     saveError = false;
@@ -1798,6 +1928,13 @@ async function loadIndexedImages() {
       preloadThumbImages();
     }
   } catch (err) { /* 浏览器不允许 IndexedDB 时回退 localStorage */ }
+}
+function hydrateWebImages(images) {
+  if (!images || typeof images !== 'object') return;
+  Object.keys(images).forEach(function (id) {
+    const url = images[id];
+    if (typeof url === 'string' && url.indexOf('data:image/') === 0) saveShot(id, url);
+  });
 }
 function loadImageCache() {
   imageCache.clear();
@@ -2884,6 +3021,7 @@ function renderDataPanel() {
     '<div class="tag-add"><button class="btn" data-data-act="cleanup">清理未使用图片</button></div></div>' +
     '<div class="data-block"><h4>数据</h4>' +
     '<div class="tag-add" style="flex-wrap:wrap">' +
+    (IS_WEB ? '<button class="btn primary" data-data-act="export-web-data">导出 data.json（发布）</button>' : '') +
     '<button class="btn" data-data-act="export-json">导出 JSON</button>' +
     '<button class="btn" data-data-act="import-json">导入 JSON</button>' +
     '<button class="btn danger" data-data-act="clear-selection">清空本项目选择</button>' +
@@ -3890,12 +4028,28 @@ function setMode(mode) {
   state.ui.mode = mode;
   if (mode === 'select') closeInspector();
   scheduleSave();
+  updateWebChrome();
   renderAll();
 }
 
 /* ------------------------- 12.5 编辑模式提醒 ------------------------- */
 let editPromptPendingAfter = null;
 let editMutedThisSession = false;
+function webIsUnlocked() {
+  try { return sessionStorage.getItem('mb.web.editUnlocked') === '1'; } catch (e) { return false; }
+}
+async function webPasswordMatches(value) {
+  try {
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(value || '')));
+    const hex = Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+    return hex === WEB_PASSWORD_HASH;
+  } catch (e) { return false; }
+}
+function updateWebChrome() {
+  if (!IS_WEB) return;
+  const lock = $('#webLockBtn');
+  if (lock) lock.classList.toggle('hidden', !state || state.ui.mode !== 'edit');
+}
 
 function requestEditMode(after) {
   if (state.ui.mode === 'edit') { if (after) after(); return; }
@@ -3911,6 +4065,15 @@ function requestEditMode(after) {
   try { stored = localStorage.getItem(EDITOR_NAME_KEY) || ''; } catch (e) { stored = ''; }
   input.value = name || stored;
   $('#editPromptMute').checked = false;
+  if (IS_WEB) {
+    const locked = !webIsUnlocked();
+    $('#webPasswordField').style.display = locked ? '' : 'none';
+    $('#webPasswordError').style.display = 'none';
+    $('#webPasswordInput').value = '';
+    if (locked) setTimeout(function () { $('#webPasswordInput').focus(); }, 50);
+  } else {
+    $('#webPasswordField').style.display = 'none';
+  }
   $('#editPromptDialog').classList.remove('hidden');
   hideHoverCard();
   setTimeout(function () { input.focus(); input.select(); }, 30);
@@ -3924,13 +4087,25 @@ function closeEditPrompt() {
   $('#editPromptDialog').classList.add('hidden');
   editPromptPendingAfter = null;
 }
-function confirmEditPrompt() {
+async function confirmEditPrompt() {
+  if (IS_WEB && !webIsUnlocked()) {
+    const pw = $('#webPasswordInput').value;
+    const ok = await webPasswordMatches(pw);
+    if (!ok) {
+      $('#webPasswordError').style.display = '';
+      $('#webPasswordInput').focus();
+      $('#webPasswordInput').select();
+      return;
+    }
+    try { sessionStorage.setItem('mb.web.editUnlocked', '1'); } catch (e) { /* ignore */ }
+  }
   const name = $('#editPromptName').value.trim().slice(0, 20);
   if ($('#editPromptMute').checked) editMutedThisSession = true;
   $('#editPromptDialog').classList.add('hidden');
   try { if (name) localStorage.setItem(EDITOR_NAME_KEY, name); } catch (e) { /* ignore */ }
   commit(s => { s.meta.editorName = name || '未署名'; }, { label: '进入编辑模式', scope: 'mode' });
   setMode('edit');
+  updateWebChrome();
   runEditAfter();
 }
 
@@ -4353,13 +4528,15 @@ function importJSON() {
     reader.onload = async () => {
       try {
         const obj = JSON.parse(String(reader.result));
-        const next = normalizeState(obj);
+        const source = (obj && obj.format === 'module-board-web' && obj.state) ? obj.state : obj;
+        const next = normalizeState(source);
         const imgs = (obj && obj.images && typeof obj.images === 'object') ? obj.images : {};
         const ok = await askConfirm({ title: '导入数据', message: '将用文件「' + file.name + '」覆盖当前全部数据（' + next.cards.length + ' 个模块 / ' + next.projects.length + ' 个项目）。当前数据会先备份到浏览器本地。', okText: '覆盖导入' });
         if (!ok) return;
         try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
         state = next;
         history = []; future = [];
+        if (IS_WEB) { webDraftActive = true; webSaveDraft(); webSaveSelection(); updateWebBanner(); }
         closeInspector();
         const cardIds = new Set(state.cards.map(function (c) { return c.id; }));
         const shotIds = new Set();
@@ -4737,6 +4914,22 @@ function bindUI() {
   $('#editPromptName').addEventListener('keydown', e => {
     if (e.key === 'Enter') { e.preventDefault(); confirmEditPrompt(); }
   });
+  const pwInput = $('#webPasswordInput');
+  if (pwInput) pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); confirmEditPrompt(); } });
+  const lockBtn = $('#webLockBtn');
+  if (lockBtn) lockBtn.addEventListener('click', function () {
+    try { sessionStorage.removeItem('mb.web.editUnlocked'); } catch (e) { /* ignore */ }
+    setMode('select');
+    updateWebChrome();
+    toast('已锁定编辑模式');
+  });
+  const discardBtn = $('#webDiscardDraft');
+  if (discardBtn) discardBtn.addEventListener('click', async function () {
+    const ok = await askConfirm({ title: '放弃本地草稿', message: '将删除本机未发布的编辑内容，并载入线上最新 data.json。', okText: '放弃草稿', danger: true });
+    if (!ok) return;
+    webClearDraft();
+    location.reload();
+  });
   $('#editPromptDialog').addEventListener('click', e => {
     if (e.target === $('#editPromptDialog')) closeEditPrompt();
   });
@@ -5080,7 +5273,8 @@ function bindUI() {
     const b = e.target.closest('[data-data-act]');
     if (!b) return;
     const act = b.dataset.dataAct;
-    if (act === 'export-json') exportJSON();
+    if (act === 'export-web-data') exportWebData();
+    else if (act === 'export-json') exportJSON();
     else if (act === 'import-json') importJSON();
     else if (act === 'clear-selection') clearSelection();
     else if (act === 'cleanup') {
@@ -6434,31 +6628,47 @@ async function runProbe(kind) {
 }
 
 /* ------------------------- 23. 启动 ------------------------- */
-function init() {
+async function init() {
   NS = initNamespace();
-  let hadSaved = true;
-  try { hadSaved = !!localStorage.getItem(NS.stateKey); } catch (e) { hadSaved = true; }
+  let hadSaved = false;
+  try { hadSaved = !!localStorage.getItem(NS.stateKey); } catch (e) { hadSaved = false; }
   let loaded = null;
-  try { loaded = loadState(); } catch (e) { loaded = null; }
+  if (IS_WEB) {
+    WEB_DATA = await webFetchData();
+    const draft = webLoadDraft();
+    if (draft && draft.state) {
+      loaded = normalizeState(draft.state);
+      webDraftActive = true;
+    } else if (WEB_DATA && WEB_DATA.state) {
+      loaded = normalizeState(WEB_DATA.state);
+    }
+  } else {
+    try { loaded = loadState(); } catch (e) { loaded = null; }
+  }
   if (!loaded && NS.seed && NS.seed.state) {
     loaded = normalizeState(NS.seed.state);
     loaded.meta.shared = loaded.meta.shared || { seedId: NS.seed.seedId, from: NS.seed.sharedBy || '未署名', at: NS.seed.sharedAt || nowISO() };
   }
   state = normalizeState(loaded || defaultState());
+  if (IS_WEB) state.ui.mode = 'select';
   ensureNewCards();
   const params = new URLSearchParams(location.search);
-  if (params.get('mode') === 'edit' || params.get('inspect')) state.ui.mode = 'edit';
+  const wantsEdit = params.get('mode') === 'edit' || !!params.get('inspect');
+  if (!IS_WEB && wantsEdit) state.ui.mode = 'edit';
   if (params.get('mode') === 'select') state.ui.mode = 'select';
   DEBUG_HOVER_ID = params.get('hover') || null;
   history = [];
   future = [];
   loadImageCache();
+  if (WEB_DATA) hydrateWebImages(WEB_DATA.images);
+  if (IS_WEB) webApplySelection(state);
   hydrateSeedImages();
   migrateLegacyShotImages();
   repairBuiltinImages();
   applyBuiltinThumbs();
   document.body.dataset.mode = state.ui.mode;
   bindUI();
+  updateWebChrome();
   renderAll();
   preloadThumbImages();
   loadIndexedImages();
@@ -6474,6 +6684,8 @@ function init() {
   }
   localSyncReady = true;
   applyRepoModeUI();
+  updateWebBanner();
+  if (IS_WEB && wantsEdit) setTimeout(function () { requestEditMode(); }, 120);
   if (NS.seed) {
     try { document.title = activeProject().name + ' · 模块工具箱（分享版）'; } catch (e) { /* ignore */ }
     updateSharedBadge();

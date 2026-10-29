@@ -1,53 +1,11 @@
-{
+﻿{
   "name": "module-board-collab",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "main": "desktop/main.mjs",
+  "description": "商业化模块工具箱 - 静态网页版",
   "scripts": {
     "build": "node build.mjs .",
-    "desktop": "electron .",
-    "desktop:dist": "electron-builder --win nsis portable --publish never"
-  },
-  "devDependencies": {
-    "electron": "^35.7.5",
-    "electron-builder": "^26.18.0"
-  },
-  "build": {
-    "appId": "com.pixelleap.moduleboard",
-    "productName": "商业化模块工具箱",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "desktop/**/*",
-      "lib/**/*",
-      "build.mjs",
-      "package.json"
-    ],
-    "extraResources": [
-      { "from": "data", "to": "starter/data" },
-      { "from": "thumbs", "to": "starter/thumbs" },
-      { "from": "template", "to": "starter/template" },
-      { "from": "build.mjs", "to": "starter/build.mjs" },
-      { "from": "dist", "to": "starter/dist" }
-    ],
-    "win": {
-      "target": ["nsis", "portable"]
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "商业化模块工具箱",
-      "runAfterFinish": true,
-      "deleteAppDataOnUninstall": false,
-      "artifactName": "ModuleBoard-Setup-${version}.${ext}"
-    },
-    "portable": {
-      "artifactName": "ModuleBoard-Portable-${version}.${ext}"
-    }
+    "seed:data": "node build.mjs . --seed-data"
   }
 }
