@@ -409,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.2.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.2.1</small></div>
     </div>
     <div class="proj-btn static" id="projectBtn" title="默认配置">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -788,7 +788,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '3.2.0';
+const APP_VERSION = '3.2.1';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -5367,13 +5367,13 @@ function runSelfTest() {
     if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步');
     const base = state.cards.filter(function (c) { return c.rowId === 'row_infra'; });
     const nonBase = state.cards.filter(function (c) { return c.rowId !== 'row_infra'; });
-    if (state.defaults.selected.length !== nonBase.length) throw new Error('非底座模块未全选');
-    if (base.some(function (c) { return isSelected(c.id); })) throw new Error('底座模块不应选中');
-    nonBase.forEach(function (c) {
+    if (state.defaults.selected.length !== base.length) throw new Error('底座模块未全选');
+    if (nonBase.some(function (c) { return isSelected(c.id); })) throw new Error('非底座模块不应选中');
+    base.forEach(function (c) {
       const ids = state.defaults.optionSelections[c.id] || [];
-      if (ids.length !== (c.options || []).length) throw new Error('选项未全选：' + c.title);
+      if (ids.length !== (c.options || []).length) throw new Error('底座选项未全选：' + c.title);
     });
-    base.forEach(function (c) { if (state.defaults.optionSelections[c.id]) throw new Error('底座选项不应选中'); });
+    nonBase.forEach(function (c) { if (state.defaults.optionSelections[c.id]) throw new Error('非底座选项不应选中'); });
     return true;
   });
 

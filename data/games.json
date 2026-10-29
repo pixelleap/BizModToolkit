@@ -3,205 +3,45 @@
     "id": "prj_default",
     "name": "默认配置",
     "selected": [
-      "card_reward_choice",
-      "card_shop",
-      "card_pack_shop",
-      "card_random_reward",
-      "card_bundle",
-      "card_level_struct",
-      "card_flash",
-      "card_level_result",
-      "card_gacha",
-      "card_piggy",
-      "card_booster",
-      "card_vip",
-      "card_revive",
-      "card_noads",
-      "card_ingame_goal",
-      "card_content_unlock",
-      "card_boost",
-      "card_ad_slot",
-      "card_n1owjv4amm",
-      "card_checkin",
-      "card_free_chest",
-      "card_vip_event",
-      "card_cumulative",
-      "card_challenge",
-      "card_pass",
-      "card_collect",
-      "card_quest",
-      "card_rank",
-      "card_segment",
-      "card_energy",
-      "card_meta_growth",
-      "card_character",
-      "card_album",
-      "card_export",
-      "card_decor",
-      "card_bg"
+      "card_economy",
+      "card_ad_system",
+      "card_payment",
+      "card_condition",
+      "card_remote",
+      "card_data",
+      "card_compliance"
     ],
     "optionSelections": {
-      "card_reward_choice": [
-        "opt_card_reward_choice_0",
-        "opt_card_reward_choice_1",
-        "opt_1t0t1ui2jv"
+      "card_economy": [
+        "opt_card_economy_0",
+        "opt_card_economy_1"
       ],
-      "card_shop": [
-        "opt_card_shop_1",
-        "opt_card_shop_2",
-        "opt_0t07q1bxsp"
+      "card_ad_system": [
+        "opt_card_ad_system_0",
+        "opt_card_ad_system_1"
       ],
-      "card_pack_shop": [
-        "opt_card_pack_shop_2",
-        "opt_mmumj7o922",
-        "opt_u2wrep8pxv"
+      "card_payment": [
+        "opt_card_payment_0",
+        "opt_card_payment_1"
       ],
-      "card_random_reward": [
-        "opt_card_random_reward_1",
-        "opt_h3895xjd8n"
+      "card_condition": [
+        "opt_card_condition_0",
+        "opt_card_condition_1"
       ],
-      "card_bundle": [
-        "opt_card_bundle_0",
-        "opt_card_bundle_1",
-        "opt_card_bundle_2"
+      "card_remote": [
+        "opt_card_remote_0",
+        "opt_card_remote_1"
       ],
-      "card_level_struct": [
-        "opt_card_level_struct_0",
-        "opt_card_level_struct_1"
+      "card_data": [
+        "opt_card_data_0",
+        "opt_card_data_1"
       ],
-      "card_flash": [
-        "opt_card_flash_0",
-        "opt_card_flash_1",
-        "opt_tcjgvfqvv3"
-      ],
-      "card_level_result": [
-        "opt_card_level_result_0",
-        "opt_card_level_result_1",
-        "opt_card_level_result_3",
-        "opt_o0yc9b5g43"
-      ],
-      "card_gacha": [
-        "opt_card_gacha_0",
-        "opt_card_gacha_1"
-      ],
-      "card_piggy": [
-        "opt_card_piggy_1",
-        "opt_card_piggy_2"
-      ],
-      "card_booster": [
-        "opt_card_booster_0",
-        "opt_card_booster_1",
-        "opt_card_booster_2"
-      ],
-      "card_vip": [
-        "opt_card_vip_4",
-        "opt_p6m9dnyh52"
-      ],
-      "card_revive": [
-        "opt_card_revive_0",
-        "opt_card_revive_1",
-        "opt_card_revive_2"
-      ],
-      "card_noads": [
-        "opt_card_noads_0"
-      ],
-      "card_ingame_goal": [
-        "opt_card_ingame_goal_0",
-        "opt_card_ingame_goal_1",
-        "opt_card_ingame_goal_2"
-      ],
-      "card_content_unlock": [
-        "opt_card_content_unlock_0",
-        "opt_card_content_unlock_1"
-      ],
-      "card_boost": [
-        "opt_card_boost_0",
-        "opt_card_boost_1"
-      ],
-      "card_ad_slot": [
-        "opt_card_ad_slot_0",
-        "opt_card_ad_slot_1"
-      ],
-      "card_n1owjv4amm": [
-        "opt_4bhgmpdggd",
-        "opt_18naeiwlq3"
-      ],
-      "card_checkin": [
-        "opt_card_checkin_0",
-        "opt_card_checkin_1"
-      ],
-      "card_free_chest": [
-        "opt_card_free_chest_0",
-        "opt_5ifpui8ite",
-        "opt_6suhuj8qlz"
-      ],
-      "card_vip_event": [
-        "opt_card_vip_event_0",
-        "opt_ptumij5lr2"
-      ],
-      "card_cumulative": [
-        "opt_card_cumulative_0",
-        "opt_uluw8w9jxg"
-      ],
-      "card_challenge": [
-        "opt_card_challenge_0",
-        "opt_card_challenge_1"
-      ],
-      "card_pass": [
-        "opt_card_pass_0",
-        "opt_card_pass_2",
-        "opt_qd2abj84mo"
-      ],
-      "card_collect": [
-        "opt_card_collect_0"
-      ],
-      "card_quest": [
-        "opt_card_quest_1",
-        "opt_card_quest_2"
-      ],
-      "card_rank": [
-        "opt_card_rank_0",
-        "opt_card_rank_1"
-      ],
-      "card_segment": [
-        "opt_card_segment_0",
-        "opt_card_segment_1",
-        "opt_kjz8jum6kw"
-      ],
-      "card_energy": [
-        "opt_card_energy_1",
-        "opt_card_energy_3"
-      ],
-      "card_meta_growth": [
-        "opt_card_meta_growth_0",
-        "opt_card_meta_growth_1",
-        "opt_db3daqg89e"
-      ],
-      "card_character": [
-        "opt_card_character_0",
-        "opt_card_character_1",
-        "opt_fqpt5uv39s"
-      ],
-      "card_album": [
-        "opt_card_album_0",
-        "opt_card_album_1",
-        "opt_dvvbc812gv"
-      ],
-      "card_export": [
-        "opt_card_export_0",
-        "opt_card_export_1",
-        "opt_card_export_3"
-      ],
-      "card_decor": [
-        "opt_card_decor_0",
-        "opt_card_decor_1"
-      ],
-      "card_bg": [
-        "opt_card_bg_0",
-        "opt_card_bg_1"
+      "card_compliance": [
+        "opt_card_compliance_0",
+        "opt_card_compliance_1"
       ]
     },
     "createdAt": "2026-10-28T11:04:25.449Z",
-    "updatedAt": "2026-10-29T12:32:09.681Z"
+    "updatedAt": "2026-10-29T12:39:52.669Z"
   }
 ]
