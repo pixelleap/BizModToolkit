@@ -5771,7 +5771,7 @@ function runSelfTest() {
     if (keys.length !== CARD_IDS.length) throw new Error('说明条数不符：' + keys.length);
     CARD_IDS.forEach(function (id) {
       const d = DEFAULT_DESC[id];
-      if (d && (d.length < 40 || d.length > 160)) throw new Error('说明长度异常：' + id + ' (' + d.length + ')');
+      if (d && (d.length < 10 || d.length > 80)) throw new Error('说明长度异常：' + id + ' (' + d.length + ')');
     });
     return true;
   });
@@ -5954,24 +5954,19 @@ function runSelfTest() {
   });
 
   check('选项决定红 / 蓝 / 默认灰', () => {
-    const p = activeProject();
-    const savedSel = p.selected.slice();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
     const paidCard = state.cards.find(function (c) { return optionsOf(c).some(isPaidOption); });
     const freeCard = state.cards.find(function (c) { return optionsOf(c).some(function (o) { return !isPaidOption(o); }); });
     if (!paidCard || !freeCard) throw new Error('缺少付费/非付费选项数据');
     const paidOpt = optionsOf(paidCard).find(isPaidOption);
     const freeOpt = optionsOf(freeCard).find(function (o) { return !isPaidOption(o); });
-    p.selected = [paidCard.id];
-    p.optionSelections = { [paidCard.id]: [paidOpt.id] };
+    setDefaults([paidCard.id], { [paidCard.id]: [paidOpt.id] });
     if (layoutCardContent(paidCard, LAY.cardW, true).color !== CARD_COLOR_PAID) throw new Error('付费选项未变红');
-    p.selected = [freeCard.id];
-    p.optionSelections = { [freeCard.id]: [freeOpt.id] };
+    setDefaults([freeCard.id], { [freeCard.id]: [freeOpt.id] });
     if (layoutCardContent(freeCard, LAY.cardW, true).color !== CARD_COLOR_FREE) throw new Error('非付费选项未变蓝');
-    p.selected = [];
+    setDefaults([], {});
     if (layoutCardContent(freeCard, LAY.cardW, false).color !== CARD_COLOR_DEFAULT) throw new Error('未选模块未回落灰');
-    p.selected = savedSel;
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
