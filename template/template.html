@@ -155,6 +155,10 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .opt-edit-tags{flex:1;min-width:0}
 .opt-edit-desc{width:100%;margin-top:5px;min-height:44px;resize:vertical}
 .opt-edit-paid{font-size:10px;color:#B85650;margin-left:2px}
+.opt-edit-image{display:flex;gap:8px;align-items:center;margin-top:6px}
+.opt-image-thumb{width:92px;height:58px;border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:10px;flex:none}
+.opt-image-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.opt-image-ops{display:flex;gap:6px;flex-wrap:wrap}
 .tag-add{display:flex;gap:6px;margin-top:6px}
 .tag-add input{flex:1}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line2)}
@@ -272,7 +276,7 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .shots-add .field-hint{margin:0}
 
 /* ---------- hover card ---------- */
-.hover-card{position:fixed;z-index:90;width:420px;max-height:min(80vh,780px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(16,24,40,.20),0 4px 10px rgba(16,24,40,.08);overflow:hidden;display:flex;flex-direction:column}
+.hover-card{position:fixed;z-index:90;width:340px;max-height:min(80vh,780px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 44px rgba(16,24,40,.20),0 4px 10px rgba(16,24,40,.08);overflow:hidden;display:flex;flex-direction:column}
 .hc-band{height:6px;flex:none}
 .hc-head{padding:11px 14px 8px;flex:none}
 .hc-title{font-weight:700;font-size:15px;line-height:1.35;color:var(--text)}
@@ -289,7 +293,7 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-opt:hover{background:#F6F8FB;border-color:#E4E9F2}
 .hc-opt.on{background:#F0F5FF;border-color:#C9D8F5}
 .hc-opt-check{width:14px;height:14px;flex:none;margin-top:2px;border:1.5px solid #B7C0CE;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;line-height:1}
-.hc-opt.on .hc-opt-check{background:#5B8DEF;border-color:#5B8DEF}
+.hc-opt.on .hc-opt-check{background:#3FAE8F;border-color:#3FAE8F}
 .hc-opt-main{min-width:0;flex:1}
 .hc-opt-title{font-size:12px;line-height:1.45;color:#344054;word-break:break-word}
 .hc-opt-chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}
@@ -307,6 +311,23 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-tags{display:flex;flex-wrap:wrap;gap:4px;padding:2px 0 6px;flex:none}
 .hc-tag{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#5B6573}
 .hc-foot{border-top:1px solid var(--line2);padding:7px 14px;font-size:11px;color:var(--muted2);background:#FCFCFD;margin-top:auto;flex:none}
+.option-card{position:fixed;z-index:95;width:360px;max-height:min(72vh,680px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 46px rgba(16,24,40,.24),0 4px 10px rgba(16,24,40,.08);overflow:hidden;display:flex;flex-direction:column}
+.oc-head{padding:12px 14px 8px;border-bottom:1px solid var(--line2);flex:none}
+.oc-title{font-weight:800;font-size:16px;line-height:1.35;color:var(--text)}
+.oc-meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+.oc-cat{font-size:10.5px;padding:2px 8px;border-radius:999px;color:#fff}
+.oc-sel{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#667085}
+.oc-sel.on{background:#E8F0FE;color:#1E4C9E}
+.oc-scroll{overflow:auto;flex:1 1 auto;min-height:0;padding:10px 14px 2px}
+.oc-desc{font-size:12px;line-height:1.75;color:#4B5563;white-space:pre-wrap;padding-bottom:10px}
+.oc-image{padding:2px 0 10px}
+.oc-image img{display:block;width:100%;height:auto;object-fit:contain;border-radius:8px;background:#fff;border:1px solid var(--line)}
+.oc-image .oc-missing{padding:26px 12px;text-align:center;color:var(--muted2);font-size:11.5px;border:1px dashed var(--line);border-radius:8px;background:#FAFBFC}
+.oc-tags{display:flex;flex-wrap:wrap;gap:4px;padding:2px 0 8px}
+.oc-tag{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#5B6573}
+.oc-foot{border-top:1px solid var(--line2);padding:7px 14px;font-size:11px;color:var(--muted2);background:#FCFCFD;margin-top:auto;flex:none}
+@media (max-width:520px){.option-card{width:min(360px,calc(100vw - 24px))}}
+
 body[data-mode="edit"] #board .card[data-hovered="1"] .hoverRing{opacity:1;stroke:#5B8DEF;stroke-width:2}
 
 /* ---------- hover progress ---------- */
@@ -374,7 +395,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   .share-summary{grid-template-columns:1fr}
   .modal-body.two-col,.two-col{grid-template-columns:1fr}
   #inspector{width:100vw}
-  .hover-card{width:min(420px,calc(100vw - 24px))}
+  .hover-card{width:min(340px,calc(100vw - 24px))}
   .tabs .tab{padding:8px 8px;font-size:11.5px}
   .modal-actions{flex-wrap:wrap;justify-content:flex-end}
   .modal-actions .btn{flex:1 1 auto}
@@ -388,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.3.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.4.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
@@ -446,10 +467,9 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
           <label>标题</label>
           <input type="text" id="inspTitle" maxlength="40" placeholder="模块名称">
         </div>
-        <div class="field">
+        <div class="field" style="display:none">
           <label>正文（每行一条）</label>
           <textarea id="inspBody" rows="6" placeholder="一行一个变体 / 说明"></textarea>
-          <div class="field-hint">正文区固定高度，超出的行可在卡片上滚轮滚动。</div>
         </div>
         <div class="field">
           <label>模块说明（悬停面板选项下方）</label>
@@ -460,6 +480,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
           <label>功能选项</label>
           <div class="option-editor" id="inspOptions"></div>
           <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加选项</button>
+          <input type="file" id="optImageFile" accept="image/*" class="hidden">
           <div class="field-hint">选项分类/标签决定卡片红蓝；悬停卡片时先显示选项，再显示说明。</div>
         </div>
         <div class="field">
@@ -479,7 +500,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
           </div>
           <div class="field-hint">自动居中裁成 640×360；只影响卡片外观，不影响悬停说明图片。</div>
         </div>
-        <div class="field">
+        <div class="field" style="display:none">
           <label>说明图片（最多 6 张）</label>
           <div class="shots-list" id="shotsList"></div>
           <div class="shots-add">
@@ -510,7 +531,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
             <input type="color" id="inspColor" value="#94A3B8">
           </div>
         </div>
-        <div class="field">
+        <div class="field" style="display:none">
           <label>标签</label>
           <div class="chips" id="inspTags"></div>
           <div class="field-hint" style="margin-top:5px">点标签左侧色块可改全局颜色；同名标签会一起变。</div>
@@ -706,7 +727,20 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
     <div class="hc-shots" id="hcShots"></div>
     <div class="hc-tags" id="hcTags"></div>
   </div>
-  <div class="hc-foot" id="hcFoot">编辑模式可补充说明与图片</div>
+  <div class="hc-foot" id="hcFoot">悬停选项查看详情 · 编辑模式可编辑选项</div>
+</div>
+
+<div id="optionCard" class="option-card hidden" role="dialog">
+  <div class="oc-head">
+    <div class="oc-title" id="ocTitle"></div>
+    <div class="oc-meta"><span class="oc-cat" id="ocCat"></span><span class="oc-sel" id="ocSel"></span></div>
+  </div>
+  <div class="oc-scroll">
+    <div class="oc-desc" id="ocDesc"></div>
+    <div class="oc-image" id="ocImage"></div>
+    <div class="oc-tags" id="ocTags"></div>
+  </div>
+  <div class="oc-foot" id="ocFoot">编辑模式可编辑选项</div>
 </div>
 
 <!-- 悬停等待进度 -->
@@ -751,7 +785,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.3.0';
+const APP_VERSION = '2.4.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1213,6 +1247,7 @@ const FONTS = {
   title: (s) => '700 ' + s + 'px ' + FONT,
   head: (s) => '800 ' + s + 'px ' + FONT,
   body: (s) => '400 ' + s + 'px ' + FONT,
+  bodyBold: (s) => '700 ' + s + 'px ' + FONT,
   chip: (s) => '400 ' + s + 'px ' + FONT,
   meta: (s) => '400 ' + s + 'px ' + FONT
 };
@@ -1286,7 +1321,7 @@ function defaultState() {
       title: c.title, body: c.body.slice(), note: c.note || '', tags: c.tags.slice(),
       categoryId: c.cat, customColor: null,
       desc: DEFAULT_DESC[CARD_IDS[i]] || '',
-      options: Array.isArray(c.options) ? c.options.map(function (o) { return { id: o.id, title: o.title, categoryId: o.categoryId, tags: (o.tags || []).slice(), desc: o.desc || '' }; }) : [],
+      options: Array.isArray(c.options) ? c.options.map(function (o) { return { id: o.id, title: o.title, categoryId: o.categoryId, tags: (o.tags || []).slice(), desc: o.desc || '', image: normalizeOptionImage(o.image) }; }) : [],
       optionsSeeded: true,
       shots: [],
       thumb: null,
@@ -1340,6 +1375,16 @@ function selectedOptions(cardId) {
   const ids = new Set(selectedOptionIds(cardId));
   return optionsOf(findCard(cardId)).filter(function (o) { return ids.has(o.id); });
 }
+function projectHasSelectedOptions(project, cardId) {
+  const card = findCard(cardId);
+  if (!card) return false;
+  const map = (project && project.optionSelections && typeof project.optionSelections === 'object') ? project.optionSelections : {};
+  const ids = Array.isArray(map[cardId]) ? map[cardId] : [];
+  return optionsOf(card).some(function (o) { return ids.indexOf(o.id) >= 0; });
+}
+function canSelectCard(cardId) {
+  return projectHasSelectedOptions(activeProject(), cardId);
+}
 function isPaidOption(option) {
   if (!option) return false;
   if (option.categoryId === 'cat_paid' || option.categoryId === 'cat_ad') return true;
@@ -1354,7 +1399,7 @@ function cardColor(card, selected) {
 }
 function cardDisplayTags(card) {
   const opts = selectedOptions(card.id);
-  if (!opts.length) return (card.tags || []).slice();
+  if (!opts.length) return [];
   const out = [];
   const seen = new Set();
   opts.forEach(function (o) {
@@ -1364,7 +1409,7 @@ function cardDisplayTags(card) {
       seen.add(v); out.push(v);
     });
   });
-  return out.length ? out : (card.tags || []).slice();
+  return out;
 }
 function countSelected() { return activeProject().selected.length; }
 const TAG_PALETTE = {
@@ -1471,7 +1516,7 @@ function ensureNewCards() {
     categoryId: def.cat,
     customColor: null,
     desc: DEFAULT_DESC[id] || '',
-    options: Array.isArray(def.options) ? def.options.map(function (o) { return { id: o.id, title: o.title, categoryId: o.categoryId, tags: (o.tags || []).slice(), desc: o.desc || '' }; }) : [],
+    options: Array.isArray(def.options) ? def.options.map(function (o) { return { id: o.id, title: o.title, categoryId: o.categoryId, tags: (o.tags || []).slice(), desc: o.desc || '', image: normalizeOptionImage(o.image) }; }) : [],
     optionsSeeded: true,
     shots: [],
     thumb: null,
@@ -1480,6 +1525,10 @@ function ensureNewCards() {
   saveNow();
 }
 
+function normalizeOptionImage(img) {
+  if (!img || typeof img !== 'object' || typeof img.id !== 'string' || !/^[a-z0-9_]+$/.test(img.id)) return null;
+  return { id: img.id, mime: String(img.mime || 'image/webp'), w: Math.max(0, Number(img.w) || 0), h: Math.max(0, Number(img.h) || 0), updatedAt: img.updatedAt || nowISO() };
+}
 function normalizeState(input) {
   const s = (input && typeof input === 'object') ? input : defaultState();
   s.version = s.version || 1;
@@ -1510,7 +1559,8 @@ function normalizeState(input) {
         title: String((o && o.title) || '未命名选项').slice(0, 60),
         categoryId: s.categories.some(function (k) { return k.id === (o && o.categoryId); }) ? o.categoryId : (s.categories.some(function (k) { return k.id === c.categoryId; }) ? c.categoryId : 'cat_none'),
         tags: Array.isArray(o && o.tags) ? Array.from(new Set(o.tags.map(String))) : [],
-        desc: String((o && o.desc) || '').slice(0, 800)
+        desc: String((o && o.desc) || '').slice(0, 800),
+        image: normalizeOptionImage(o && o.image)
       };
     });
     return {
@@ -1597,6 +1647,14 @@ function normalizeState(input) {
     createdAt: p.createdAt || nowISO(),
     updatedAt: p.updatedAt || p.createdAt || nowISO()
   }));
+  s.projects.forEach(function (p) {
+    p.selected = p.selected.filter(function (cid) {
+      const c = s.cards.find(function (x) { return x.id === cid; });
+      if (!c) return false;
+      const arr = Array.isArray(p.optionSelections[cid]) ? p.optionSelections[cid] : [];
+      return (c.options || []).some(function (o) { return arr.indexOf(o.id) >= 0; });
+    });
+  });
   const ui = (s.ui && typeof s.ui === 'object') ? s.ui : {};
   s.ui = {
     activeProjectId: s.projects.some(p => p.id === ui.activeProjectId) ? ui.activeProjectId : s.projects[0].id,
@@ -1769,7 +1827,7 @@ function imagesForExport(shotIds) {
 function allImageIds(cards) {
   const out = [];
   (cards || []).forEach(function (c) {
-    (c.shots || []).forEach(function (s) { out.push(s.id); });
+    optionsOf(c).forEach(function (o) { if (o.image && o.image.id) out.push(o.image.id); });
     if (c.thumb && c.thumb.id) out.push(c.thumb.id);
   });
   return out;
@@ -1783,7 +1841,7 @@ function imageCount() { return imageCache.size; }
 function cleanupUnusedImages() {
   const ids = new Set();
   state.cards.forEach(function (c) {
-    (c.shots || []).forEach(function (s) { ids.add(s.id); });
+    optionsOf(c).forEach(function (o) { if (o.image && o.image.id) ids.add(o.image.id); });
     if (c.thumb && c.thumb.id) ids.add(c.thumb.id);
   });
   let removed = 0;
@@ -1874,6 +1932,10 @@ function redo() {
 function toggleSelected(id, opts) {
   const projectId = activeProject().id;
   const card = findCard(id);
+  if (!isSelected(id) && !canSelectCard(id)) {
+    toast('请先选择至少一个功能选项');
+    return;
+  }
   const extra = Object.assign({ scope: 'selection', label: '勾选「' + ((card && card.title) || '模块') + '」' }, opts || {});
   commit(s => {
     const p = s.projects.find(x => x.id === projectId);
@@ -1904,7 +1966,12 @@ function toggleOption(cardId, optionId) {
       arr.push(optionId);
       if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId);
     }
-    p.optionSelections[cardId] = arr;
+    if (!arr.length) {
+      p.selected = p.selected.filter(function (x) { return x !== cardId; });
+      delete p.optionSelections[cardId];
+    } else {
+      p.optionSelections[cardId] = arr;
+    }
     p.updatedAt = nowISO();
   }, { scope: 'selection', label: label });
   if (hoverState.shown && hoverState.id === cardId) {
@@ -1923,7 +1990,7 @@ function matchesFilter(c) {
   if (f.categoryIds.length && f.categoryIds.indexOf(c.categoryId) < 0 && !optionCats.some(function (id) { return f.categoryIds.indexOf(id) >= 0; })) return false;
   const optionTags = [];
   optionsOf(c).forEach(function (o) { (o.tags || []).forEach(function (t) { if (optionTags.indexOf(t) < 0) optionTags.push(t); }); });
-  if (f.tags.length && !f.tags.every(t => c.tags.indexOf(t) >= 0 || optionTags.indexOf(t) >= 0)) return false;
+  if (f.tags.length && !f.tags.every(t => optionTags.indexOf(t) >= 0)) return false;
   const q = (f.q || '').trim().toLowerCase();
   if (q) {
     const optionText = [];
@@ -1958,10 +2025,16 @@ function layoutCardContent(card, width, selected) {
   const panelBottom = LAY.panelY + LAY.panelH;
   const bodyTop = panelTop + 14;
   const bodyFont = FONTS.body(LAY.bodySize);
+  const chosen = new Set(selectedOptionIds(card.id));
   let rawBody = [];
-  (card.body || []).forEach(b => {
-    if (String(b).trim() === '') return;
-    rawBody = rawBody.concat(wrapText(b, panelW - LAY.cardPadX * 2, bodyFont, 2));
+  optionsOf(card).forEach(function (o) {
+    const title = String(o.title || '').trim();
+    if (!title) return;
+    const isOn = chosen.has(o.id);
+    const font = isOn ? FONTS.bodyBold(LAY.bodySize) : bodyFont;
+    wrapText(title, panelW - LAY.cardPadX * 2, font, 2).forEach(function (text) {
+      rawBody.push({ text: text, selected: isOn });
+    });
   });
   const truncated = rawBody.length > 40;
   const bodyLines = truncated ? rawBody.slice(0, 40) : rawBody;
@@ -1999,7 +2072,7 @@ function layoutCardContent(card, width, selected) {
     chipsTop: chipsTop, chipRows: chipRowsUsed, chipsBlockH: chipsBlockH,
     note: note, noteBlockH: noteBlockH, noteTop: noteTop,
     need: LAY.cardH,
-    tags: (card.tags || []).slice(), cardId: card.id
+    tags: cardDisplayTags(card), cardId: card.id
   };
 }
 
@@ -2179,6 +2252,18 @@ function svgText(x, y, s, size, color, weight, anchor, extra) {
   return '<text x="' + fmt(x) + '" y="' + fmt(y) + '" font-family="' + FONT_ATTR + '" font-size="' + size + '" font-weight="' + (weight || 400) +
     '" fill="' + color + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + (extra || '') + '>' + esc(s) + '</text>';
 }
+function svgBodyLine(cx, y, ln) {
+  const on = !!(ln && ln.selected);
+  const text = String((ln && ln.text) || '');
+  const font = on ? FONTS.bodyBold(LAY.bodySize) : FONTS.body(LAY.bodySize);
+  const w = textWidth(text, font);
+  const out = [svgText(cx, y, text, LAY.bodySize, on ? '#111827' : '#98A2B3', on ? 700 : 400, 'middle', ' data-body-on="' + (on ? '1' : '0') + '"')];
+  if (!on && w > 0) {
+    const ly = y - LAY.bodySize * 0.28;
+    out.push('<line x1="' + fmt(cx - w / 2) + '" y1="' + fmt(ly) + '" x2="' + fmt(cx + w / 2) + '" y2="' + fmt(ly) + '" stroke="#7B8798" stroke-width="1.4" pointer-events="none"/>');
+  }
+  return out.join('');
+}
 function headerPath(x, y, w, h, r) {
   const rr = Math.min(r, h);
   return 'M' + fmt(x) + ' ' + fmt(y + rr) + ' A' + fmt(rr) + ' ' + fmt(rr) + ' 0 0 1 ' + fmt(x + rr) + ' ' + fmt(y) +
@@ -2241,7 +2326,7 @@ function buildBoardMarkup(layout, opts) {
 
     row.cards.forEach(card => {
       const sel = card.selected;
-      const opacity = (dim && !sel) ? '0.35' : '1';
+      const opacity = (dim && !sel) ? '0.72' : '1';
       const clipId = 'bodyClip_' + String(card.id).replace(/[^A-Za-z0-9_-]/g, '_');
       const thumbClipId = 'thumbClip_' + String(card.id).replace(/[^A-Za-z0-9_-]/g, '_');
       const thumbSrc = (card.thumb && card.thumb.id) ? getShot(card.thumb.id) : '';
@@ -2290,7 +2375,7 @@ function buildBoardMarkup(layout, opts) {
         out.push('<g class="cardBodyScroll" data-body-scroll="' + escAttr(card.id) + '" data-scroll-max="' + fmt(card.bodyScrollMax) +
           '" transform="translate(0,-' + fmt(isExport ? 0 : card.bodyScroll) + ')">');
         card.bodyLines.forEach((ln, i) => {
-          out.push(svgText(card.x + card.w / 2, card.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln, LAY.bodySize, '#4B5563', 400, 'middle'));
+          out.push(svgBodyLine(card.x + card.w / 2, card.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln));
         });
         out.push('</g></g>');
         if (!isExport && card.bodyOverflow && card.bodyScrollMax > 0) {
@@ -2372,7 +2457,7 @@ function buildCardPreviewSVG(card, width) {
   out.push(svgText(LAY.cardW / 2, c.titleBaseline, c.titleText, c.titleSize, '#1F2937', LAY.titleWeight, 'middle'));
   out.push('<clipPath id="previewBodyClip"><rect x="' + (LAY.panelX + LAY.cardPadX - 1) + '" y="' + c.bodyTop + '" width="' + (LAY.panelW - LAY.cardPadX * 2 + 2) + '" height="' + c.bodyViewportH + '"/></clipPath>');
   out.push('<g clip-path="url(#previewBodyClip)">');
-  c.bodyLines.forEach((ln, i) => out.push(svgText(LAY.cardW / 2, c.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln, LAY.bodySize, '#4B5563', 400, 'middle')));
+  c.bodyLines.forEach((ln, i) => out.push(svgBodyLine(LAY.cardW / 2, c.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln)));
   out.push('</g>');
   c.chipRows.forEach((row, ri) => {
     const rowW = row.reduce(function (sum, ch) { return sum + ch.w; }, 0) + Math.max(0, row.length - 1) * LAY.chipGap;
@@ -2422,6 +2507,20 @@ function cText(ctx, x, y, s, size, color, weight, align) {
   ctx.textBaseline = 'alphabetic';
   ctx.fillText(s, x, y);
   ctx.textAlign = 'left';
+}
+function cBodyLine(ctx, x, y, ln) {
+  const on = !!(ln && ln.selected);
+  const text = String((ln && ln.text) || '');
+  const weight = on ? 700 : 400;
+  const color = on ? '#111827' : '#98A2B3';
+  ctx.font = weight + ' ' + LAY.bodySize + 'px ' + FONT;
+  const w = ctx.measureText(text).width;
+  cText(ctx, x, y, text, LAY.bodySize, color, weight, 'center');
+  if (!on && w > 0) {
+    const ly = y - LAY.bodySize * 0.28;
+    ctx.beginPath(); ctx.strokeStyle = '#7B8798'; ctx.lineWidth = 1.4;
+    ctx.moveTo(x - w / 2, ly); ctx.lineTo(x + w / 2, ly); ctx.stroke();
+  }
 }
 
 function renderCanvas(layout, scale, opts) {
@@ -2520,7 +2619,7 @@ function renderCanvas(layout, scale, opts) {
         ctx.save();
         canvasRoundRect(ctx, card.x + LAY.panelX + LAY.cardPadX - 1, card.bodyTop, LAY.panelW - LAY.cardPadX * 2 + 2, card.bodyViewportH, 0);
         ctx.clip();
-        card.bodyLines.forEach((ln, i) => cText(ctx, card.x + card.w / 2, card.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln, LAY.bodySize, '#4B5563', 400, 'center'));
+        card.bodyLines.forEach((ln, i) => cBodyLine(ctx, card.x + card.w / 2, card.bodyTop + i * LAY.bodyLine + 10 + LAY.bodySize * 0.35, ln));
         ctx.restore();
       }
 
@@ -3268,6 +3367,7 @@ function showHoverCard(cardId) {
   if (el) el.setAttribute('data-hovered', '1');
 }
 function hideHoverCard() {
+  hideOptionCard();
   stopHoverProgress();
   if (DEBUG_HOVER_ID) return;
   cancelHoverTimers();
@@ -3299,41 +3399,17 @@ function fillHoverCard(card) {
   const chosen = new Set(selectedOptionIds(card.id));
   $('#hcOptCount').textContent = opts.length ? (chosen.size + ' / ' + opts.length + ' 已选') : '';
   $('#hcOptList').innerHTML = opts.length ? opts.map(function (o) {
-    const oc = catOf(o.categoryId);
-    const tags = (o.tags || []).map(function (t) { return '<span class="hc-opt-tag">' + esc(t) + '</span>'; }).join('');
     return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
       '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
-      '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div>' +
-      '<div class="hc-opt-chips"><span class="hc-opt-cat" style="background:' + rgba(oc.color, 0.14) + ';color:' + shade(oc.color, -0.18) + '">' + esc(oc.name) + '</span>' + tags + '</div></div></div>';
+      '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
   }).join('') : '<div class="field-hint" style="padding:2px 0">这个模块还没有功能选项</div>';
-  $('#hcOptDesc').textContent = opts.length ? '悬停选项查看说明' : '在编辑模式里给模块添加选项';
-  const desc = String(card.desc || '').trim() || (card.body || []).join('\n');
+  $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加选项';
+  const desc = String(card.desc || '').trim();
   const bodyEl = $('#hcBody');
   bodyEl.textContent = desc || '还没有说明';
-  const shots = card.shots || [];
-  const shotsEl = $('#hcShots');
-  if (shots.length) {
-    shotsEl.innerHTML = shots.map(function (s, i) {
-      const src = getShot(s.id);
-      const caption = s.title || ('图 ' + (i + 1));
-      const ar = (s.w > 0 && s.h > 0) ? ' style="aspect-ratio:' + s.w + '/' + s.h + '"' : '';
-      return '<figure class="hc-shot"><figcaption>' + esc(caption) + '</figcaption>' +
-        (src ? '<img alt="" src="' + src + '"' + ar + '>' : '<div class="hc-missing">图片未随文件提供</div>') +
-        '</figure>';
-    }).join('');
-    Array.prototype.forEach.call(shotsEl.querySelectorAll('img'), function (img) {
-      img.addEventListener('load', function () {
-        if (hoverState.shown && hoverState.id) positionHoverCard(hoverState.id);
-      });
-    });
-    $('#hcFoot').textContent = '编辑模式可补充说明与图片';
-  } else {
-    shotsEl.innerHTML = '<figure class="hc-shot"><figcaption>卡片预览</figcaption><div class="hc-preview">' + buildCardPreviewSVG(card, 300) + '</div></figure>';
-    $('#hcFoot').textContent = '暂无图片，这里是卡片预览 · 编辑模式可上传';
-  }
-  const tags = cardDisplayTags(card).map(t => '<span class="hc-tag">' + esc(t) + '</span>');
-  if (card.note) tags.push('<span class="hc-tag">「' + esc(card.note) + '」</span>');
-  $('#hcTags').innerHTML = tags.join('');
+  $('#hcShots').innerHTML = '';
+  $('#hcTags').innerHTML = '';
+  $('#hcFoot').textContent = opts.length ? '悬停选项查看详情 · 编辑模式可编辑选项' : '编辑模式可添加功能选项';
   $('#hoverCard').style.visibility = 'hidden';
 }
 function positionHoverCard(cardId) {
@@ -3348,7 +3424,7 @@ function positionHoverCard(cardId) {
   const el = $('#hoverCard');
   el.classList.remove('hidden');
   el.style.visibility = 'hidden';
-  const pw = el.offsetWidth || 360, ph = el.offsetHeight || 340;
+  const pw = el.offsetWidth || 340, ph = el.offsetHeight || 340;
   let left = cardLeft + cardW + 12;
   if (left + pw > window.innerWidth - 12) left = cardLeft - pw - 12;
   left = clamp(left, 12, Math.max(12, window.innerWidth - pw - 12));
@@ -3358,6 +3434,68 @@ function positionHoverCard(cardId) {
   el.style.top = top + 'px';
   el.style.visibility = '';
   return true;
+}
+
+/* ------------------------- 10.6 选项说明窗 ------------------------- */
+const optionState = { id: null, cardId: null, hideTimer: 0 };
+function cancelOptionHide() { clearTimeout(optionState.hideTimer); optionState.hideTimer = 0; }
+function hideOptionCard() {
+  cancelOptionHide();
+  optionState.id = null;
+  optionState.cardId = null;
+  const el = document.getElementById('optionCard');
+  if (el) el.classList.add('hidden');
+}
+function scheduleHideOptionCard() {
+  cancelOptionHide();
+  optionState.hideTimer = setTimeout(function () { hideOptionCard(); }, 260);
+}
+function fillOptionCard(card, option) {
+  const oc = catOf(option.categoryId);
+  const on = selectedOptionIds(card.id).indexOf(option.id) >= 0;
+  $('#ocTitle').textContent = option.title || '未命名选项';
+  $('#ocCat').textContent = oc.name;
+  $('#ocCat').style.background = oc.color;
+  $('#ocCat').style.color = readableText(oc.color);
+  $('#ocSel').textContent = on ? '本游戏已选' : '选项未选';
+  $('#ocSel').classList.toggle('on', on);
+  $('#ocDesc').textContent = String(option.desc || '').trim() || '这个选项还没有说明';
+  $('#ocTags').innerHTML = (option.tags || []).map(function (t) { return '<span class="oc-tag">' + esc(t) + '</span>'; }).join('');
+  const img = option.image ? getShot(option.image.id) : null;
+  const box = $('#ocImage');
+  if (!option.image) box.innerHTML = '';
+  else if (img) box.innerHTML = '<img alt="" src="' + img + '">';
+  else box.innerHTML = '<div class="oc-missing">图片未随文件提供</div>';
+  $('#optionCard').style.visibility = 'hidden';
+}
+function positionOptionCard(cardId, optionId) {
+  const el = $('#optionCard');
+  const hc = $('#hoverCard');
+  if (!el || !hc) return false;
+  el.classList.remove('hidden');
+  const row = document.querySelector('#hcOptList [data-opt-id="' + optionId + '"]');
+  const hcr = hc.getBoundingClientRect();
+  const rr = row ? row.getBoundingClientRect() : hcr;
+  const pw = el.offsetWidth || 360, ph = el.offsetHeight || 260;
+  let left = hcr.right + 10;
+  if (left + pw > window.innerWidth - 12) left = hcr.left - pw - 10;
+  left = clamp(left, 12, Math.max(12, window.innerWidth - pw - 12));
+  const maxTop = Math.max(8, window.innerHeight - ph - 12);
+  const top = clamp(rr.top, 8, maxTop);
+  el.style.left = left + 'px';
+  el.style.top = top + 'px';
+  el.style.visibility = '';
+  return true;
+}
+function showOptionCard(cardId, optionId) {
+  const card = findCard(cardId);
+  const option = card && optionsOf(card).find(function (o) { return o.id === optionId; });
+  if (!option) { hideOptionCard(); return; }
+  cancelOptionHide();
+  optionState.id = optionId;
+  optionState.cardId = cardId;
+  fillOptionCard(card, option);
+  positionOptionCard(cardId, optionId);
 }
 
 /* 悬停等待进度条 */
@@ -3771,6 +3909,12 @@ function fillInspector() {
       '<div class="opt-edit-meta"><input type="text" class="opt-edit-tags" data-opt-tags="' + escAttr(o.id) + '" maxlength="120" value="' + escAttr((o.tags || []).join(', ')) + '" placeholder="标签，逗号分隔">' +
       (paid ? '<span class="opt-edit-paid">付费点</span>' : '') + '</div>' +
       '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="这个选项的说明（悬停时显示）">' + esc(o.desc || '') + '</textarea>' +
+      '<div class="opt-edit-image">' +
+      '<div class="opt-image-thumb">' + (o.image && getShot(o.image.id) ? '<img alt="" src="' + getShot(o.image.id) + '">' : '<span>无图</span>') + '</div>' +
+      '<div class="opt-image-ops">' +
+      '<button class="btn sm" type="button" data-opt-img-pick="' + escAttr(o.id) + '">' + (o.image ? '更换图片' : '选择图片') + '</button>' +
+      (o.image ? '<button class="btn sm danger" type="button" data-opt-img-del="' + escAttr(o.id) + '">删除图片</button>' : '') +
+      '</div></div>' +
       '</div>';
   }).join('') : '<div class="field-hint">还没有功能选项，点下面添加。</div>';
   const thumbSrc = getThumb(card);
@@ -3950,7 +4094,7 @@ function renderSettings() {
     '<div class="field-hint">与分类同名的标签会自动使用该分类颜色。修改后失焦即保存。</div></div>');
 
   const tagSet = new Set(state.tagPresets || []);
-  state.cards.forEach(function (c) { (c.tags || []).forEach(function (t) { tagSet.add(t); }); optionsOf(c).forEach(function (o) { (o.tags || []).forEach(function (t) { tagSet.add(t); }); }); });
+  state.cards.forEach(function (c) { optionsOf(c).forEach(function (o) { (o.tags || []).forEach(function (t) { tagSet.add(t); }); }); });
   Object.keys(state.tagColors || {}).forEach(function (t) { tagSet.add(t); });
   const tagList = Array.from(tagSet).map(String).filter(Boolean).sort(function (a, b) { return a.localeCompare(b, 'zh'); });
   html.push('<div class="form-section"><h4>标签颜色</h4>');
@@ -4113,7 +4257,7 @@ function openTagMenu() {
   const m = $('#tagMenu');
   const f = state.ui.filter;
   const all = new Set(state.tagPresets);
-  state.cards.forEach(c => { (c.tags || []).forEach(t => all.add(t)); optionsOf(c).forEach(o => (o.tags || []).forEach(t => all.add(t))); });
+  state.cards.forEach(c => { optionsOf(c).forEach(o => (o.tags || []).forEach(t => all.add(t))); });
   const tags = Array.from(all);
   m.innerHTML = '<div class="dd-title">按标签筛选</div>' + (tags.length ? tags.map(t =>
     '<div class="dd-item" data-tag-filter="' + escAttr(t) + '"><input type="checkbox"' + (f.tags.indexOf(t) >= 0 ? ' checked' : '') + '>' +
@@ -4186,7 +4330,7 @@ async function resetAll() {
   const ok = await askConfirm({ title: '恢复默认数据', message: '将清空所有游戏项目、模块与分类修改，恢复为初始示例数据。当前数据会先备份，可用「导入 JSON」找回。', okText: '恢复默认', danger: true });
   if (!ok) return;
   try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
-  state = defaultState();
+  state = normalizeState(defaultState());
   history = []; future = [];
   closeInspector();
   saveNow();
@@ -4272,6 +4416,7 @@ async function deleteCard(id) {
   if (!ok) return;
   if (view.inspectingId === id) closeInspector();
   (card.shots || []).forEach(function (sh) { removeShot(sh.id); });
+  optionsOf(card).forEach(function (o) { if (o.image) removeShot(o.image.id); });
   if (card.thumb) removeShot(card.thumb.id);
   commit(s => {
     s.cards = s.cards.filter(c => c.id !== id);
@@ -4664,6 +4809,8 @@ function bindUI() {
     const card = findCard(view.inspectingId);
     if (!card) return;
     const optId = btn.getAttribute('data-opt-del');
+    const removedOption = optionsOf(card).find(function (o) { return o.id === optId; });
+    if (removedOption && removedOption.image) removeShot(removedOption.image.id);
     commit(function (s) {
       const c = s.cards.find(function (x) { return x.id === card.id; });
       if (!c) return;
@@ -4676,11 +4823,45 @@ function bindUI() {
       });
     }, { label: '删除选项' });
   });
+  let pendingOptionImage = null;
+  $('#inspOptions').addEventListener('click', function (e) {
+    const pick = e.target.closest('[data-opt-img-pick]');
+    const del = e.target.closest('[data-opt-img-del]');
+    if (pick) {
+      pendingOptionImage = pick.getAttribute('data-opt-img-pick');
+      const input = $('#optImageFile');
+      input.value = '';
+      input.click();
+    } else if (del && view.inspectingId) {
+      const card = findCard(view.inspectingId);
+      const option = card && optionsOf(card).find(function (o) { return o.id === del.getAttribute('data-opt-img-del'); });
+      if (option && option.image) removeShot(option.image.id);
+      updateOption(view.inspectingId, option.id, { image: null }, '删除选项图片');
+    }
+  });
+  $('#optImageFile').addEventListener('change', async function (e) {
+    const file = e.target.files && e.target.files[0];
+    const optId = pendingOptionImage;
+    pendingOptionImage = null;
+    if (!file || !optId || !view.inspectingId) return;
+    const card = findCard(view.inspectingId);
+    const option = card && optionsOf(card).find(function (o) { return o.id === optId; });
+    if (!option) return;
+    try {
+      const img = await compressImageFile(file);
+      const id = (option.image && option.image.id) ? option.image.id : uid('optimg');
+      saveShot(id, img.dataUrl);
+      updateOption(card.id, optId, { image: { id: id, mime: img.mime, w: img.w, h: img.h, updatedAt: nowISO() } }, '设置选项图片');
+      toast('选项图片已保存');
+    } catch (err) {
+      toast('图片读取失败，换一张试试');
+    }
+  });
   $('#inspOptionAdd').addEventListener('click', function () {
     if (!view.inspectingId) return;
     const card = findCard(view.inspectingId);
     if (!card) return;
-    const opt = { id: uid('opt'), title: '新选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '' };
+    const opt = { id: uid('opt'), title: '新选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null };
     patchCard(card.id, { options: optionsOf(card).concat([opt]), optionsSeeded: true }, { label: '添加选项' });
   });
 
@@ -4975,21 +5156,21 @@ function bindUI() {
   $('#hcOptList').addEventListener('mouseover', function (e) {
     const row = e.target.closest('.hc-opt');
     if (!row || !hoverState.id) return;
-    const card = findCard(hoverState.id);
-    const option = optionsOf(card).find(function (o) { return o.id === row.getAttribute('data-opt-id'); });
-    if (!option) return;
-    $('#hcOptDesc').textContent = String(option.desc || '').trim() || '这个选项还没有说明';
+    showOptionCard(hoverState.id, row.getAttribute('data-opt-id'));
   });
-  $('#hcOptList').addEventListener('mouseleave', function () {
-    $('#hcOptDesc').textContent = '悬停选项查看说明';
-  });
+  $('#hcOptList').addEventListener('mouseleave', scheduleHideOptionCard);
+  $('#optionCard').addEventListener('mouseenter', cancelOptionHide);
+  $('#optionCard').addEventListener('mouseleave', scheduleHideOptionCard);
   $('#hcOptList').addEventListener('click', function (e) {
     const row = e.target.closest('.hc-opt');
     if (!row || !hoverState.id) return;
     e.preventDefault();
     e.stopPropagation();
     if (state.ui.mode !== 'select') return;
-    toggleOption(hoverState.id, row.getAttribute('data-opt-id'));
+    const cardId = hoverState.id;
+    const optId = row.getAttribute('data-opt-id');
+    toggleOption(cardId, optId);
+    if (hoverState.shown) showOptionCard(cardId, optId);
   });
   $('#viewport').addEventListener('wheel', hideHoverCard, { passive: true });
 
@@ -5178,8 +5359,9 @@ function runSelfTest() {
 
   check('正文溢出 / 可滚动', () => {
     const c = layoutCardContent({
-      id: '__long_body__', title: 'T', body: new Array(20).fill('长正文内容测试'),
-      tags: ['广告'], categoryId: 'cat_none', note: 'PM'
+      id: '__long_body__', title: 'T', body: [],
+      tags: ['广告'], categoryId: 'cat_none', note: 'PM',
+      options: new Array(20).fill(0).map(function (_, i) { return { id: 'opt_long_' + i, title: '长正文内容测试', categoryId: 'cat_none', tags: ['广告'], desc: '', image: null }; })
     }, LAY.cardW, false);
     if (!c.bodyOverflow) throw new Error('未识别正文溢出');
     if (!(c.bodyScrollMax > 0)) throw new Error('滚动范围异常');
@@ -5187,13 +5369,13 @@ function runSelfTest() {
     return true;
   });
 
-  check('无已选标签 / 未选 0.35 / 无勾选标 / 导出无滚动条', () => {
+  check('无已选标签 / 未选 0.72 / 无勾选标 / 导出无滚动条', () => {
     const layout = computeLayout({ scope: 'all' });
     const svg = exportSVGString(layout);
     if (svg.indexOf('>已选</text>') >= 0) throw new Error('仍存在已选标签');
     if (svg.indexOf('data-toggle') >= 0) throw new Error('仍存在右上角勾选标');
     const screenSvg = buildBoardMarkup(layout, { dim: true });
-    if (selectedSet().size < state.cards.length && screenSvg.indexOf('opacity="0.35"') < 0) throw new Error('未选卡片未淡化');
+    if (selectedSet().size < state.cards.length && screenSvg.indexOf('opacity="0.72"') < 0) throw new Error('未选卡片未淡化');
     if (APP_CSS_SOURCE.indexOf('.card[data-selected="0"]:hover') < 0) throw new Error('缺少悬停亮起样式');
     if (svg.indexOf('data-scroll-thumb') >= 0) throw new Error('导出不应包含滚动条');
     if (svg.indexOf('bodyClip_') < 0) throw new Error('缺少正文裁切');
@@ -5245,7 +5427,9 @@ function runSelfTest() {
   });
 
   check('选中切换 + 撤销', () => {
-    const id = state.cards[0].id;
+    const card = state.cards[0];
+    const id = card.id;
+    if (!selectedOptionIds(id).length) toggleOption(id, optionsOf(card)[0].id);
     const before = activeProject().selected.length;
     toggleSelected(id);
     const after = activeProject().selected.length;
@@ -5258,9 +5442,10 @@ function runSelfTest() {
   check('项目隔离（切换不串选）', () => {
     const pid = uid('prj');
     const prev = state.ui.activeProjectId;
-    state.projects.push({ id: pid, name: '临时测试', selected: [], createdAt: nowISO(), updatedAt: nowISO() });
+    state.projects.push({ id: pid, name: '临时测试', selected: [], optionSelections: {}, createdAt: nowISO(), updatedAt: nowISO() });
     state.ui.activeProjectId = pid;
-    toggleSelected(state.cards[1].id);
+    const tempCard = state.cards[1];
+    if (!selectedOptionIds(tempCard.id).length) toggleOption(tempCard.id, optionsOf(tempCard)[0].id);
     if (state.projects.find(p => p.id === pid).selected.length !== 1) throw new Error('新项目选中异常');
     state.ui.activeProjectId = prev;
     if (activeProject().selected.indexOf(state.cards[1].id) >= 0 && state.cards[1].id !== state.cards[0].id) {
@@ -5365,12 +5550,12 @@ function runSelfTest() {
 
   check('超长正文截断（≤ 8 行）', () => {
     const card = state.cards[0];
-    const old = card.body;
-    card.body = ['这是一段非常长的正文内容用来测试自动换行与截断逻辑'.repeat(12)];
+    const old = card.options;
+    card.options = [{ id: 'opt_truncate', title: '这是一段非常长的正文内容用来测试自动换行与截断逻辑'.repeat(12), categoryId: 'cat_none', tags: [], desc: '', image: null }];
     const l = computeLayout({ scope: 'all' });
     const blk = l.cardIndex[card.id];
     if (blk.bodyLines.length > 8) throw new Error('未截断：' + blk.bodyLines.length);
-    card.body = old;
+    card.options = old;
     return true;
   });
 
@@ -5378,10 +5563,9 @@ function runSelfTest() {
     const card = state.cards[0];
     const old = card.categoryId;
     card.categoryId = 'cat_not_exist';
-    const l = computeLayout({ scope: 'all' });
-    const blk = l.cardIndex[card.id];
+    const blk = layoutCardContent(card, LAY.cardW, false);
     card.categoryId = old;
-    if (!blk || blk.color !== CARD_COLOR_DEFAULT) throw new Error('未知分类未回落默认色');
+    if (!blk || blk.catId !== 'cat_none' || blk.color !== CARD_COLOR_DEFAULT) throw new Error('未知分类未回落未分类/默认色');
     return true;
   });
 
@@ -5542,7 +5726,7 @@ function runSelfTest() {
       body: [], desc: '', note: '', tags: [], categoryId: 'cat_none', customColor: null,
       shots: [], updatedAt: future
     });
-    inc.projects[0].selected = inc.projects[0].selected.concat([inc.cards[0].id]);
+    inc.projects[0].name = '对方项目名';
     inc.projects[0].updatedAt = future;
     const plan = buildMergePlan({ state: inc, images: {}, by: '同事', exportedAt: future });
     if (!plan.added.some(function (x) { return x.card.id === '__merge_new__'; })) throw new Error('未识别新增');
@@ -5611,29 +5795,24 @@ function runSelfTest() {
     return true;
   });
 
-  check('分享图片按 shot 内嵌', () => {
+  check('分享图片按选项图片内嵌', () => {
     const card = state.cards[0];
-    const ids = ['shot_share_a', 'shot_share_b'];
+    const id = 'optimg_share_a';
     const tiny = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==';
-    saveShot(ids[0], tiny);
-    saveShot(ids[1], tiny);
-    const old = clone(card.shots);
-    patchCard(card.id, {
-      shots: [
-        { id: ids[0], title: 'A', mime: 'image/png', w: 1, h: 1, updatedAt: nowISO() },
-        { id: ids[1], title: 'B', mime: 'image/png', w: 1, h: 1, updatedAt: nowISO() }
-      ]
-    }, { history: false, log: false });
+    saveShot(id, tiny);
+    const old = clone(card.options);
+    const next = clone(card.options);
+    next[0].image = { id: id, mime: 'image/png', w: 1, h: 1, updatedAt: nowISO() };
+    patchCard(card.id, { options: next }, { history: false, log: false });
     let ok = false;
     try {
       const parsed = extractSeedFromHTML(buildShareHTML().html);
-      ok = ids.every(function (id) { return !!parsed.images[id]; });
+      ok = !!parsed.images[id];
     } finally {
-      patchCard(card.id, { shots: old }, { history: false, log: false });
-      removeShot(ids[0]);
-      removeShot(ids[1]);
+      patchCard(card.id, { options: old }, { history: false, log: false });
+      removeShot(id);
     }
-    if (!ok) throw new Error('分享未包含全部图片');
+    if (!ok) throw new Error('分享未包含选项图片');
     return true;
   });
 
@@ -5741,6 +5920,71 @@ function runSelfTest() {
     return true;
   });
 
+  check('无选项模块不能选中 / 最后一项取消自动移出', () => {
+    const p = activeProject();
+    const savedSel = p.selected.slice();
+    const savedMap = clone(p.optionSelections || {});
+    const card = state.cards.find(function (c) { return optionsOf(c).length > 0; });
+    const opt = optionsOf(card)[0];
+    p.selected = [];
+    p.optionSelections = {};
+    if (canSelectCard(card.id)) throw new Error('空选项被判定为可选');
+    toggleSelected(card.id);
+    if (p.selected.indexOf(card.id) >= 0) throw new Error('空选项模块被选中');
+    toggleOption(card.id, opt.id);
+    if (p.selected.indexOf(card.id) < 0) throw new Error('选选项未加入模块');
+    toggleOption(card.id, opt.id);
+    if (p.selected.indexOf(card.id) >= 0) throw new Error('取消最后一项未移出模块');
+    if (selectedOptionIds(card.id).length) throw new Error('最后一项未清空');
+    p.selected = savedSel;
+    p.optionSelections = savedMap;
+    return true;
+  });
+
+  check('旧项目无选项选中被清空', () => {
+    const card = state.cards.find(function (c) { return optionsOf(c).length > 0; });
+    const s1 = normalizeState({
+      version: 1, categories: clone(CATEGORIES_DEFAULT), rows: clone(ROWS_DEFAULT),
+      cards: clone(state.cards),
+      projects: [{ id: 'p_legacy', name: '旧项目', selected: [card.id], optionSelections: {} }]
+    });
+    if (s1.projects[0].selected.length !== 0) throw new Error('旧选中未清空');
+    const s2 = normalizeState({
+      version: 1, categories: clone(CATEGORIES_DEFAULT), rows: clone(ROWS_DEFAULT),
+      cards: clone(state.cards),
+      projects: [{ id: 'p_keep', name: '保留', selected: [card.id], optionSelections: { [card.id]: [optionsOf(card)[0].id] } }]
+    });
+    if (s2.projects[0].selected.length !== 1) throw new Error('有选项的选中被误清');
+    return true;
+  });
+
+  check('卡片正文按选项显示粗黑/浅灰删除线', () => {
+    const p = activeProject();
+    const savedSel = p.selected.slice();
+    const savedMap = clone(p.optionSelections || {});
+    const card = state.cards.find(function (c) { return optionsOf(c).length >= 2; });
+    p.selected = [card.id];
+    p.optionSelections = { [card.id]: [optionsOf(card)[0].id] };
+    const blk = layoutCardContent(card, LAY.cardW, true);
+    if (!blk.bodyLines.some(function (l) { return l.selected; })) throw new Error('没有粗黑选中行');
+    if (!blk.bodyLines.some(function (l) { return !l.selected; })) throw new Error('没有浅灰未选行');
+    const svg = exportSVGString(computeLayout({ scope: 'all' }));
+    if (svg.indexOf('data-body-on="1"') < 0 || svg.indexOf('stroke="#7B8798"') < 0) throw new Error('SVG 未出现选中/删除线样式');
+    p.selected = savedSel;
+    p.optionSelections = savedMap;
+    return true;
+  });
+
+  check('没有已选选项时卡片不显示模块标签', () => {
+    const p = activeProject();
+    const savedMap = clone(p.optionSelections || {});
+    const card = state.cards.find(function (c) { return (c.tags || []).length > 0; });
+    p.optionSelections = {};
+    if (cardDisplayTags(card).length !== 0) throw new Error('仍回退模块标签');
+    p.optionSelections = savedMap;
+    return true;
+  });
+
   restore();
 
   const fails = results.filter(r => !r.ok);
@@ -5782,7 +6026,7 @@ async function runUITest() {
     ok('没有已选文字', selectedLabels === 0);
     ok('没有右上角勾选标', document.querySelectorAll('#board [data-toggle]').length === 0);
     const unselectedCard = document.querySelector('#board g.card[data-selected="0"]');
-    ok('未选卡片淡化', !unselectedCard || unselectedCard.getAttribute('opacity') === '0.35');
+    ok('未选卡片淡化', !unselectedCard || unselectedCard.getAttribute('opacity') === '0.72');
     ok('卡片有内置缩略图', document.querySelectorAll('#board g.card image').length >= 40);
     const firstThumb = document.querySelector('#board g.card rect.thumbFrame');
     const firstPanel = document.querySelector('#board g.card rect.cardPanel');
@@ -5790,16 +6034,17 @@ async function runUITest() {
       Number(firstThumb.getAttribute('width')) === 164 && Number(firstThumb.getAttribute('height')) === 92.25 &&
       Number(firstPanel.getAttribute('width')) === 154 &&
       !!(firstPanel.compareDocumentPosition(firstThumb) & Node.DOCUMENT_POSITION_FOLLOWING));
-    const bodyTextEl = Array.prototype.slice.call(document.querySelectorAll('#board g.card text')).filter(function (t) {
-      return t.getAttribute('font-size') === '11.5' && t.getAttribute('font-weight') === '400';
-    })[0];
-    ok('正文恢复常规字', !!bodyTextEl && bodyTextEl.getAttribute('fill') === '#4B5563');
+    const bodyTextEl = Array.prototype.slice.call(document.querySelectorAll('#board g.card text[data-body-on="0"]'))[0];
+    ok('未选选项变淡并删除线', !!bodyTextEl && bodyTextEl.getAttribute('fill') === '#98A2B3' && document.querySelector('#board g.card line[stroke="#7B8798"]') !== null);
     const firstBlock = view.layout.cardIndex[firstCardEl.getAttribute('data-card-id')];
     ok('正文下移到缩略图下方', !!firstBlock && (firstBlock.bodyTop - firstBlock.y) > (LAY.thumbY + LAY.thumbH));
     ok('窄屏列数减少', computeLayout({ scope: 'filtered', width: 360, chrome: true }).cols < view.layout.cols || view.layout.cols === 1);
     const id = cardEl.getAttribute('data-card-id');
+    const selectedCard = findCard(id);
+    if (!selectedOptionIds(id).length) toggleOption(id, optionsOf(selectedCard)[0].id);
+    await wait(30);
     const before = isSelected(id);
-    cardEl.dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 }));
+    document.querySelector('#board [data-card-id="' + id + '"]').dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 }));
     ok('点击卡片切换选中', isSelected(id) === !before);
 
     /* 缩略图上传 */
@@ -5882,32 +6127,16 @@ async function runUITest() {
     tctx.fillStyle = '#fff'; tctx.font = 'bold 40px sans-serif'; tctx.fillText('测试图片', 40, 70);
     const blob = await new Promise(function (resolve) { tcv.toBlob(function (b) { resolve(b); }, 'image/png'); });
     const tfile = new File([blob], '关卡结算.png', { type: 'image/png' });
-    const tfile2 = new File([blob], '奖励选择.png', { type: 'image/png' });
-    patchCard(id, { shots: [] }, { history: false, log: false });
-    await addShotFiles([tfile, tfile2]);
-    const addedShots = findCard(id).shots;
-    ok('多图上传函数（多选）', addedShots.length === 2 && hasShot(addedShots[0].id) && hasShot(addedShots[1].id));
-    ok('图片标题取文件名', addedShots[0].title === '关卡结算' && addedShots[1].title === '奖励选择', addedShots.map(function (s) { return s.title; }).join('|'));
-    const shotA = addedShots[0].id, shotB = addedShots[1].id;
-    patchCard(id, {
-      shots: addedShots.map(function (s, i) { return Object.assign({}, s, { title: i === 0 ? '图 1 · 关卡结算' : '图 2 · 奖励选择' }); })
-    }, { history: false, log: false });
-    await addShotFiles([tfile, tfile, tfile, tfile, tfile]);
-    ok('多图上限 6 张（上传）', findCard(id).shots.length === 6);
-    while (findCard(id).shots.length > 2) removeShotAt(findCard(id).shots[findCard(id).shots.length - 1].id);
-
-    const shotTitleInput = document.querySelector('#shotsList .shot-title');
-    if (shotTitleInput) shotTitleInput.focus();
-    shotTitleInput.value = '图 1 · 关卡结算 A';
-    shotTitleInput.dispatchEvent(new Event('input', { bubbles: true }));
-    shotTitleInput.value = '图 1 · 关卡结算 ABC';
-    shotTitleInput.dispatchEvent(new Event('input', { bubbles: true }));
-    ok('图片标题连续输入不丢焦点', document.activeElement === shotTitleInput && shotTitleInput.value === '图 1 · 关卡结算 ABC' && findCard(id).shots[0].title === '图 1 · 关卡结算 ABC');
-    shotTitleInput.value = '图 1 · 关卡结算';
-    shotTitleInput.dispatchEvent(new Event('input', { bubbles: true }));
-
     const compressed = await compressImageFile(tfile);
-    ok('图片压缩可用', compressed.dataUrl.indexOf('data:image/') === 0 && compressed.w === 640 && compressed.h === 360, compressed.mime);
+    ok('选项图片压缩可用', compressed.dataUrl.indexOf('data:image/') === 0 && compressed.w === 640 && compressed.h === 360, compressed.mime);
+    const optionImageId = 'optimg_ui_test';
+    saveShot(optionImageId, compressed.dataUrl);
+    const uiOptions = clone(findCard(id).options);
+    uiOptions[0].image = { id: optionImageId, mime: compressed.mime, w: compressed.w, h: compressed.h, updatedAt: nowISO() };
+    patchCard(id, { options: uiOptions }, { history: false, log: false });
+    await wait(30);
+    ok('选项图片写回模型', !!optionsOf(findCard(id))[0].image && hasShot(optionImageId));
+    ok('检查器显示选项图片', !!document.querySelector('#inspOptions .opt-image-thumb img'));
 
     const cb = document.getElementById('inspSelected');
     cb.checked = !isSelected(id);
@@ -5939,21 +6168,16 @@ async function runUITest() {
     const hcDebug = 'hidden=' + hc.classList.contains('hidden') + ',shown=' + hoverState.shown + ',block=' + !!(view.layout && view.layout.cardIndex[id]);
     ok('悬停到设定时间出现说明', !hc.classList.contains('hidden') && document.getElementById('hcTitle').textContent === findCard(id).title, hcDebug);
     ok('说明出现后进度条消失', hp.classList.contains('hidden'));
-    const hcBody = document.getElementById('hcBody');
-    const hcShots = document.getElementById('hcShots');
-    const hcImgs = hcShots.querySelectorAll('img');
-    const hcCaps = Array.from(hcShots.querySelectorAll('figcaption')).map(function (x) { return x.textContent; });
-    ok('说明文在图片上面', hcBody.textContent === '这是测试说明' && (hcBody.compareDocumentPosition(hcShots) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0);
-    ok('多图完整显示', hcImgs.length === 2 && getComputedStyle(hcImgs[0]).objectFit === 'contain' && getComputedStyle(hcImgs[0]).height !== '150px');
-    ok('图片带标题', hcCaps[0] === '图 1 · 关卡结算' && hcCaps[1] === '图 2 · 奖励选择', hcCaps.join('|'));
+    ok('主悬停只显示模块说明文字', document.getElementById('hcBody').textContent === '这是测试说明' && document.getElementById('hcShots').textContent === '' && document.getElementById('hcTags').textContent === '');
     ok('说明层不超出视口', hc.getBoundingClientRect().top >= 0 && hc.getBoundingClientRect().bottom <= window.innerHeight + 1);
-    ok('说明含分类与标签', document.getElementById('hcCat').textContent.length > 0 && document.getElementById('hcTags').textContent.length > 0);
     const optRows = Array.from(document.querySelectorAll('#hcOptList .hc-opt'));
     ok('悬停面板先显示功能选项', optRows.length === optionsOf(findCard(id)).length && optRows.length > 0, optRows.length + ' rows');
     const firstOpt = optionsOf(findCard(id))[0];
     optRows[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-    ok('悬停选项显示选项说明', document.getElementById('hcOptDesc').textContent === (firstOpt.desc || '这个选项还没有说明'));
-    ok('选项带分类与标签', optRows[0].querySelectorAll('.hc-opt-cat').length === 1 && optRows[0].querySelectorAll('.hc-opt-tag').length === (firstOpt.tags || []).length);
+    await wait(30);
+    const oc = document.getElementById('optionCard');
+    ok('悬停选项打开独立说明窗', !oc.classList.contains('hidden') && document.getElementById('ocTitle').textContent === firstOpt.title);
+    ok('选项说明窗含内容/标签/图', document.getElementById('ocDesc').textContent.length > 0 && document.getElementById('ocTags').querySelectorAll('.oc-tag').length === (firstOpt.tags || []).length && (firstOpt.image ? document.querySelector('#ocImage img, #ocImage .oc-missing') : true));
     const optBefore = selectedOptionIds(id).slice();
     optRows[0].dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 }));
     await wait(30);
@@ -5962,12 +6186,12 @@ async function runUITest() {
     ok('选项改变卡片颜色', view.layout.cardIndex[id].color === cardColor(findCard(id), isSelected(id)));
     el3.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }));
     await wait(450);
-    ok('移开后说明消失', hc.classList.contains('hidden'));
+    ok('移开后说明消失', hc.classList.contains('hidden') && oc.classList.contains('hidden'));
     setHoverDelay(1);
 
     /* 正文滚动 */
-    const originalBody = clone(findCard(id).body);
-    patchCard(id, { body: new Array(20).fill('正文滚动测试') }, { history: false, log: false });
+    const originalOptions = clone(findCard(id).options);
+    patchCard(id, { options: new Array(20).fill(0).map(function (_, i) { return { id: 'opt_scroll_' + i, title: '正文滚动测试', categoryId: 'cat_none', tags: [], desc: '', image: null }; }) }, { history: false, log: false });
     renderBoard();
     await wait(40);
     const scrollBlock = view.layout.cardIndex[id];
@@ -5976,7 +6200,7 @@ async function runUITest() {
     await wait(30);
     ok('正文可滚动', !!scrollBlock && scrollBlock.bodyOverflow && view.scroll[id] > 0 &&
       document.querySelector('[data-body-scroll="' + id + '"]').getAttribute('transform').indexOf('translate(0,-') === 0);
-    patchCard(id, { body: originalBody }, { history: false, log: false });
+    patchCard(id, { options: originalOptions }, { history: false, log: false });
     delete view.scroll[id];
     renderBoard();
     await wait(30);
@@ -6002,8 +6226,9 @@ async function runUITest() {
     let parsed = null;
     try { parsed = JSON.parse(share.html.slice(start, end)); } catch (e) { parsed = null; }
     ok('分享种子可解析', !!parsed && !!parsed.seedId && parsed.state.cards.length === state.cards.length);
-    ok('分享图片随文件带走', !!(parsed && parsed.images && parsed.images[shotA] && parsed.images[shotB]));
-    ok('分享保留多图元信息', !!parsed && parsed.state.cards.find(function (c) { return c.id === id; }).shots.length === 2);
+    ok('分享选项图片随文件带走', !!(parsed && parsed.images && parsed.images[optionImageId]));
+    ok('分享保留选项图片元信息', !!parsed && parsed.state.cards.find(function (c) { return c.id === id; }).options[0].image.id === optionImageId);
+    removeShot(optionImageId);
 
     /* 协作面板 */
     document.querySelector('#shareTabs [data-tab="collab"]').click();
@@ -6157,7 +6382,7 @@ function init() {
     loaded = normalizeState(NS.seed.state);
     loaded.meta.shared = loaded.meta.shared || { seedId: NS.seed.seedId, from: NS.seed.sharedBy || '未署名', at: NS.seed.sharedAt || nowISO() };
   }
-  state = loaded || defaultState();
+  state = normalizeState(loaded || defaultState());
   ensureNewCards();
   const params = new URLSearchParams(location.search);
   if (params.get('mode') === 'edit' || params.get('inspect')) state.ui.mode = 'edit';
