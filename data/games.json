@@ -3,14 +3,29 @@
     "id": "prj_demo",
     "name": "示例游戏",
     "selected": [
-      "card_random_reward"
+      "card_level_struct"
     ],
     "optionSelections": {
       "card_random_reward": [
-        "opt_card_random_reward_1"
+        "opt_h3895xjd8n"
+      ],
+      "card_level_struct": [
+        "opt_card_level_struct_0"
+      ],
+      "card_level_result": [
+        "opt_card_level_result_0",
+        "opt_card_level_result_1"
       ]
     },
     "createdAt": "2026-10-28T11:04:25.449Z",
-    "updatedAt": "2026-10-29T03:30:22.410Z"
+    "updatedAt": "2026-10-29T08:18:54.757Z"
+  },
+  {
+    "id": "prj_b5iirdu33k",
+    "name": "绝密行动",
+    "selected": [],
+    "optionSelections": {},
+    "createdAt": "2026-10-29T08:30:01.712Z",
+    "updatedAt": "2026-10-29T08:30:01.712Z"
   }
 ]

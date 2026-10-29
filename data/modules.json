@@ -80,7 +80,7 @@
     "options": [
       {
         "id": "opt_card_shop_1",
-        "title": "货币",
+        "title": "使用货币",
         "categoryId": "cat_paid",
         "tags": [
           "付费",
@@ -179,7 +179,7 @@
       "宝箱结算",
       "随机出奖励"
     ],
-    "note": "WWMJ",
+    "note": "",
     "desc": "通关后按宝箱或权重随机出奖励，用不确定性制造惊喜。适合配合保底与图鉴收集；注意随机落差过大容易让玩家觉得被针对。",
     "options": [
       {
@@ -222,7 +222,7 @@
     "options": [
       {
         "id": "opt_card_bundle_0",
-        "title": "新手礼包",
+        "title": "人群专属礼包",
         "categoryId": "cat_paid",
         "tags": [
           "付费",
@@ -251,17 +251,6 @@
           "售卖容器"
         ],
         "desc": "新手、首购、节日、免广告、卡关触发等礼包。适合做转化钩子；注意触发时机要克制，资源不足时弹礼包容易引发反感。",
-        "image": null
-      },
-      {
-        "id": "opt_h49xfra2xp",
-        "title": "道具礼包",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费",
-          "售卖容器"
-        ],
-        "desc": "",
         "image": null
       }
     ]
@@ -380,11 +369,10 @@
       },
       {
         "id": "opt_card_level_result_1",
-        "title": "奖励翻倍",
+        "title": "奖励翻倍功能",
         "categoryId": "cat_ad",
         "tags": [
-          "广告",
-          "VIP"
+          "广告"
         ],
         "desc": "结算时给基础奖励，并提供看广告翻倍、奖励 N 选 n、看广告全拿等加成。适合做高频广告点；注意别让翻倍变成必看，否则会打断连续游玩。",
         "image": null
@@ -397,6 +385,16 @@
           "广告"
         ],
         "desc": "结算时给基础奖励，并提供看广告翻倍、奖励 N 选 n、看广告全拿等加成。适合做高频广告点；注意别让翻倍变成必看，否则会打断连续游玩。",
+        "image": null
+      },
+      {
+        "id": "opt_o0yc9b5g43",
+        "title": "VIP双倍奖励",
+        "categoryId": "cat_ad",
+        "tags": [
+          "VIP"
+        ],
+        "desc": "",
         "image": null
       }
     ]
@@ -516,7 +514,7 @@
       },
       {
         "id": "opt_card_booster_1",
-        "title": "使用金币",
+        "title": "使用货币",
         "categoryId": "cat_ad",
         "tags": [
           "付费"
@@ -526,7 +524,7 @@
       },
       {
         "id": "opt_card_booster_2",
-        "title": "额外强力道具",
+        "title": "强力道具",
         "categoryId": "cat_ad",
         "tags": [
           "广告",
@@ -560,13 +558,24 @@
     "options": [
       {
         "id": "opt_card_vip_4",
-        "title": "不同权益",
+        "title": "低等级",
         "categoryId": "cat_paid",
         "tags": [
           "付费",
           "权益商品"
         ],
         "desc": "VIP、月卡、内容订阅，提供每日补给、双倍奖励、成长栏位、免费复活等持续权益。适合做稳定付费；注意权益要可感知，续费提醒要柔和。",
+        "image": null
+      },
+      {
+        "id": "opt_p6m9dnyh52",
+        "title": "高等级",
+        "categoryId": "cat_paid",
+        "tags": [
+          "付费",
+          "权益商品"
+        ],
+        "desc": "",
         "image": null
       }
     ]
@@ -768,11 +777,11 @@
       },
       {
         "id": "opt_card_boost_1",
-        "title": "限时能力 / 下局增益",
+        "title": "限时能力",
         "categoryId": "cat_ad",
         "tags": [
           "广告",
-          "消耗"
+          "货币"
         ],
         "desc": "提供开局强化、收益加成、限时能力或下局增益，用广告或资源兑换。适合用来消化卡关与长草期；注意限时增益的到期提示要清楚。",
         "image": null
@@ -868,7 +877,7 @@
     "options": [
       {
         "id": "opt_card_checkin_0",
-        "title": "签到",
+        "title": "基础领取",
         "categoryId": "cat_retention",
         "tags": [
           "留存",
@@ -879,7 +888,7 @@
       },
       {
         "id": "opt_card_checkin_1",
-        "title": "广告领双倍",
+        "title": "看广告领双倍",
         "categoryId": "cat_retention",
         "tags": [
           "留存",
@@ -909,13 +918,32 @@
     "options": [
       {
         "id": "opt_card_free_chest_0",
-        "title": "阶段领取",
+        "title": "免费领取",
+        "categoryId": "cat_ad",
+        "tags": [],
+        "desc": "免费，小任务，广告，付费领取",
+        "image": null
+      },
+      {
+        "id": "opt_5ifpui8ite",
+        "title": "看广告领取",
         "categoryId": "cat_ad",
         "tags": [
           "广告",
           "付费"
         ],
-        "desc": "免费，小任务，广告，付费领取",
+        "desc": "",
+        "image": null
+      },
+      {
+        "id": "opt_6suhuj8qlz",
+        "title": "付费领取",
+        "categoryId": "cat_ad",
+        "tags": [
+          "广告",
+          "付费"
+        ],
+        "desc": "",
         "image": null
       }
     ]
@@ -939,12 +967,23 @@
     "options": [
       {
         "id": "opt_card_vip_event_0",
-        "title": "VIP专属奖励",
+        "title": "低等级VIP领取",
         "categoryId": "cat_paid",
         "tags": [
           "VIP"
         ],
         "desc": "给 VIP 用户开放专属图包、活动或额外领取。适合做会员权益的持续感知；注意专属内容要有实用价值，而不只是标签。",
+        "image": null
+      },
+      {
+        "id": "opt_ptumij5lr2",
+        "title": "高等级VIP领取",
+        "categoryId": "cat_paid",
+        "tags": [
+          "付费",
+          "VIP"
+        ],
+        "desc": "",
         "image": null
       }
     ]
@@ -1001,7 +1040,7 @@
     "options": [
       {
         "id": "opt_card_challenge_0",
-        "title": "使用挑战券",
+        "title": "使用广告/货币/资源",
         "categoryId": "cat_retention",
         "tags": [
           "广告",
@@ -1064,6 +1103,17 @@
           "留存"
         ],
         "desc": "按赛季提供免费轨与付费轨奖励，驱动日活与付费转化。适合有稳定内容更新的项目；注意免费轨也要有可感知的价值。",
+        "image": null
+      },
+      {
+        "id": "opt_qd2abj84mo",
+        "title": "付费轨",
+        "categoryId": "cat_paid",
+        "tags": [
+          "付费",
+          "留存"
+        ],
+        "desc": "",
         "image": null
       }
     ]
