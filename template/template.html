@@ -314,6 +314,28 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-tag{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#5B6573}
 .hc-foot{border-top:1px solid var(--line2);padding:7px 14px;font-size:11px;color:var(--muted2);background:#FCFCFD;margin-top:auto;flex:none}
 .option-card{position:fixed;z-index:95;width:360px;max-height:min(72vh,680px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 46px rgba(16,24,40,.24),0 4px 10px rgba(16,24,40,.08);overflow:hidden;display:flex;flex-direction:column}
+.picker-modal{width:940px;max-width:100%;max-height:92vh}
+.picker-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;min-height:0;overflow:hidden;padding:16px 18px}
+.picker-left{border:1px solid var(--line);border-radius:12px;padding:12px;background:#FAFBFC;min-width:0}
+.picker-left img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#E9EDF2;display:block}
+.picker-left h3{font-size:16px;margin:10px 0 4px}
+.picker-left p{font-size:11.5px;line-height:1.6;color:var(--muted);margin:0 0 8px;white-space:pre-wrap}
+.picker-left .picker-tags{display:flex;gap:4px;flex-wrap:wrap}
+.picker-right{overflow:auto;min-height:0;padding-right:2px}
+.picker-group{border:1px solid #E3E9F2;border-radius:10px;padding:9px 10px;margin-bottom:9px;background:#FCFDFE}
+.picker-group.on{border-color:#9FB8F5;background:#F7FAFF}
+.picker-group-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.picker-group-title{font-weight:700;font-size:12.5px;color:#344054}
+.picker-group-count{font-size:10.5px;color:#98A2B3}
+.picker-group-actions{display:flex;gap:6px;margin-top:6px}
+.picker-opt{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;border-radius:7px;cursor:pointer;border:1px solid transparent}
+.picker-opt:hover{background:#F4F7FC}
+.picker-opt.on{background:#EEF5FF;border-color:#C9D8F5}
+.picker-opt-check{width:15px;height:15px;flex:none;margin-top:1px;border:1.5px solid #B7C0CE;border-radius:4px;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px}
+.picker-opt.on .picker-opt-check{background:#3FAE8F;border-color:#3FAE8F}
+.picker-opt-title{font-size:12px;line-height:1.45;color:#344054;word-break:break-word}
+.picker-opt.on .picker-opt-title{font-weight:600;color:#182230}
+@media(max-width:720px){.picker-grid{grid-template-columns:1fr;overflow:auto}.picker-left{display:none}.picker-modal{height:92vh;max-height:92vh}}
 .oc-head{padding:12px 14px 8px;border-bottom:1px solid var(--line2);flex:none}
 .oc-title{font-weight:800;font-size:16px;line-height:1.35;color:var(--text)}
 .oc-meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
@@ -410,7 +432,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.1.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.2.0</small></div>
     </div>
     <div class="proj-btn static" id="projectBtn" title="默认配置">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -750,6 +772,23 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <div class="oc-foot" id="ocFoot">编辑模式可编辑选项</div>
 </div>
 
+<div id="optionPicker" class="dialog hidden" role="dialog" aria-modal="true">
+  <div class="modal picker-modal">
+    <div class="modal-head">
+      <div><h3 id="pickerTitle">选择选项</h3><div class="sub">勾选后点「确认」才生效</div></div>
+      <button class="icon-btn" id="pickerClose" title="关闭">×</button>
+    </div>
+    <div class="modal-body picker-grid">
+      <div class="picker-left" id="pickerCard"></div>
+      <div class="picker-right" id="pickerGroups"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="pickerClear" type="button">清空选择</button>
+      <button class="btn primary" id="pickerConfirm" type="button">确认</button>
+    </div>
+  </div>
+</div>
+
 <!-- 悬停等待进度 -->
 <div id="hoverProgress" class="hover-progress hidden"><i id="hoverProgressBar"></i></div>
 
@@ -792,7 +831,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.1.0';
+const APP_VERSION = '4.2.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -3539,6 +3578,7 @@ function cancelHoverTimers() {
   clearTimeout(hoverState.hideTimer);
 }
 function scheduleHoverCard(cardId) {
+  if (pickerState.cardId) return;
   cancelHoverTimers();
   if (hoverState.id === cardId && hoverState.shown) return;
   hideHoverCard();
@@ -3547,6 +3587,7 @@ function scheduleHoverCard(cardId) {
   hoverState.showTimer = setTimeout(function () { showHoverCard(cardId); }, hoverDelayMs());
 }
 function showHoverCard(cardId) {
+  if (pickerState.cardId) return;
   hoverState.id = cardId;
   stopHoverProgress();
   const card = findCard(cardId);
@@ -3649,6 +3690,71 @@ function scheduleHideOptionCard() {
   cancelOptionHide();
   optionState.hideTimer = setTimeout(function () { hideOptionCard(); }, 260);
 }
+const pickerState = { cardId: null, draft: new Set(), original: new Set() };
+function pickerSelected(id) { return pickerState.draft.has(id); }
+function openOptionPicker(cardId) {
+  const card = findCard(cardId); if (!card) return;
+  hideHoverCard(); hideOptionCard(); cancelHoverTimers();
+  pickerState.cardId = cardId;
+  pickerState.draft = new Set(selectedOptionIds(cardId));
+  pickerState.original = new Set(pickerState.draft);
+  $('#pickerTitle').textContent = card.title || '选择选项';
+  renderOptionPicker();
+  $('#optionPicker').classList.remove('hidden');
+}
+function closeOptionPicker() {
+  pickerState.cardId = null;
+  pickerState.draft = new Set(); pickerState.original = new Set();
+  $('#optionPicker').classList.add('hidden');
+}
+function renderOptionPicker() {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  const thumb = getThumb(card);
+  const tags = cardDisplayTags(card);
+  const groups = topOptionsOf(card);
+  const selectedTitles = [];
+  groups.forEach(function (g) { const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length; if (n) selectedTitles.push(g.title + ' ' + n + ' 项'); });
+  $('#pickerCard').innerHTML = (thumb ? '<img src="' + escAttr(thumb) + '" alt="">' : '<div class="picker-noimg">无缩略图</div>') +
+    '<h3>' + esc(card.title) + '</h3><p>' + esc(card.desc || '') + '</p>' +
+    '<div class="picker-tags">' + tags.map(function (t) { return '<span class="hc-tag">' + esc(t) + '</span>'; }).join('') + '</div>' +
+    (selectedTitles.length ? '<p style="margin-top:8px;color:#475467">已选：' + esc(selectedTitles.join(' · ')) + '</p>' : '');
+  $('#pickerGroups').innerHTML = groups.length ? groups.map(function (g, gi) {
+    const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length;
+    return '<div class="picker-group' + (n ? ' on' : '') + '" data-picker-group="' + escAttr(g.id) + '">' +
+      '<div class="picker-group-head"><span class="picker-group-title">' + esc(g.title) + '</span><span class="picker-group-count">' + n + ' / ' + g.options.length + '</span></div>' +
+      (g.options || []).map(function (o) {
+        return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
+          '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+      }).join('') +
+      '<div class="picker-group-actions"><button class="btn sm" type="button" data-picker-all="' + escAttr(g.id) + '">全选</button><button class="btn sm" type="button" data-picker-none="' + escAttr(g.id) + '">清空</button></div></div>';
+  }).join('') : '<div class="field-hint">这个模块还没有选项</div>';
+}
+function togglePickerLeaf(optId) {
+  if (!pickerState.cardId) return;
+  if (pickerState.draft.has(optId)) pickerState.draft.delete(optId); else pickerState.draft.add(optId);
+  renderOptionPicker();
+}
+function pickerGroupSet(groupId, on) {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  topOptionsOf(card).forEach(function (g) { if (g.id !== groupId) return; (g.options || []).forEach(function (o) { if (on) pickerState.draft.add(o.id); else pickerState.draft.delete(o.id); }); });
+  renderOptionPicker();
+}
+function confirmOptionPicker() {
+  const cardId = pickerState.cardId; if (!cardId) return;
+  const draft = Array.from(pickerState.draft); const original = Array.from(pickerState.original).sort();
+  if (draft.slice().sort().join('|') === original.join('|')) { closeOptionPicker(); return; }
+  const label = '选择「' + (findCard(cardId) || {}).title + '」选项';
+  closeOptionPicker();
+  commit(function (s) {
+    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
+    const set = new Set(Array.isArray(s.defaults.selected) ? s.defaults.selected : []);
+    if (draft.length) { set.add(cardId); s.defaults.optionSelections[cardId] = draft; }
+    else { set.delete(cardId); delete s.defaults.optionSelections[cardId]; }
+    s.defaults.selected = Array.from(set);
+    syncProjectSelections(s, true);
+  }, { scope: 'selection', label: label });
+}
+function clearOptionPicker() { pickerState.draft = new Set(); renderOptionPicker(); }
 function fillOptionCard(card, option) {
   const on = selectedOptionIds(card.id).indexOf(option.id) >= 0;
   $('#ocTitle').textContent = option.title || '未命名选项';
@@ -4648,7 +4754,7 @@ function onBoardClick(e) {
     return;
   }
   const id = cardEl.getAttribute('data-card-id');
-  if (state.ui.mode === 'select') { toggleSelected(id); return; }
+  if (state.ui.mode === 'select') { openOptionPicker(id); return; }
   openInspector(id);
 }
 function onBoardDblClick(e) {
@@ -4850,6 +4956,15 @@ function bindUI() {
 
   $('#editPromptDialog').addEventListener('click', e => {
     if (e.target === $('#editPromptDialog')) closeEditPrompt();
+  });
+  $('#pickerClose').addEventListener('click', closeOptionPicker);
+  $('#pickerConfirm').addEventListener('click', confirmOptionPicker);
+  $('#pickerClear').addEventListener('click', clearOptionPicker);
+  $('#optionPicker').addEventListener('click', function (e) {
+    if (e.target === $('#optionPicker')) { closeOptionPicker(); return; }
+    const all = e.target.closest('[data-picker-all]'); if (all) { pickerGroupSet(all.getAttribute('data-picker-all'), true); return; }
+    const none = e.target.closest('[data-picker-none]'); if (none) { pickerGroupSet(none.getAttribute('data-picker-none'), false); return; }
+    const opt = e.target.closest('[data-picker-opt]'); if (opt) { togglePickerLeaf(opt.getAttribute('data-picker-opt')); return; }
   });
 
   document.addEventListener('pointerdown', e => {
@@ -5348,6 +5463,7 @@ function bindUI() {
 
   /* 键盘 */
   document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && pickerState.cardId) { e.preventDefault(); closeOptionPicker(); return; }
     const tag = (e.target.tagName || '').toLowerCase();
     const typing = tag === 'input' || tag === 'textarea' || e.target.isContentEditable;
     if (e.key === 'Escape') { if (closeTopOverlays()) e.preventDefault(); return; }
