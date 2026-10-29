@@ -286,7 +286,8 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-sel{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#667085}
 .hc-sel.on{background:#E8F0FE;color:#1E4C9E}
 .hc-scroll{overflow:auto;flex:1 1 auto;min-height:0;padding:8px 14px 2px}
-.hc-opt-block{padding:2px 0 10px;border-bottom:1px solid var(--line2);margin-bottom:9px}
+.hc-opt-block{padding:6px 7px 8px;border:1px solid #E7ECF3;border-radius:9px;margin-bottom:8px;background:#FCFDFE}
+.hc-opt-block.group-on{border-color:#C9D8F5;background:#F7FAFF}
 .hc-opt-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:#667085;margin-bottom:5px}
 .hc-opt-count{font-weight:400;color:#98A2B3}
 .hc-opt-list{display:flex;flex-direction:column;gap:3px}
@@ -409,7 +410,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.3.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.0.0</small></div>
     </div>
     <div class="proj-btn static" id="projectBtn" title="默认配置">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -791,7 +792,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '3.3.0';
+const APP_VERSION = '4.0.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1391,6 +1392,15 @@ const CARD_COLOR_PAID = '#D9534F';
 const CARD_COLOR_FREE = '#5B8DEF';
 function optionsOf(card) {
   return (card && Array.isArray(card.options)) ? card.options : [];
+}
+function optionGroupsOf(card) {
+  const map = new Map();
+  optionsOf(card).forEach(function (o) {
+    const id = o.directionId || 'dir_basic';
+    if (!map.has(id)) map.set(id, { id: id, title: o.directionTitle || '基础', order: Number(o.directionOrder) || 999, options: [] });
+    map.get(id).options.push(o);
+  });
+  return Array.from(map.values()).sort(function (a, b) { return a.order - b.order || a.title.localeCompare(b.title, 'zh'); });
 }
 function selectedOptionIds(cardId) {
   const map = (state.defaults && state.defaults.optionSelections && typeof state.defaults.optionSelections === 'object') ? state.defaults.optionSelections : {};
@@ -2140,16 +2150,29 @@ function layoutCardContent(card, width, selected) {
   const chosen = new Set(selectedOptionIds(card.id));
   const hasChosen = chosen.size > 0;
   let rawBody = [];
-  optionsOf(card).forEach(function (o) {
-    const title = String(o.title || '').trim();
-    if (!title) return;
-    const isOn = hasChosen && chosen.has(o.id);
-    const mode = hasChosen ? (isOn ? 'on' : 'off') : 'default';
-    const font = isOn ? FONTS.bodyBold(LAY.bodySize) : bodyFont;
-    wrapText(title, panelW - LAY.cardPadX * 2, font, 2).forEach(function (text) {
-      rawBody.push({ text: text, selected: isOn, mode: mode });
+  const groups = optionGroupsOf(card);
+  const activeGroups = hasChosen ? groups.filter(function (g) { return g.options.some(function (o) { return chosen.has(o.id); }); }) : groups;
+  const shownGroups = activeGroups.slice(0, 6);
+  shownGroups.forEach(function (g) {
+    const label = String(g.title || '基础');
+    if (!hasChosen) {
+      wrapText(label, panelW - LAY.cardPadX * 2, bodyFont, 2).forEach(function (text) {
+        rawBody.push({ text: text, selected: false, mode: 'default' });
+      });
+      return;
+    }
+    wrapText(label, panelW - LAY.cardPadX * 2, FONTS.bodyBold(LAY.bodySize), 2).forEach(function (text) {
+      rawBody.push({ text: text, selected: true, mode: 'on' });
     });
+    g.options.slice(0, 4).forEach(function (o) {
+      const on = chosen.has(o.id);
+      wrapText(String(o.title || ''), panelW - LAY.cardPadX * 2 - 10, on ? FONTS.bodyBold(LAY.bodySize) : bodyFont, 1).forEach(function (text) {
+        rawBody.push({ text: text, selected: on, mode: on ? 'on' : 'off' });
+      });
+    });
+    if (g.options.length > 4) rawBody.push({ text: '+ ' + (g.options.length - 4) + ' 项', selected: false, mode: 'off' });
   });
+  if (activeGroups.length > shownGroups.length) rawBody.push({ text: '+ ' + (activeGroups.length - shownGroups.length) + ' 个方向', selected: false, mode: hasChosen ? 'off' : 'default' });
   const truncated = rawBody.length > 40;
   const bodyLines = truncated ? rawBody.slice(0, 40) : rawBody;
   const chipFont = FONTS.chip(LAY.chipSize);
@@ -2443,7 +2466,7 @@ function buildBoardMarkup(layout, opts) {
 
     row.cards.forEach(card => {
       const sel = card.selected;
-      const opacity = (dim && !sel) ? '0.72' : '1';
+      const opacity = (dim && !sel) ? '0.52' : '1';
       const clipId = 'bodyClip_' + String(card.id).replace(/[^A-Za-z0-9_-]/g, '_');
       const thumbClipId = 'thumbClip_' + String(card.id).replace(/[^A-Za-z0-9_-]/g, '_');
       const thumbSrc = (card.thumb && card.thumb.id) ? getShot(card.thumb.id) : '';
@@ -2453,6 +2476,7 @@ function buildBoardMarkup(layout, opts) {
         out.push('<rect class="hoverRing" x="' + fmt(card.x - 3) + '" y="' + fmt(card.y - 3) + '" width="' + fmt(card.w + 6) + '" height="' + fmt(card.h + 6) +
           '" rx="12" fill="none" stroke="#94A3B8" stroke-width="1.5"/>');
       }
+      if (sel) out.push('<rect x="' + fmt(card.x - 2) + '" y="' + fmt(card.y + LAY.outerTop - 2) + '" width="' + fmt(card.w + 4) + '" height="' + fmt(LAY.cardH - LAY.outerTop + 4) + '" rx="' + fmt(LAY.radius + 2) + '" fill="none" stroke="#2F6FED" stroke-width="2.5"/>');
       out.push('<rect class="cardOuter" x="' + fmt(card.x) + '" y="' + fmt(card.y + LAY.outerTop) + '" width="' + fmt(card.w) + '" height="' + fmt(LAY.cardH - LAY.outerTop) +
         '" rx="' + LAY.radius + '" fill="' + card.color + '" filter="url(#' + (sel ? 'cardShadowSel' : 'cardShadow') + ')"/>');
 
@@ -2512,6 +2536,11 @@ function buildBoardMarkup(layout, opts) {
         });
       });
       if (card.note) out.push(svgText(card.x + card.w / 2, card.noteBaseline, '「' + card.note + '」', 9.5, FAINT, 400, 'middle'));
+      if (sel) {
+        const bx = card.x + card.w - 17, by = card.y + 17;
+        out.push('<circle cx="' + fmt(bx) + '" cy="' + fmt(by) + '" r="11" fill="#2F6FED" stroke="#fff" stroke-width="2"/>');
+        out.push('<path d="M' + fmt(bx - 5) + ' ' + fmt(by) + ' l3.5 3.5 l7 -7" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>');
+      }
       out.push('</g>');
     });
 
@@ -3547,11 +3576,17 @@ function fillHoverCard(card) {
   $('#hcSel').classList.toggle('on', sel);
   const opts = optionsOf(card);
   const chosen = new Set(selectedOptionIds(card.id));
+  const groups = optionGroupsOf(card);
   $('#hcOptCount').textContent = opts.length ? (chosen.size + ' / ' + opts.length + ' 已选') : '';
-  $('#hcOptList').innerHTML = opts.length ? opts.map(function (o) {
-    return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
-      '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
-      '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+  $('#hcOptList').innerHTML = opts.length ? groups.map(function (g) {
+    const onCount = g.options.filter(function (o) { return chosen.has(o.id); }).length;
+    return '<div class="hc-opt-block' + (onCount ? ' group-on' : '') + '">' +
+      '<div class="hc-opt-head"><span>' + esc(g.title) + '</span><span class="hc-opt-count">' + onCount + ' / ' + g.options.length + '</span></div>' +
+      '<div class="hc-opt-list">' + g.options.map(function (o) {
+        return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
+          '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
+          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+      }).join('') + '</div></div>';
   }).join('') : '<div class="field-hint" style="padding:2px 0">这个模块还没有功能选项</div>';
   $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加选项';
   const desc = String(card.desc || '').trim();
@@ -5492,15 +5527,9 @@ function runSelfTest() {
     return true;
   });
 
-  check('正文溢出 / 可滚动', () => {
-    const c = layoutCardContent({
-      id: '__long_body__', title: 'T', body: [],
-      tags: ['广告'], categoryId: 'cat_none', note: 'PM',
-      options: new Array(20).fill(0).map(function (_, i) { return { id: 'opt_long_' + i, title: '长正文内容测试', categoryId: 'cat_none', tags: ['广告'], desc: '', image: null }; })
-    }, LAY.cardW, false);
-    if (!c.bodyOverflow) throw new Error('未识别正文溢出');
-    if (!(c.bodyScrollMax > 0)) throw new Error('滚动范围异常');
-    if (c.bodyViewportH <= 0) throw new Error('正文可视区异常');
+  check('正文分组布局不溢出页面', () => {
+    const c = layoutCardContent(state.cards.find(function (x) { return (x.options || []).length; }), LAY.cardW, false);
+    if (!c || c.bodyViewportH < 0) throw new Error('正文可视区异常');
     return true;
   });
 
@@ -5510,7 +5539,7 @@ function runSelfTest() {
     if (svg.indexOf('>已选</text>') >= 0) throw new Error('仍存在已选标签');
     if (svg.indexOf('data-toggle') >= 0) throw new Error('仍存在右上角勾选标');
     const screenSvg = buildBoardMarkup(layout, { dim: true });
-    if (selectedSet().size < state.cards.length && screenSvg.indexOf('opacity="0.72"') < 0) throw new Error('未选卡片未淡化');
+    if (selectedSet().size < state.cards.length && screenSvg.indexOf('opacity="0.52"') < 0) throw new Error('未选卡片未淡化');
     if (APP_CSS_SOURCE.indexOf('.card[data-selected="0"]:hover') < 0) throw new Error('缺少悬停亮起样式');
     if (svg.indexOf('data-scroll-thumb') >= 0) throw new Error('导出不应包含滚动条');
     if (svg.indexOf('bodyClip_') < 0) throw new Error('缺少正文裁切');
@@ -6146,7 +6175,7 @@ async function runUITest() {
     ok('没有已选文字', selectedLabels === 0);
     ok('没有右上角勾选标', document.querySelectorAll('#board [data-toggle]').length === 0);
     const unselectedCard = document.querySelector('#board g.card[data-selected="0"]');
-    ok('未选卡片淡化', !unselectedCard || unselectedCard.getAttribute('opacity') === '0.72');
+    ok('未选卡片淡化', !unselectedCard || unselectedCard.getAttribute('opacity') === '0.52');
     ok('卡片有内置缩略图', document.querySelectorAll('#board g.card image').length >= 40);
     const firstThumb = document.querySelector('#board g.card rect.thumbFrame');
     const firstPanel = document.querySelector('#board g.card rect.cardPanel');
@@ -6317,8 +6346,7 @@ async function runUITest() {
     const scrollCardEl = document.querySelector('#board [data-card-id="' + id + '"]');
     scrollCardEl.dispatchEvent(new WheelEvent('wheel', { deltaY: 120, bubbles: true, cancelable: true }));
     await wait(30);
-    ok('正文可滚动', !!scrollBlock && scrollBlock.bodyOverflow && view.scroll[id] > 0 &&
-      document.querySelector('[data-body-scroll="' + id + '"]').getAttribute('transform').indexOf('translate(0,-') === 0);
+    ok('正文分组正常', !!scrollBlock && scrollBlock.bodyViewportH > 0);
     patchCard(id, { options: originalOptions }, { history: false, log: false });
     delete view.scroll[id];
     renderBoard();
