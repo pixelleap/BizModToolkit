@@ -1,9 +1,9 @@
-# 商业化模块工具箱 · 网页版
+﻿# 商业化模块工具箱 · 网页版
 
 静态网页版，不再需要 exe / 安装包。
 
 ```text
-https://pixelleap.github.io/Biz-module-toolbox/
+https://pixelleap.github.io/BizModToolkit/
 ```
 
 ## 功能
@@ -161,3 +161,4 @@ v3.1.0
 - 不保存选择/草稿/图片
 - 刷新恢复 data.json 默认
 - 编辑密码保留
+
