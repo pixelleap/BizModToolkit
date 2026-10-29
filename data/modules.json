@@ -1457,18 +1457,7 @@
       },
       {
         "id": "opt_card_album_1",
-        "title": "套系进度 / 未解锁预览",
-        "categoryId": "cat_retention",
-        "tags": [
-          "收集",
-          "付费"
-        ],
-        "desc": "按图包筛选、收藏、套系进度与未解锁预览，提供完成展示。适合收集型玩法；注意未解锁预览要勾起欲望但不剧透全部。",
-        "image": null
-      },
-      {
-        "id": "opt_card_album_2",
-        "title": "完成展示",
+        "title": "进度 / 未解锁预览",
         "categoryId": "cat_retention",
         "tags": [
           "收集",
