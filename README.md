@@ -1,9 +1,9 @@
-# 商业化模块工具箱 · 网页版
+﻿# 商业化模块工具箱 · 网页版
 
 静态网页版，不再需要 exe / 安装包。
 
 ```text
-https://kimhui1.github.io/Commercial-module-toolbox/
+https://pixelleap.github.io/Biz-module-toolbox/
 ```
 
 ## 功能
@@ -154,3 +154,4 @@ v3.0.0
 - 编辑密码
 - 本地选择保留
 - 本地编辑草稿
+
