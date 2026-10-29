@@ -10,8 +10,8 @@ https://github.com/kimhui1/Commercial-module-toolbox/releases/latest
 
 下载：
 
-- `ModuleBoard-Setup-2.4.0.exe`：安装版，推荐
-- `ModuleBoard-Portable-2.4.0.exe`：便携版，免安装
+- `ModuleBoard-Setup-2.4.1.exe`：安装版，推荐
+- `ModuleBoard-Portable-2.4.1.exe`：便携版，免安装
 
 安装版会创建：
 
@@ -90,7 +90,7 @@ D:\Workspace\module-board
 
 付费点判定：选项分类为「付费点 / 广告点」，或选项标签含「付费 / VIP / 广告」。
 
-卡片不再显示模块标签、模块说明图；标签只取已选选项的标签并集；没有已选选项就不显示标签。
+卡片不再显示模块标签、模块说明图。没有选中选项时：正文显示默认字，标签显示全部选项标签；选中选项后：正文按已选/未选样式显示，标签只取已选选项的标签。
 
 检查器「功能选项」里可以逐项修改：
 
@@ -100,7 +100,7 @@ D:\Workspace\module-board
 - 内容/说明
 - 一张选项图片
 
-> 升级到 2.4.0 时，旧项目中“已选但没有选选项”的模块会被清空选中，需要重新按选项选择。
+> 升级到 2.4.1 时，旧项目中“已选但没有选选项”的模块会被清空选中，需要重新按选项选择。
 
 ## 日常编辑
 
@@ -142,13 +142,13 @@ npm run build            # 只构建 dist HTML
 
 ## 发布新版本
 
-1. 改 `package.json` 的 `version`，例如 `2.4.0`
+1. 改 `package.json` 的 `version`，例如 `2.4.1`
 2. 构建并提交
 3. 打标签并推送：
 
 ```bash
-git tag v2.4.0
-git push origin v2.4.0
+git tag v2.4.1
+git push origin v2.4.1
 ```
 
 GitHub Actions（`.github/workflows/release.yml`）会自动：

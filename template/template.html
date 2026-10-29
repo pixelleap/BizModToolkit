@@ -409,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.4.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.4.1</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
@@ -785,7 +785,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.4.0';
+const APP_VERSION = '2.4.1';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1398,8 +1398,8 @@ function cardColor(card, selected) {
   return opts.some(isPaidOption) ? CARD_COLOR_PAID : CARD_COLOR_FREE;
 }
 function cardDisplayTags(card) {
-  const opts = selectedOptions(card.id);
-  if (!opts.length) return [];
+  const chosen = selectedOptions(card.id);
+  const opts = chosen.length ? chosen : optionsOf(card);
   const out = [];
   const seen = new Set();
   opts.forEach(function (o) {
@@ -1953,6 +1953,7 @@ function toggleOption(cardId, optionId) {
   if (!card) return;
   const option = optionsOf(card).find(function (o) { return o.id === optionId; });
   if (!option) return;
+  const keepHover = hoverState.shown && hoverState.id === cardId;
   const projectId = activeProject().id;
   const label = '选项「' + option.title + '」';
   commit(function (s) {
@@ -1974,9 +1975,9 @@ function toggleOption(cardId, optionId) {
     }
     p.updatedAt = nowISO();
   }, { scope: 'selection', label: label });
-  if (hoverState.shown && hoverState.id === cardId) {
-    fillHoverCard(card);
-    positionHoverCard(cardId);
+  if (keepHover) {
+    showHoverCard(cardId);
+    showOptionCard(cardId, optionId);
   }
 }
 
@@ -2026,14 +2027,16 @@ function layoutCardContent(card, width, selected) {
   const bodyTop = panelTop + 14;
   const bodyFont = FONTS.body(LAY.bodySize);
   const chosen = new Set(selectedOptionIds(card.id));
+  const hasChosen = chosen.size > 0;
   let rawBody = [];
   optionsOf(card).forEach(function (o) {
     const title = String(o.title || '').trim();
     if (!title) return;
-    const isOn = chosen.has(o.id);
+    const isOn = hasChosen && chosen.has(o.id);
+    const mode = hasChosen ? (isOn ? 'on' : 'off') : 'default';
     const font = isOn ? FONTS.bodyBold(LAY.bodySize) : bodyFont;
     wrapText(title, panelW - LAY.cardPadX * 2, font, 2).forEach(function (text) {
-      rawBody.push({ text: text, selected: isOn });
+      rawBody.push({ text: text, selected: isOn, mode: mode });
     });
   });
   const truncated = rawBody.length > 40;
@@ -2253,12 +2256,15 @@ function svgText(x, y, s, size, color, weight, anchor, extra) {
     '" fill="' + color + '"' + (anchor ? ' text-anchor="' + anchor + '"' : '') + (extra || '') + '>' + esc(s) + '</text>';
 }
 function svgBodyLine(cx, y, ln) {
-  const on = !!(ln && ln.selected);
+  const mode = (ln && ln.mode) || (ln && ln.selected ? 'on' : 'off');
+  const on = mode === 'on';
+  const isDefault = mode === 'default';
   const text = String((ln && ln.text) || '');
   const font = on ? FONTS.bodyBold(LAY.bodySize) : FONTS.body(LAY.bodySize);
   const w = textWidth(text, font);
-  const out = [svgText(cx, y, text, LAY.bodySize, on ? '#111827' : '#98A2B3', on ? 700 : 400, 'middle', ' data-body-on="' + (on ? '1' : '0') + '"')];
-  if (!on && w > 0) {
+  const fill = on ? '#111827' : (isDefault ? '#4B5563' : '#98A2B3');
+  const out = [svgText(cx, y, text, LAY.bodySize, fill, on ? 700 : 400, 'middle', ' data-body-on="' + (on ? '1' : '0') + '" data-body-mode="' + mode + '"')];
+  if (mode === 'off' && w > 0) {
     const ly = y - LAY.bodySize * 0.28;
     out.push('<line x1="' + fmt(cx - w / 2) + '" y1="' + fmt(ly) + '" x2="' + fmt(cx + w / 2) + '" y2="' + fmt(ly) + '" stroke="#7B8798" stroke-width="1.4" pointer-events="none"/>');
   }
@@ -2509,14 +2515,16 @@ function cText(ctx, x, y, s, size, color, weight, align) {
   ctx.textAlign = 'left';
 }
 function cBodyLine(ctx, x, y, ln) {
-  const on = !!(ln && ln.selected);
+  const mode = (ln && ln.mode) || (ln && ln.selected ? 'on' : 'off');
+  const on = mode === 'on';
+  const isDefault = mode === 'default';
   const text = String((ln && ln.text) || '');
   const weight = on ? 700 : 400;
-  const color = on ? '#111827' : '#98A2B3';
+  const color = on ? '#111827' : (isDefault ? '#4B5563' : '#98A2B3');
   ctx.font = weight + ' ' + LAY.bodySize + 'px ' + FONT;
   const w = ctx.measureText(text).width;
   cText(ctx, x, y, text, LAY.bodySize, color, weight, 'center');
-  if (!on && w > 0) {
+  if (mode === 'off' && w > 0) {
     const ly = y - LAY.bodySize * 0.28;
     ctx.beginPath(); ctx.strokeStyle = '#7B8798'; ctx.lineWidth = 1.4;
     ctx.moveTo(x - w / 2, ly); ctx.lineTo(x + w / 2, ly); ctx.stroke();
@@ -3355,6 +3363,7 @@ function scheduleHoverCard(cardId) {
   hoverState.showTimer = setTimeout(function () { showHoverCard(cardId); }, hoverDelayMs());
 }
 function showHoverCard(cardId) {
+  hoverState.id = cardId;
   stopHoverProgress();
   const card = findCard(cardId);
   if (!card || view.inline) { hideHoverCard(); return; }
@@ -5975,12 +5984,15 @@ function runSelfTest() {
     return true;
   });
 
-  check('没有已选选项时卡片不显示模块标签', () => {
+  check('没有已选选项时显示全部选项标签', () => {
     const p = activeProject();
     const savedMap = clone(p.optionSelections || {});
-    const card = state.cards.find(function (c) { return (c.tags || []).length > 0; });
+    const card = state.cards.find(function (c) { return optionsOf(c).some(function (o) { return (o.tags || []).length; }); });
     p.optionSelections = {};
-    if (cardDisplayTags(card).length !== 0) throw new Error('仍回退模块标签');
+    const all = [];
+    optionsOf(card).forEach(function (o) { (o.tags || []).forEach(function (t) { if (all.indexOf(t) < 0) all.push(t); }); });
+    const got = cardDisplayTags(card);
+    if (JSON.stringify(got) !== JSON.stringify(all)) throw new Error('未显示全部选项标签');
     p.optionSelections = savedMap;
     return true;
   });
@@ -6034,8 +6046,8 @@ async function runUITest() {
       Number(firstThumb.getAttribute('width')) === 164 && Number(firstThumb.getAttribute('height')) === 92.25 &&
       Number(firstPanel.getAttribute('width')) === 154 &&
       !!(firstPanel.compareDocumentPosition(firstThumb) & Node.DOCUMENT_POSITION_FOLLOWING));
-    const bodyTextEl = Array.prototype.slice.call(document.querySelectorAll('#board g.card text[data-body-on="0"]'))[0];
-    ok('未选选项变淡并删除线', !!bodyTextEl && bodyTextEl.getAttribute('fill') === '#98A2B3' && document.querySelector('#board g.card line[stroke="#7B8798"]') !== null);
+    const bodyTextEl = Array.prototype.slice.call(document.querySelectorAll('#board g.card text[data-body-mode="default"]'))[0];
+    ok('全部未选时显示默认字', !!bodyTextEl && bodyTextEl.getAttribute('fill') === '#4B5563' && bodyTextEl.getAttribute('font-weight') === '400');
     const firstBlock = view.layout.cardIndex[firstCardEl.getAttribute('data-card-id')];
     ok('正文下移到缩略图下方', !!firstBlock && (firstBlock.bodyTop - firstBlock.y) > (LAY.thumbY + LAY.thumbH));
     ok('窄屏列数减少', computeLayout({ scope: 'filtered', width: 360, chrome: true }).cols < view.layout.cols || view.layout.cols === 1);
@@ -6183,8 +6195,9 @@ async function runUITest() {
     await wait(30);
     const optAfter = selectedOptionIds(id);
     ok('点击选项切换选中', (optAfter.indexOf(firstOpt.id) >= 0) !== (optBefore.indexOf(firstOpt.id) >= 0));
+    ok('点击选项后说明窗保持打开', !hc.classList.contains('hidden') && !oc.classList.contains('hidden'));
     ok('选项改变卡片颜色', view.layout.cardIndex[id].color === cardColor(findCard(id), isSelected(id)));
-    el3.dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }));
+    document.querySelector('#board [data-card-id="' + id + '"]').dispatchEvent(new MouseEvent('mouseout', { bubbles: true, relatedTarget: document.body }));
     await wait(450);
     ok('移开后说明消失', hc.classList.contains('hidden') && oc.classList.contains('hidden'));
     setHoverDelay(1);
