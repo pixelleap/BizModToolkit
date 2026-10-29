@@ -1,13 +1,13 @@
 {
   "format": "module-board-web",
   "schemaVersion": 1,
-  "appVersion": "3.2.1",
+  "appVersion": "3.3.0",
   "projectName": "默认配置",
-  "revision": "d6491004127d9dd6",
-  "exportedAt": "2026-10-29T12:40:01.570Z",
+  "revision": "68023fe38d80af96",
+  "exportedAt": "2026-10-29T12:51:44.464Z",
   "state": {
     "version": 1,
-    "updatedAt": "2026-10-29T12:40:01.565Z",
+    "updatedAt": "2026-10-29T12:51:44.460Z",
     "categories": [
       {
         "id": "cat_paid",
@@ -149,7 +149,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_shop",
@@ -225,7 +225,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_pack_shop",
@@ -298,7 +298,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_random_reward",
@@ -349,7 +349,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_bundle",
@@ -422,7 +422,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_level_struct",
@@ -474,7 +474,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_flash",
@@ -552,7 +552,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_level_result",
@@ -641,7 +641,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_gacha",
@@ -697,7 +697,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_piggy",
@@ -756,7 +756,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_booster",
@@ -833,7 +833,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_vip",
@@ -892,7 +892,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_revive",
@@ -968,7 +968,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_noads",
@@ -1008,7 +1008,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_ingame_goal",
@@ -1075,7 +1075,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_content_unlock",
@@ -1131,7 +1131,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_boost",
@@ -1189,7 +1189,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_ad_slot",
@@ -1244,7 +1244,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_n1owjv4amm",
@@ -1292,7 +1292,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_checkin",
@@ -1349,7 +1349,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_free_chest",
@@ -1421,7 +1421,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_vip_event",
@@ -1477,7 +1477,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_cumulative",
@@ -1535,7 +1535,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_challenge",
@@ -1595,7 +1595,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_pass",
@@ -1666,7 +1666,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_collect",
@@ -1706,7 +1706,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_quest",
@@ -1760,7 +1760,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_rank",
@@ -1812,7 +1812,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_segment",
@@ -1877,7 +1877,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_energy",
@@ -1933,7 +1933,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_meta_growth",
@@ -2005,7 +2005,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_character",
@@ -2082,7 +2082,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_album",
@@ -2149,7 +2149,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_export",
@@ -2224,7 +2224,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_decor",
@@ -2275,7 +2275,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_bg",
@@ -2326,7 +2326,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_economy",
@@ -2381,7 +2381,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_ad_system",
@@ -2436,7 +2436,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_payment",
@@ -2491,7 +2491,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_condition",
@@ -2546,7 +2546,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_remote",
@@ -2601,7 +2601,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_data",
@@ -2656,7 +2656,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       },
       {
         "id": "card_compliance",
@@ -2711,7 +2711,7 @@
         "optionsSeeded": true,
         "shots": [],
         "thumb": null,
-        "updatedAt": "2026-10-29T12:40:01.565Z"
+        "updatedAt": "2026-10-29T12:51:44.460Z"
       }
     ],
     "projects": [

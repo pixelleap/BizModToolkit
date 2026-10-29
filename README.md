@@ -12,8 +12,8 @@ https://pixelleap.github.io/BizModToolkit/
 - 只保留一个「默认配置」
 - 选择模式 / 编辑模式
 - 模块选项、说明图、标签、分类
-- SVG / PNG / PDF 导出
-- 分享 HTML
+- JSON / PNG / SVG 导出与导入
+
 - JSON 导入 / 导出
 - 编辑密码
 - 自动读取最新 `docs/data.json`
@@ -154,7 +154,7 @@ npm run seed:data
 
 ## 版本
 
-v3.2.1
+v3.3.0
 
 - 只保留默认配置
 - 删除项目切换

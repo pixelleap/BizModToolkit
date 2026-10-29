@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>商业化模块工具箱 · 模块分配编辑器</title>
-<style>
+<style>#shareTabs{display:none!important}#shareDialog .tab-panel[data-panel="file"],#shareDialog .tab-panel[data-panel="data"],#shareDialog .tab-panel[data-panel="collab"]{display:none!important}
 :root{
   --bg:#F1F3F7;--panel:#fff;--line:#E4E7EC;--line2:#EFF1F5;
   --text:#111827;--muted:#667085;--muted2:#98A2B3;
@@ -409,7 +409,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.2.1</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v3.3.0</small></div>
     </div>
     <div class="proj-btn static" id="projectBtn" title="默认配置">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -563,7 +563,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 <div id="shareDialog" class="dialog hidden">
   <div class="modal wide share-modal">
     <div class="modal-head">
-      <div><h3>分享与导出</h3><div class="sub">给别人的东西都在这里：可编辑分享文件、图片 / PDF、数据与身份</div></div>
+      <div><h3>导入 / 导出</h3><div class="sub">导入 JSON，导出 JSON / PNG / SVG</div></div>
       <button class="icon-btn" data-close>×</button>
     </div>
     <div style="padding:10px 18px 0"><div class="field" style="margin:0"><label>项目名称</label><input type="text" id="exportProjectName" maxlength="40" placeholder="默认配置"></div></div>
@@ -588,7 +588,11 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <div class="share-note">对方双击打开即可看板、看悬停说明，也能继续编辑、再次分享。<b>图片已内嵌在本 HTML 里，只发这一个文件即可。</b>注意保密与体积。</div>
       </section>
 
-      <section class="tab-panel hidden" data-panel="export">
+      <section class="tab-panel" data-panel="export">
+        <div class="tag-add" style="flex-wrap:wrap;margin-bottom:12px">
+          <button class="btn primary" id="importJsonInline">导入 JSON</button>
+          <button class="btn" id="exportJsonInline">导出 JSON</button>
+        </div>
         <div class="two-col">
           <div>
             <div class="field">
@@ -609,7 +613,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
               </div>
             </div>
             <div class="field">
-              <label>PNG / PDF 倍率</label>
+              <label>PNG 倍率</label>
               <div class="seg-group" id="expScale">
                 <button class="fchip" data-scale="1">1x</button>
                 <button class="fchip on" data-scale="2">2x</button>
@@ -632,7 +636,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <div class="modal-inline-actions">
           <button class="btn" data-fmt="svg">导出 SVG（矢量）</button>
           <button class="btn" data-fmt="png">导出 PNG</button>
-          <button class="btn primary" data-fmt="pdf">导出 PDF</button>
         </div>
       </section>
 
@@ -788,7 +791,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '3.2.1';
+const APP_VERSION = '3.3.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -2853,7 +2856,7 @@ function openExport() { openShare('export'); }
 
 let shareTab = 'file';
 function openShare(tab) {
-  shareTab = tab || shareTab || 'file';
+  shareTab = 'export';
   const nameInput = $('#exportProjectName');
   if (nameInput) { expState.projectName = activeProject().name || '默认配置'; nameInput.value = expState.projectName; }
   $('#shareDialog').classList.remove('hidden');
@@ -3401,7 +3404,7 @@ function refreshExportUI() {
     : expState.scope === 'selected' ? '仅导出本游戏已选中的 ' + nSelected + ' 个模块'
       : '导出当前筛选结果 ' + visibleCardsForScope('filtered').length + ' 个模块';
   $('#expScopeHint').textContent = hint;
-  $('#expFilename').textContent = exportBaseName() + '.svg / .png / .pdf';
+  $('#expFilename').textContent = exportBaseName() + '.svg / .png';
   $('#expPreview').innerHTML = exportSVGString(layout);
   $('#expPreviewMeta').innerHTML = '<span>画板 <b>' + layout.width + ' × ' + layout.height + '</b> px</span>' +
     '<span>PNG <b>' + Math.round(layout.width * expState.scale) + ' × ' + Math.round(layout.height * expState.scale) + '</b> px</span>' +
@@ -3423,13 +3426,6 @@ async function doExport(fmt) {
       downloadBlob(blob, base + '.png');
       toast('已导出 PNG ' + cv.width + '×' + cv.height);
     }, 'image/png');
-  } else {
-    const cv = renderCanvas(layout, expState.scale, { dim: true });
-    const dataUrl = cv.toDataURL('image/jpeg', 0.92);
-    const bytes = base64ToBytes(dataUrl.split(',')[1]);
-    const pdf = buildPdf(bytes, cv.width, cv.height, layout.width, layout.height, exportProjectName() + ' · 功能模块分配');
-    downloadBlob(new Blob([pdf], { type: 'application/pdf' }), base + '.pdf');
-    toast('已导出 PDF（单页 A3）');
   }
 }
 
@@ -4822,7 +4818,7 @@ function bindUI() {
     searchTimer = setTimeout(() => { state.ui.filter.q = v; renderAll(); }, 160);
   });
   $('#exportBtn').addEventListener('click', function () { openShare(shareTab || 'file'); });
-  $('#sharedBadge').addEventListener('click', function () { openShare('data'); });
+  $('#sharedBadge').addEventListener('click', function () { openShare('export'); });
   $('#settingsBtn').addEventListener('click', openSettings);
 
   /* 筛选 */
@@ -5119,6 +5115,8 @@ function bindUI() {
   });
   $('#shareIncludeShots').addEventListener('change', refreshShareFileUI);
   $('#shareMake').addEventListener('click', makeShareFile);
+  $('#importJsonInline').addEventListener('click', importJSON);
+  $('#exportJsonInline').addEventListener('click', exportJSON);
   $('#dataPanel').addEventListener('click', e => {
     const b = e.target.closest('[data-data-act]');
     if (!b) return;
@@ -5194,7 +5192,7 @@ function bindUI() {
     else if (act === 'export-json') exportJSON();
     else if (act === 'import-json') importJSON();
     else if (act === 'reset') resetAll();
-    else if (act === 'open-share') { $('#settingsDialog').classList.add('hidden'); openShare('data'); }
+    else if (act === 'open-share') { $('#settingsDialog').classList.add('hidden'); openShare('export'); }
     else if (act === 'clear-selection') clearSelection();
   });
   $('#settingsBody').addEventListener('change', e => {
