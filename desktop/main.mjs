@@ -10,8 +10,8 @@ import { buildRepo, removeImage, workspaceInfo, writeImage, writeState } from '.
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 function pickUserData() {
   const candidates = [
-    path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'ModuleBoard'),
     'D:\\Workspace\\module-board\\.electron-data',
+    path.join(process.env.LOCALAPPDATA || path.join(os.homedir(), 'AppData', 'Local'), 'ModuleBoard'),
     path.join(os.tmpdir(), 'ModuleBoard')
   ];
   for (const dir of candidates) {
@@ -119,6 +119,13 @@ function scheduleBuild() {
 function loadApp() {
   if (!mainWindow) return;
   const file = path.join(workspace, 'dist', '商业化模块工具箱编辑器.html');
+  mainWindow.webContents.once('did-finish-load', function () {
+    if (lastBuildError) {
+      mainWindow.webContents.send('repo:status', { ok: false, error: lastBuildError });
+    } else if (lastBuildAt) {
+      mainWindow.webContents.send('repo:status', { ok: true, at: lastBuildAt });
+    }
+  });
   mainWindow.loadFile(file).catch(function (err) {
     dialog.showErrorBox('无法打开应用', String(err));
   });
@@ -228,6 +235,8 @@ if (!gotLock) {
 } else {
   app.on('second-instance', function () {
     if (!mainWindow) return;
+    runBuild(false);
+    loadApp();
     if (mainWindow.isMinimized()) mainWindow.restore();
     mainWindow.focus();
   });

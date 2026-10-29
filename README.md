@@ -10,8 +10,8 @@ https://github.com/kimhui1/Commercial-module-toolbox/releases/latest
 
 下载：
 
-- `ModuleBoard-Setup-2.4.1.exe`：安装版，推荐
-- `ModuleBoard-Portable-2.4.1.exe`：便携版，免安装
+- `ModuleBoard-Setup-2.5.0.exe`：安装版，推荐
+- `ModuleBoard-Portable-2.5.0.exe`：便携版，免安装
 
 安装版会创建：
 
@@ -100,12 +100,30 @@ D:\Workspace\module-board
 - 内容/说明
 - 一张选项图片
 
-> 升级到 2.4.1 时，旧项目中“已选但没有选选项”的模块会被清空选中，需要重新按选项选择。
+## 全部游戏共用默认配置
+
+从 2.5.0 开始，所有游戏项目共用一套选中模块和选项：
+
+- 以「绝密行动」的 28 个已选为默认基准
+- 「示例游戏」自动跟随，不再保留旧差异
+- **选择模式**改的是默认配置，所有游戏同步
+- **编辑模式**只改模块内容、选项、图片，不改选中状态
+- 切换游戏项目只切名字，配置不变
+- 新建游戏自动继承默认
+
+默认配置保存在：
+
+```text
+data/defaults.json
+```
+
+`data/games.json` 里的 `selected` / `optionSelections` 只是兼容镜像。
 
 ## 日常编辑
 
 1. 打开桌面程序
-2. 编辑模式里改标题、模块说明、缩略图、功能选项、游戏选择
+2. 编辑模式改标题、模块说明、缩略图、功能选项
+3. 选择模式改默认选中与选项，所有游戏同步
 3. 顶栏显示 `● 桌面版 · 已写入仓库`
 4. 修改自动写入：
    ```text
@@ -116,7 +134,7 @@ D:\Workspace\module-board
    thumbs/<card_id>.webp
    dist/
    ```
-5. VSCode → 源代码管理 → Commit → Push
+6. VSCode → 源代码管理 → Commit → Push
 
 程序不自动 commit。
 
@@ -142,13 +160,13 @@ npm run build            # 只构建 dist HTML
 
 ## 发布新版本
 
-1. 改 `package.json` 的 `version`，例如 `2.4.1`
+1. 改 `package.json` 的 `version`，例如 `2.5.0`
 2. 构建并提交
 3. 打标签并推送：
 
 ```bash
-git tag v2.4.1
-git push origin v2.4.1
+git tag v2.5.0
+git push origin v2.5.0
 ```
 
 GitHub Actions（`.github/workflows/release.yml`）会自动：

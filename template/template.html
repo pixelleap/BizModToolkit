@@ -35,6 +35,7 @@ a{color:inherit}
 .proj-btn{display:flex;align-items:center;gap:8px;max-width:300px;height:32px;padding:0 10px;border:1px solid var(--line);border-radius:8px;background:#fff}
 .proj-btn:hover{border-color:#C9D2E3;background:#FBFCFE}
 .proj-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:12.5px}
+.proj-default{flex:none;font-size:9.5px;padding:1px 6px;border-radius:999px;background:#E8F0FE;color:#1E4C9E;font-weight:700}
 .caret{color:var(--muted2);font-size:10px}
 .modebar{display:flex;padding:3px;background:#F1F3F7;border-radius:9px;border:1px solid var(--line)}
 .seg{padding:5px 14px;border-radius:7px;font-size:12.5px;color:var(--muted);font-weight:600;transition:.12s}
@@ -315,7 +316,6 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .oc-head{padding:12px 14px 8px;border-bottom:1px solid var(--line2);flex:none}
 .oc-title{font-weight:800;font-size:16px;line-height:1.35;color:var(--text)}
 .oc-meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
-.oc-cat{font-size:10.5px;padding:2px 8px;border-radius:999px;color:#fff}
 .oc-sel{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#667085}
 .oc-sel.on{background:#E8F0FE;color:#1E4C9E}
 .oc-scroll{overflow:auto;flex:1 1 auto;min-height:0;padding:10px 14px 2px}
@@ -409,10 +409,11 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.4.1</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v2.5.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换游戏项目">
       <span class="proj-name" id="projectName">示例游戏</span>
+      <span class="proj-default" title="全部游戏共用默认配置">默认</span>
       <span class="caret">▾</span>
     </button>
     <span id="sharedBadge" class="badge-share hidden" title="这是分享版，数据保存在本机"></span>
@@ -543,9 +544,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <div class="field">
           <label>所属行</label>
           <select id="inspRow"></select>
-        </div>
-        <div class="field">
-          <label class="check"><input type="checkbox" id="inspSelected"> 本游戏已选</label>
         </div>
         <div class="actions">
           <button class="btn" id="inspUp">上移</button>
@@ -733,7 +731,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 <div id="optionCard" class="option-card hidden" role="dialog">
   <div class="oc-head">
     <div class="oc-title" id="ocTitle"></div>
-    <div class="oc-meta"><span class="oc-cat" id="ocCat"></span><span class="oc-sel" id="ocSel"></span></div>
+    <div class="oc-meta"><span class="oc-sel" id="ocSel"></span></div>
   </div>
   <div class="oc-scroll">
     <div class="oc-desc" id="ocDesc"></div>
@@ -785,7 +783,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '2.4.1';
+const APP_VERSION = '2.5.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -835,7 +833,11 @@ function setRepoBadge(state) {
   const el = document.getElementById('repoBadge');
   if (!el) return;
   el.classList.remove('repo-ok', 'repo-error', 'repo-readonly');
-  if (state === 'error') {
+  if (state === 'build-error') {
+    el.classList.add('repo-error');
+    el.textContent = '构建失败 · 页面未更新';
+    el.title = '数据已写入，但 dist 构建失败；请查看错误提示';
+  } else if (state === 'error') {
     el.classList.add('repo-error');
     el.textContent = '同步失败 · 修改未写入仓库';
     el.title = '本地文件写入失败，请检查程序日志';
@@ -1091,6 +1093,9 @@ const DEMO_SELECTED = ['card_reward_choice', 'card_level_result', 'card_revive',
 /* __MB_BOOT_PROJECTS_START__ */
 const BOOT_PROJECTS = [];
 /* __MB_BOOT_PROJECTS_END__ */
+/* __MB_DEFAULT_SELECTION_START__ */
+const DEFAULT_SELECTION = { selected: [], optionSelections: {} };
+/* __MB_DEFAULT_SELECTION_END__ */
 /* 内置卡片缩略图（2026-10-28 生成，640×360 WebP） */
 /* __MB_BUILTIN_THUMB_SEED_START__ */
 const BUILTIN_THUMB_SEED = '2026-10-28b';
@@ -1294,17 +1299,26 @@ function elide(str, maxW, font) {
 }
 
 /* ------------------------- 3. 默认状态 ------------------------- */
+function defaultSelection() {
+  const d = (typeof DEFAULT_SELECTION !== 'undefined' && DEFAULT_SELECTION && typeof DEFAULT_SELECTION === 'object') ? DEFAULT_SELECTION : {};
+  return {
+    selected: Array.isArray(d.selected) ? d.selected.slice() : [],
+    optionSelections: (d.optionSelections && typeof d.optionSelections === 'object' && !Array.isArray(d.optionSelections)) ? clone(d.optionSelections) : {}
+  };
+}
 function defaultProject() {
-  return { id: 'prj_demo', name: '示例游戏', selected: DEMO_SELECTED.slice(), optionSelections: {}, createdAt: nowISO(), updatedAt: nowISO() };
+  const d = defaultSelection();
+  return { id: 'prj_demo', name: '示例游戏', selected: d.selected, optionSelections: d.optionSelections, createdAt: nowISO(), updatedAt: nowISO() };
 }
 function defaultState() {
+  const defaultSel = defaultSelection();
   const bootProjects = (typeof BOOT_PROJECTS !== 'undefined' && Array.isArray(BOOT_PROJECTS) && BOOT_PROJECTS.length)
     ? BOOT_PROJECTS.map(function (p, i) {
         return {
           id: String(p.id || ('prj_boot_' + i)),
           name: String(p.name || '未命名游戏'),
-          selected: Array.isArray(p.selected) ? p.selected.slice() : [],
-          optionSelections: (p.optionSelections && typeof p.optionSelections === 'object' && !Array.isArray(p.optionSelections)) ? clone(p.optionSelections) : {},
+          selected: defaultSel.selected.slice(),
+          optionSelections: clone(defaultSel.optionSelections),
           createdAt: p.createdAt || nowISO(),
           updatedAt: p.updatedAt || nowISO()
         };
@@ -1317,7 +1331,7 @@ function defaultState() {
     rows: clone(ROWS_DEFAULT),
     cards: CARDS_DEFAULT.map((c, i) => ({
       id: CARD_IDS[i],
-      rowId: c.row, order: i,
+      rowId: c.row, order: (typeof c.order === 'number' ? c.order : i),
       title: c.title, body: c.body.slice(), note: c.note || '', tags: c.tags.slice(),
       categoryId: c.cat, customColor: null,
       desc: DEFAULT_DESC[CARD_IDS[i]] || '',
@@ -1331,6 +1345,7 @@ function defaultState() {
     tagColors: {},
     meta: { editorName: '', lastEdit: null, editLog: [], shared: null, deletedCards: [], descSeed: 1, paletteVersion: 2 },
     projects: bootProjects,
+    defaults: defaultSel,
     ui: {
       activeProjectId: bootProjects[0].id,
       mode: 'select',
@@ -1350,8 +1365,8 @@ const view = { scale: 1, layout: null, inspectingId: null, drag: null, inline: n
 function activeProject() {
   return state.projects.find(p => p.id === state.ui.activeProjectId) || state.projects[0];
 }
-function selectedSet() { return new Set(activeProject().selected); }
-function isSelected(id) { return activeProject().selected.indexOf(id) >= 0; }
+function selectedSet() { return new Set((state.defaults && Array.isArray(state.defaults.selected)) ? state.defaults.selected : []); }
+function isSelected(id) { return !!(state.defaults && Array.isArray(state.defaults.selected) && state.defaults.selected.indexOf(id) >= 0); }
 function catOf(id) { return state.categories.find(c => c.id === id) || state.categories.find(c => c.id === 'cat_none') || state.categories[0]; }
 function rowOf(id) { return state.rows.find(r => r.id === id) || state.rows[state.rows.length - 1]; }
 function cardsOfRow(rowId) { return state.cards.filter(c => c.rowId === rowId).sort((a, b) => a.order - b.order); }
@@ -1363,8 +1378,7 @@ function optionsOf(card) {
   return (card && Array.isArray(card.options)) ? card.options : [];
 }
 function selectedOptionIds(cardId) {
-  const p = activeProject();
-  const map = (p && p.optionSelections && typeof p.optionSelections === 'object') ? p.optionSelections : {};
+  const map = (state.defaults && state.defaults.optionSelections && typeof state.defaults.optionSelections === 'object') ? state.defaults.optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
   const card = findCard(cardId);
   if (!card) return [];
@@ -1375,15 +1389,11 @@ function selectedOptions(cardId) {
   const ids = new Set(selectedOptionIds(cardId));
   return optionsOf(findCard(cardId)).filter(function (o) { return ids.has(o.id); });
 }
-function projectHasSelectedOptions(project, cardId) {
-  const card = findCard(cardId);
-  if (!card) return false;
-  const map = (project && project.optionSelections && typeof project.optionSelections === 'object') ? project.optionSelections : {};
-  const ids = Array.isArray(map[cardId]) ? map[cardId] : [];
-  return optionsOf(card).some(function (o) { return ids.indexOf(o.id) >= 0; });
+function projectHasSelectedOptions(_project, cardId) {
+  return selectedOptionIds(cardId).length > 0;
 }
 function canSelectCard(cardId) {
-  return projectHasSelectedOptions(activeProject(), cardId);
+  return selectedOptionIds(cardId).length > 0;
 }
 function isPaidOption(option) {
   if (!option) return false;
@@ -1411,7 +1421,17 @@ function cardDisplayTags(card) {
   });
   return out;
 }
-function countSelected() { return activeProject().selected.length; }
+function countSelected() { return selectedSet().size; }
+function syncProjectSelections(s, touch) {
+  if (!s || !s.defaults) return;
+  const selected = Array.isArray(s.defaults.selected) ? s.defaults.selected.slice() : [];
+  const options = (s.defaults.optionSelections && typeof s.defaults.optionSelections === 'object') ? clone(s.defaults.optionSelections) : {};
+  (s.projects || []).forEach(function (p) {
+    p.selected = selected.slice();
+    p.optionSelections = clone(options);
+    if (touch) p.updatedAt = nowISO();
+  });
+}
 const TAG_PALETTE = {
   ad: '#B9822F',
   paid: '#B85650',
@@ -1647,14 +1667,24 @@ function normalizeState(input) {
     createdAt: p.createdAt || nowISO(),
     updatedAt: p.updatedAt || p.createdAt || nowISO()
   }));
-  s.projects.forEach(function (p) {
-    p.selected = p.selected.filter(function (cid) {
-      const c = s.cards.find(function (x) { return x.id === cid; });
-      if (!c) return false;
-      const arr = Array.isArray(p.optionSelections[cid]) ? p.optionSelections[cid] : [];
-      return (c.options || []).some(function (o) { return arr.indexOf(o.id) >= 0; });
-    });
+  const baseline = s.projects.find(function (p) { return p.name === '绝密行动'; }) ||
+    s.projects.slice().sort(function (a, b) { return b.selected.length - a.selected.length; })[0] ||
+    { selected: [], optionSelections: {} };
+  const sourceDefaults = (s.defaults && typeof s.defaults === 'object') ? s.defaults : baseline;
+  const defaultSeen = new Set();
+  const defaultOptionSelections = {};
+  const rawDefaultOptions = (sourceDefaults.optionSelections && typeof sourceDefaults.optionSelections === 'object' && !Array.isArray(sourceDefaults.optionSelections)) ? sourceDefaults.optionSelections : {};
+  Object.keys(rawDefaultOptions).forEach(function (cid) {
+    const card = s.cards.find(function (c) { return c.id === cid; });
+    if (!card) return;
+    const arr = Array.isArray(rawDefaultOptions[cid]) ? rawDefaultOptions[cid].filter(function (oid) { return (card.options || []).some(function (o) { return o.id === oid; }); }) : [];
+    if (arr.length) defaultOptionSelections[cid] = Array.from(new Set(arr));
   });
+  const defaultSelected = (Array.isArray(sourceDefaults.selected) ? sourceDefaults.selected : [])
+    .filter(function (cid) { return cardIds.has(cid) && Array.isArray(defaultOptionSelections[cid]) && defaultOptionSelections[cid].length > 0; })
+    .filter(function (cid) { if (defaultSeen.has(cid)) return false; defaultSeen.add(cid); return true; });
+  s.defaults = { selected: defaultSelected, optionSelections: defaultOptionSelections };
+  syncProjectSelections(s);
   const ui = (s.ui && typeof s.ui === 'object') ? s.ui : {};
   s.ui = {
     activeProjectId: s.projects.some(p => p.id === ui.activeProjectId) ? ui.activeProjectId : s.projects[0].id,
@@ -1930,7 +1960,6 @@ function redo() {
 
 /* 选中相关 */
 function toggleSelected(id, opts) {
-  const projectId = activeProject().id;
   const card = findCard(id);
   if (!isSelected(id) && !canSelectCard(id)) {
     toast('请先选择至少一个功能选项');
@@ -1938,10 +1967,12 @@ function toggleSelected(id, opts) {
   }
   const extra = Object.assign({ scope: 'selection', label: '勾选「' + ((card && card.title) || '模块') + '」' }, opts || {});
   commit(s => {
-    const p = s.projects.find(x => x.id === projectId);
-    const i = p.selected.indexOf(id);
-    if (i >= 0) p.selected.splice(i, 1); else p.selected.push(id);
-    p.updatedAt = nowISO();
+    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
+    const arr = Array.isArray(s.defaults.selected) ? s.defaults.selected : [];
+    const i = arr.indexOf(id);
+    if (i >= 0) arr.splice(i, 1); else arr.push(id);
+    s.defaults.selected = arr;
+    syncProjectSelections(s, true);
   }, extra);
 }
 function setSelected(id, on, opts) {
@@ -1954,26 +1985,24 @@ function toggleOption(cardId, optionId) {
   const option = optionsOf(card).find(function (o) { return o.id === optionId; });
   if (!option) return;
   const keepHover = hoverState.shown && hoverState.id === cardId;
-  const projectId = activeProject().id;
   const label = '选项「' + option.title + '」';
   commit(function (s) {
-    const p = s.projects.find(function (x) { return x.id === projectId; });
-    if (!p) return;
-    if (!p.optionSelections || typeof p.optionSelections !== 'object' || Array.isArray(p.optionSelections)) p.optionSelections = {};
-    const arr = Array.isArray(p.optionSelections[cardId]) ? p.optionSelections[cardId].slice() : [];
+    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
+    if (!s.defaults.optionSelections || typeof s.defaults.optionSelections !== 'object' || Array.isArray(s.defaults.optionSelections)) s.defaults.optionSelections = {};
+    const arr = Array.isArray(s.defaults.optionSelections[cardId]) ? s.defaults.optionSelections[cardId].slice() : [];
     const i = arr.indexOf(optionId);
     if (i >= 0) arr.splice(i, 1);
     else {
       arr.push(optionId);
-      if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId);
+      if (s.defaults.selected.indexOf(cardId) < 0) s.defaults.selected.push(cardId);
     }
     if (!arr.length) {
-      p.selected = p.selected.filter(function (x) { return x !== cardId; });
-      delete p.optionSelections[cardId];
+      s.defaults.selected = s.defaults.selected.filter(function (x) { return x !== cardId; });
+      delete s.defaults.optionSelections[cardId];
     } else {
-      p.optionSelections[cardId] = arr;
+      s.defaults.optionSelections[cardId] = arr;
     }
-    p.updatedAt = nowISO();
+    syncProjectSelections(s, true);
   }, { scope: 'selection', label: label });
   if (keepHover) {
     showHoverCard(cardId);
@@ -2971,8 +3000,11 @@ function buildMergePlan(incoming) {
     by: incoming.by || '对方', at: incoming.exportedAt || nowISO(),
     remote: remote, remoteImages: remoteImages,
     added: [], changed: [], deletions: [], projects: [], newProjects: [],
-    newCategories: [], newRows: []
+    newCategories: [], newRows: [], defaults: null
   };
+  if (JSON.stringify(state.defaults || {}) !== JSON.stringify(remote.defaults || {})) {
+    plan.defaults = { local: clone(state.defaults || {}), remote: clone(remote.defaults || {}), default: 'union' };
+  }
   remote.categories.forEach(function (c) { if (!state.categories.some(function (x) { return x.id === c.id; })) plan.newCategories.push(c); });
   remote.rows.forEach(function (r) { if (!state.rows.some(function (x) { return x.id === r.id; })) plan.newRows.push(r); });
 
@@ -3013,7 +3045,7 @@ function buildMergePlan(incoming) {
   return plan;
 }
 function mergePlanCount(plan) {
-  return plan.added.length + plan.changed.length + plan.deletions.length + plan.projects.length + plan.newProjects.length;
+  return plan.added.length + plan.changed.length + plan.deletions.length + plan.projects.length + plan.newProjects.length + (plan.defaults ? 1 : 0);
 }
 function mergeAddedItem(it, i) {
   return '<div class="merge-item"><div class="mi-head"><span class="mi-tag add">新增</span>' + esc(it.card.title) +
@@ -3082,18 +3114,26 @@ function openMergeDialog(incoming) {
     });
     html.push('</div>');
   }
+  if (plan.defaults) {
+    html.push('<div class="merge-group"><h4>默认配置 <span class="field-hint">所有游戏共用</span></h4><div class="merge-item"><div class="mi-diff">我的 ' + plan.defaults.local.selected.length + ' 项 · 对方 ' + plan.defaults.remote.selected.length + ' 项</div><div class="mi-choice">' +
+      '<label class="check"><input type="radio" name="md" value="union" checked> 并集（推荐）</label>' +
+      '<label class="check"><input type="radio" name="md" value="mine"> 我的</label>' +
+      '<label class="check"><input type="radio" name="md" value="theirs"> 对方的</label></div></div></div>');
+  }
   html.push('<div class="field-hint">合并会写入合并人的名字；图片只同步被选中一侧的卡片（对方文件含图片时）。</div>');
   $('#mergeBody').innerHTML = html.join('');
   $('#mergeDialog').classList.remove('hidden');
   hideHoverCard();
 }
 function collectMergeChoices() {
-  const c = { add: {}, changed: {}, del: {}, projects: {}, padd: {} };
+  const c = { add: {}, changed: {}, del: {}, projects: {}, padd: {}, defaults: 'union' };
   $$('#mergeBody [data-add]').forEach(function (el) { c.add[el.getAttribute('data-add')] = el.checked; });
   $$('#mergeBody [data-del]').forEach(function (el) { c.del[el.getAttribute('data-del')] = el.checked; });
   $$('#mergeBody [data-padd]').forEach(function (el) { c.padd[el.getAttribute('data-padd')] = el.checked; });
   $$('#mergeBody input[type=radio][name^="m_"]:checked').forEach(function (el) { c.changed[el.name.slice(2)] = el.value; });
   $$('#mergeBody input[type=radio][name^="p_"]:checked').forEach(function (el) { c.projects[el.name.slice(2)] = el.value; });
+  const md = document.querySelector('#mergeBody input[type=radio][name="md"]:checked');
+  if (md) c.defaults = md.value;
   return c;
 }
 function setMergeAll(mode) {
@@ -3102,6 +3142,7 @@ function setMergeAll(mode) {
   $$('#mergeBody [data-add]').forEach(function (el) { el.checked = (mode === 'theirs'); });
   $$('#mergeBody [data-del]').forEach(function (el) { el.checked = (mode === 'theirs'); });
   $$('#mergeBody [data-padd]').forEach(function (el) { el.checked = (mode === 'theirs'); });
+  $$('#mergeBody input[type=radio][name="md"]').forEach(function (el) { el.checked = (el.value === (mode === 'mine' ? 'mine' : 'theirs')); });
 }
 function pushTomb(s, id, by, at) {
   if (!Array.isArray(s.meta.deletedCards)) s.meta.deletedCards = [];
@@ -3218,6 +3259,25 @@ function applyMerge() {
       copy.selected = copy.selected.filter(function (id) { return s.cards.some(function (c) { return c.id === id; }); });
       s.projects.push(copy);
     });
+
+    if (plan.defaults) {
+      const mode = ch.defaults || 'union';
+      if (mode === 'mine') s.defaults = clone(plan.defaults.local);
+      else if (mode === 'theirs') s.defaults = clone(plan.defaults.remote);
+      else {
+        const local = plan.defaults.local || {};
+        const remote = plan.defaults.remote || {};
+        const set = new Set((local.selected || []).concat(remote.selected || []));
+        const merged = {};
+        Object.keys(local.optionSelections || {}).concat(Object.keys(remote.optionSelections || {})).forEach(function (cid) {
+          const arr = [];
+          [].concat((local.optionSelections || {})[cid] || [], (remote.optionSelections || {})[cid] || []).forEach(function (oid) { if (arr.indexOf(oid) < 0) arr.push(oid); });
+          if (arr.length) merged[cid] = arr;
+        });
+        s.defaults = { selected: Array.from(set).filter(function (id) { return s.cards.some(function (c) { return c.id === id; }); }), optionSelections: merged };
+      }
+    }
+    syncProjectSelections(s, true);
 
     s.meta.lastEdit = { by: by + '（合并）', at: now, label: '合并修改', scope: 'library' };
     s.meta.editLog.push({ by: by + '（合并）', at: now, label: '合并：新增 ' + addedCount + ' / 修改 ' + changedCount + ' / 删除 ' + deletedCount });
@@ -3460,12 +3520,8 @@ function scheduleHideOptionCard() {
   optionState.hideTimer = setTimeout(function () { hideOptionCard(); }, 260);
 }
 function fillOptionCard(card, option) {
-  const oc = catOf(option.categoryId);
   const on = selectedOptionIds(card.id).indexOf(option.id) >= 0;
   $('#ocTitle').textContent = option.title || '未命名选项';
-  $('#ocCat').textContent = oc.name;
-  $('#ocCat').style.background = oc.color;
-  $('#ocCat').style.color = readableText(oc.color);
   $('#ocSel').textContent = on ? '本游戏已选' : '选项未选';
   $('#ocSel').classList.toggle('on', on);
   $('#ocDesc').textContent = String(option.desc || '').trim() || '这个选项还没有说明';
@@ -3975,7 +4031,6 @@ function fillInspector() {
   sel.innerHTML = state.rows.slice().sort((a, b2) => a.order - b2.order).map(r =>
     '<option value="' + escAttr(r.id) + '"' + (r.id === card.rowId ? ' selected' : '') + '>' + esc(r.name) + '</option>'
   ).join('');
-  $('#inspSelected').checked = isSelected(card.id);
 }
 function snapshotIfChanged() {
   const cur = JSON.stringify(state);
@@ -3997,7 +4052,7 @@ function patchCardSilent(id, patch, label) {
 /* ------------------------- 14. 项目 ------------------------- */
 function renderProjectMenu() {
   const cur = activeProject();
-  const html = ['<div class="menu-head">游戏项目 · ' + state.projects.length + ' 个</div>'];
+  const html = ['<div class="menu-head">游戏项目 · 全部共用默认配置 · ' + state.projects.length + ' 个</div>'];
   state.projects.forEach(p => {
     html.push('<div class="menu-item' + (p.id === cur.id ? ' active' : '') + '" data-project="' + escAttr(p.id) + '">' +
       '<span>' + esc(p.name) + '</span>' +
@@ -4034,7 +4089,7 @@ async function newProject() {
   const name = await askText({ title: '新建游戏项目', value: '新游戏', okText: '创建' });
   if (!name) return;
   const id = uid('prj');
-  commit(s => { s.projects.push({ id: id, name: name, selected: [], optionSelections: {}, createdAt: nowISO(), updatedAt: nowISO() }); s.ui.activeProjectId = id; });
+  commit(s => { s.projects.push({ id: id, name: name, selected: (s.defaults.selected || []).slice(), optionSelections: clone((s.defaults && s.defaults.optionSelections) || {}), createdAt: nowISO(), updatedAt: nowISO() }); s.ui.activeProjectId = id; });
   toast('已创建「' + name + '」');
 }
 async function renameProject(id) {
@@ -4048,7 +4103,7 @@ async function duplicateProject(id) {
   const nid = uid('prj');
   commit(s => {
     const src = s.projects.find(x => x.id === id);
-    s.projects.push({ id: nid, name: src.name + ' 副本', selected: src.selected.slice(), optionSelections: clone(src.optionSelections || {}), createdAt: nowISO(), updatedAt: nowISO() });
+    s.projects.push({ id: nid, name: src.name + ' 副本', selected: (s.defaults.selected || []).slice(), optionSelections: clone((s.defaults && s.defaults.optionSelections) || {}), createdAt: nowISO(), updatedAt: nowISO() });
     s.ui.activeProjectId = nid;
   });
   toast('已复制为「' + activeProject().name + '」');
@@ -5006,7 +5061,6 @@ function bindUI() {
     }, { label: '移动分组' });
     fillInspector();
   });
-  $('#inspSelected').addEventListener('change', e => { if (view.inspectingId) toggleSelected(view.inspectingId); });
   $('#inspUp').addEventListener('click', () => { if (view.inspectingId) moveCardBy(view.inspectingId, -1); });
   $('#inspDown').addEventListener('click', () => { if (view.inspectingId) moveCardBy(view.inspectingId, 1); });
   $('#inspDup').addEventListener('click', () => { if (view.inspectingId) duplicateCard(view.inspectingId); });
@@ -5255,6 +5309,19 @@ function runSelfTest() {
     history = []; future = [];
     renderAll();
   };
+  const saveDefaults = () => ({ selected: state.defaults.selected.slice(), optionSelections: clone(state.defaults.optionSelections || {}) });
+  const restoreDefaults = (d) => { state.defaults = { selected: d.selected.slice(), optionSelections: clone(d.optionSelections || {}) }; syncProjectSelections(state); };
+  const setDefaults = (selected, optionSelections) => { state.defaults = { selected: selected || [], optionSelections: optionSelections || {} }; syncProjectSelections(state); };
+
+  check('默认配置与所有项目一致', () => {
+    if (!state.defaults || !Array.isArray(state.defaults.selected)) throw new Error('缺少默认配置');
+    state.projects.forEach(function (p) {
+      if (JSON.stringify(p.selected) !== JSON.stringify(state.defaults.selected)) throw new Error('项目选中未同步：' + p.name);
+      if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步：' + p.name);
+    });
+    if (state.projects.length >= 2 && state.projects[0].selected.length !== state.projects[1].selected.length) throw new Error('两个游戏选中数不同');
+    return true;
+  });
 
   check('数据完整性（ID 唯一 / 引用有效）', () => {
     const ids = new Set(state.cards.map(c => c.id));
@@ -5439,31 +5506,29 @@ function runSelfTest() {
     const card = state.cards[0];
     const id = card.id;
     if (!selectedOptionIds(id).length) toggleOption(id, optionsOf(card)[0].id);
-    const before = activeProject().selected.length;
+    const before = selectedSet().size;
     toggleSelected(id);
-    const after = activeProject().selected.length;
+    const after = selectedSet().size;
     if (after === before) throw new Error('选中数没有变化');
     undo();
-    if (activeProject().selected.length !== before) throw new Error('撤销未恢复');
+    if (selectedSet().size !== before) throw new Error('撤销未恢复');
     return true;
   });
 
-  check('项目隔离（切换不串选）', () => {
-    const pid = uid('prj');
-    const prev = state.ui.activeProjectId;
-    state.projects.push({ id: pid, name: '临时测试', selected: [], optionSelections: {}, createdAt: nowISO(), updatedAt: nowISO() });
-    state.ui.activeProjectId = pid;
-    const tempCard = state.cards[1];
-    if (!selectedOptionIds(tempCard.id).length) toggleOption(tempCard.id, optionsOf(tempCard)[0].id);
-    if (state.projects.find(p => p.id === pid).selected.length !== 1) throw new Error('新项目选中异常');
-    state.ui.activeProjectId = prev;
-    if (activeProject().selected.indexOf(state.cards[1].id) >= 0 && state.cards[1].id !== state.cards[0].id) {
-      /* 允许原本就选中；这里只校验项目间不共享数组 */
-    }
-    const a = state.projects.find(p => p.id === pid).selected;
-    const b = state.projects.find(p => p.id === prev).selected;
-    if (a === b) throw new Error('项目共享了同一数组');
-    state.projects = state.projects.filter(p => p.id !== pid);
+  check('全局默认同步到所有项目', () => {
+    const saved = saveDefaults();
+    setDefaults([], {});
+    const card = state.cards.find(function (c) { return optionsOf(c).length > 0; });
+    toggleOption(card.id, optionsOf(card)[0].id);
+    if (!isSelected(card.id)) throw new Error('选选项未进入默认');
+    state.projects.forEach(function (p) {
+      if (p.selected.length !== state.defaults.selected.length) throw new Error('项目选中未同步：' + p.name);
+      if (JSON.stringify(p.optionSelections) !== JSON.stringify(state.defaults.optionSelections)) throw new Error('项目选项未同步：' + p.name);
+    });
+    toggleSelected(card.id);
+    if (isSelected(card.id)) throw new Error('取消模块未同步到默认');
+    state.projects.forEach(function (p) { if (p.selected.indexOf(card.id) >= 0) throw new Error('取消模块未同步到项目'); });
+    restoreDefaults(saved);
     return true;
   });
 
@@ -5662,12 +5727,12 @@ function runSelfTest() {
     return true;
   });
 
-  check('45 条默认说明齐全', () => {
+  check('默认说明数量与已有说明长度', () => {
     const keys = Object.keys(DEFAULT_DESC);
     if (keys.length !== CARD_IDS.length) throw new Error('说明条数不符：' + keys.length);
     CARD_IDS.forEach(function (id) {
       const d = DEFAULT_DESC[id];
-      if (!d || d.length < 40 || d.length > 160) throw new Error('说明长度异常：' + id + ' (' + (d ? d.length : 0) + ')');
+      if (d && (d.length < 40 || d.length > 160)) throw new Error('说明长度异常：' + id + ' (' + d.length + ')');
     });
     return true;
   });
@@ -5872,25 +5937,21 @@ function runSelfTest() {
   });
 
   check('选项自动加入模块 / 取消模块保留选项', () => {
-    const p = activeProject();
-    const savedSel = p.selected.slice();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
+    setDefaults([], {});
     const card = state.cards.find(function (c) { return optionsOf(c).length > 0; });
     if (!card) throw new Error('缺少选项卡片');
     const opt = optionsOf(card)[0];
-    p.selected = [];
-    p.optionSelections = {};
     toggleOption(card.id, opt.id);
-    if (p.selected.indexOf(card.id) < 0) throw new Error('选选项未自动加入模块');
+    if (!isSelected(card.id)) throw new Error('选选项未自动加入模块');
     if (!selectedOptionIds(card.id).includes(opt.id)) throw new Error('选项未写入选择');
     toggleSelected(card.id);
-    if (p.selected.indexOf(card.id) >= 0) throw new Error('点击模块未取消');
+    if (isSelected(card.id)) throw new Error('点击模块未取消');
     if (!selectedOptionIds(card.id).includes(opt.id)) throw new Error('取消模块时选项被清空');
     toggleSelected(card.id);
-    if (p.selected.indexOf(card.id) < 0) throw new Error('再次点击模块未恢复');
+    if (!isSelected(card.id)) throw new Error('再次点击模块未恢复');
     if (layoutCardContent(card, LAY.cardW, true).color !== (isPaidOption(opt) ? CARD_COLOR_PAID : CARD_COLOR_FREE)) throw new Error('恢复后颜色错误');
-    p.selected = savedSel;
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
@@ -5917,36 +5978,31 @@ function runSelfTest() {
   });
 
   check('卡片标签显示选中选项并集', () => {
-    const p = activeProject();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
     const card = state.cards.find(function (c) { return optionsOf(c).some(function (o) { return (o.tags || []).length; }); });
     if (!card) throw new Error('缺少带标签选项');
     const opt = optionsOf(card).find(function (o) { return (o.tags || []).length; });
-    p.optionSelections = { [card.id]: [opt.id] };
+    setDefaults([card.id], { [card.id]: [opt.id] });
     const tags = cardDisplayTags(card);
     if (!opt.tags.every(function (t) { return tags.includes(t); })) throw new Error('选项标签未并入卡片');
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
   check('无选项模块不能选中 / 最后一项取消自动移出', () => {
-    const p = activeProject();
-    const savedSel = p.selected.slice();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
+    setDefaults([], {});
     const card = state.cards.find(function (c) { return optionsOf(c).length > 0; });
     const opt = optionsOf(card)[0];
-    p.selected = [];
-    p.optionSelections = {};
     if (canSelectCard(card.id)) throw new Error('空选项被判定为可选');
     toggleSelected(card.id);
-    if (p.selected.indexOf(card.id) >= 0) throw new Error('空选项模块被选中');
+    if (isSelected(card.id)) throw new Error('空选项模块被选中');
     toggleOption(card.id, opt.id);
-    if (p.selected.indexOf(card.id) < 0) throw new Error('选选项未加入模块');
+    if (!isSelected(card.id)) throw new Error('选选项未加入模块');
     toggleOption(card.id, opt.id);
-    if (p.selected.indexOf(card.id) >= 0) throw new Error('取消最后一项未移出模块');
+    if (isSelected(card.id)) throw new Error('取消最后一项未移出模块');
     if (selectedOptionIds(card.id).length) throw new Error('最后一项未清空');
-    p.selected = savedSel;
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
@@ -5968,32 +6024,27 @@ function runSelfTest() {
   });
 
   check('卡片正文按选项显示粗黑/浅灰删除线', () => {
-    const p = activeProject();
-    const savedSel = p.selected.slice();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
     const card = state.cards.find(function (c) { return optionsOf(c).length >= 2; });
-    p.selected = [card.id];
-    p.optionSelections = { [card.id]: [optionsOf(card)[0].id] };
+    setDefaults([card.id], { [card.id]: [optionsOf(card)[0].id] });
     const blk = layoutCardContent(card, LAY.cardW, true);
     if (!blk.bodyLines.some(function (l) { return l.selected; })) throw new Error('没有粗黑选中行');
-    if (!blk.bodyLines.some(function (l) { return !l.selected; })) throw new Error('没有浅灰未选行');
+    if (!blk.bodyLines.some(function (l) { return !l.selected && l.mode === 'off'; })) throw new Error('没有浅灰未选行');
     const svg = exportSVGString(computeLayout({ scope: 'all' }));
     if (svg.indexOf('data-body-on="1"') < 0 || svg.indexOf('stroke="#7B8798"') < 0) throw new Error('SVG 未出现选中/删除线样式');
-    p.selected = savedSel;
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
   check('没有已选选项时显示全部选项标签', () => {
-    const p = activeProject();
-    const savedMap = clone(p.optionSelections || {});
+    const saved = saveDefaults();
+    setDefaults([], {});
     const card = state.cards.find(function (c) { return optionsOf(c).some(function (o) { return (o.tags || []).length; }); });
-    p.optionSelections = {};
     const all = [];
     optionsOf(card).forEach(function (o) { (o.tags || []).forEach(function (t) { if (all.indexOf(t) < 0) all.push(t); }); });
     const got = cardDisplayTags(card);
     if (JSON.stringify(got) !== JSON.stringify(all)) throw new Error('未显示全部选项标签');
-    p.optionSelections = savedMap;
+    restoreDefaults(saved);
     return true;
   });
 
@@ -6150,10 +6201,7 @@ async function runUITest() {
     ok('选项图片写回模型', !!optionsOf(findCard(id))[0].image && hasShot(optionImageId));
     ok('检查器显示选项图片', !!document.querySelector('#inspOptions .opt-image-thumb img'));
 
-    const cb = document.getElementById('inspSelected');
-    cb.checked = !isSelected(id);
-    cb.dispatchEvent(new Event('change', { bubbles: true }));
-    ok('检查器复选框切换选中', isSelected(id) === cb.checked);
+    ok('编辑模式没有本游戏已选复选框', document.getElementById('inspSelected') === null);
 
     const addBtn = document.querySelector('#board .addRowBtn');
     ok('编辑模式出现行内 + 按钮', !!addBtn);
@@ -6190,6 +6238,7 @@ async function runUITest() {
     const oc = document.getElementById('optionCard');
     ok('悬停选项打开独立说明窗', !oc.classList.contains('hidden') && document.getElementById('ocTitle').textContent === firstOpt.title);
     ok('选项说明窗含内容/标签/图', document.getElementById('ocDesc').textContent.length > 0 && document.getElementById('ocTags').querySelectorAll('.oc-tag').length === (firstOpt.tags || []).length && (firstOpt.image ? document.querySelector('#ocImage img, #ocImage .oc-missing') : true));
+    ok('选项说明窗不含分类', document.getElementById('ocCat') === null);
     const optBefore = selectedOptionIds(id).slice();
     optRows[0].dispatchEvent(new MouseEvent('click', { bubbles: true, button: 0 }));
     await wait(30);
@@ -6413,6 +6462,16 @@ function init() {
   renderAll();
   preloadThumbImages();
   loadIndexedImages();
+  if (IS_DESKTOP && window.desktopRepo && typeof window.desktopRepo.onStatus === 'function') {
+    window.desktopRepo.onStatus(function (s) {
+      if (s && s.ok === false) {
+        setRepoBadge('build-error');
+        toast('构建失败，页面可能还是旧版：' + (s.error || '未知错误'), 9000);
+      } else if (s && s.ok) {
+        setRepoBadge('ok');
+      }
+    });
+  }
   localSyncReady = true;
   applyRepoModeUI();
   if (NS.seed) {
