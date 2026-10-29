@@ -2,25 +2,15 @@
   {
     "id": "prj_demo",
     "name": "示例游戏",
-    "selected": [],
-    "optionSelections": {},
+    "selected": [
+      "card_random_reward"
+    ],
+    "optionSelections": {
+      "card_random_reward": [
+        "opt_card_random_reward_1"
+      ]
+    },
     "createdAt": "2026-10-28T11:04:25.449Z",
-    "updatedAt": "2026-10-29T03:03:09.891Z"
-  },
-  {
-    "id": "prj_l9njcou91u",
-    "name": "绝密行动",
-    "selected": [],
-    "optionSelections": {},
-    "createdAt": "2026-10-29T01:41:55.027Z",
-    "updatedAt": "2026-10-29T02:12:04.451Z"
-  },
-  {
-    "id": "prj_c7zupc36cf",
-    "name": "pm",
-    "selected": [],
-    "optionSelections": {},
-    "createdAt": "2026-10-29T02:12:11.103Z",
-    "updatedAt": "2026-10-29T02:21:00.085Z"
+    "updatedAt": "2026-10-29T03:30:22.410Z"
   }
 ]
