@@ -10,8 +10,8 @@ https://github.com/kimhui1/Commercial-module-toolbox/releases/latest
 
 下载：
 
-- `ModuleBoard-Setup-2.2.1.exe`：安装版，推荐
-- `ModuleBoard-Portable-2.2.1.exe`：便携版，免安装
+- `ModuleBoard-Setup-2.3.0.exe`：安装版，推荐
+- `ModuleBoard-Portable-2.3.0.exe`：便携版，免安装
 
 安装版会创建：
 
@@ -67,6 +67,30 @@ D:\Workspace\module-board
 
 所以别人下载安装后也能直接打开；要协作时，菜单「文件 → 切换工作区」选自己的 Git 仓库。
 
+## 功能选项与红蓝规则
+
+每个模块内部有多个可多选的功能选项：
+
+- 鼠标悬停模块 → 先显示选项
+- 悬停某个选项 → 显示该选项说明
+- 点击选项 → 切换选中；选任意选项会自动把模块加入当前游戏
+- 点击模块本身 → 取消/恢复模块选中，**已选选项保留**
+- 卡片默认中性灰
+- 已选选项中有付费点 → 红色
+- 已选选项中没有付费点 → 蓝色
+- 一个选项都没选 → 灰色
+
+付费点判定：选项分类为「付费点 / 广告点」，或选项标签含「付费 / VIP / 广告」。
+
+检查器「功能选项」里可以逐项修改：
+
+- 标题
+- 分类
+- 标签
+- 说明（悬停选项时显示）
+
+卡片底部标签显示已选选项标签的并集；没有选选项时显示模块原标签。
+
 ## 日常编辑
 
 1. 打开桌面程序
@@ -107,13 +131,13 @@ npm run build            # 只构建 dist HTML
 
 ## 发布新版本
 
-1. 改 `package.json` 的 `version`，例如 `2.2.1`
+1. 改 `package.json` 的 `version`，例如 `2.3.0`
 2. 构建并提交
 3. 打标签并推送：
 
 ```bash
-git tag v2.2.1
-git push origin v2.2.1
+git tag v2.3.0
+git push origin v2.3.0
 ```
 
 GitHub Actions（`.github/workflows/release.yml`）会自动：

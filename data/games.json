@@ -11,7 +11,36 @@
       "card_bundle",
       "card_reward_choice"
     ],
+    "optionSelections": {},
     "createdAt": "2026-10-28T11:04:25.449Z",
-    "updatedAt": "2026-10-28T15:37:42.528Z"
+    "updatedAt": "2026-10-29T02:45:48.996Z"
+  },
+  {
+    "id": "prj_l9njcou91u",
+    "name": "绝密行动",
+    "selected": [
+      "card_reward_choice",
+      "card_ad_multiplier"
+    ],
+    "optionSelections": {},
+    "createdAt": "2026-10-29T01:41:55.027Z",
+    "updatedAt": "2026-10-29T02:12:04.451Z"
+  },
+  {
+    "id": "prj_c7zupc36cf",
+    "name": "pm",
+    "selected": [
+      "card_level_result",
+      "card_ad_multiplier",
+      "card_booster",
+      "card_revive",
+      "card_collect",
+      "card_pass",
+      "card_level_struct",
+      "card_reward_choice"
+    ],
+    "optionSelections": {},
+    "createdAt": "2026-10-29T02:12:11.103Z",
+    "updatedAt": "2026-10-29T02:21:00.085Z"
   }
 ]
