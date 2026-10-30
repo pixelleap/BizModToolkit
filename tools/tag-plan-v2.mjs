@@ -1,14 +1,17 @@
 /* 生成 docs/TAG-REVIEW-v2.md：选项级标签（13 词表，人工逐条）
  * 只读 docs/data.json，不修改任何数据。
  * 用法：node tools/tag-plan-v2.mjs
+ * 同时导出 VOCAB / M 供 tools/apply-tags.mjs 复用。
  */
 import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const data = JSON.parse(fs.readFileSync('docs/data.json', 'utf8').replace(/^\uFEFF/, ''));
 const cards = data.state.cards;
 
 /* 13 个选项标签 */
-const VOCAB = [
+export const VOCAB = [
   ['广告', '看广告 / 广告位 / 广告变现', '广告'],
   ['付费', '花钱买、付费解锁、订阅权益', '付费'],
   ['免费', '不花钱也不看广告', '（新）'],
@@ -25,7 +28,7 @@ const VOCAB = [
 ];
 
 /* 逐条人工标注：key = cardId|变体标题，value = [feat 标题, [标签]...] */
-const M = {
+export const M = {
   'card_reward_choice|4选1': [
     ['基础奖励位', ['免费']], ['广告专属奖励位', ['广告']], ['VIP专属奖励位', ['付费']],
     ['看广告重抽', ['广告']], ['随机出奖励', ['配置']]
@@ -258,6 +261,7 @@ const M = {
 };
 
 /* ---------- 生成 ---------- */
+function main() {
 const rows = [];
 const missing = [];
 let total = 0, tagged = 0, blank = 0;
@@ -340,3 +344,6 @@ for (const { card, items } of rows) {
 fs.writeFileSync('docs/TAG-REVIEW-v2.md', L.join('\n') + '\n', 'utf8');
 console.log('written docs/TAG-REVIEW-v2.md  行数=' + L.length + '  feat=' + total + '  有标签=' + tagged + '  留空=' + blank + '  未覆盖=' + missing.length);
 console.log('标签用量:', JSON.stringify(tagCount));
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

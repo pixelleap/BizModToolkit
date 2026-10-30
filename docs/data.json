@@ -1,9 +1,9 @@
 ﻿{
   "format": "module-board-web",
   "schemaVersion": 1,
-  "appVersion": "4.21.0",
+  "appVersion": "4.23.0",
   "projectName": "默认配置",
-  "revision": "08ffa38c5bbdc31c",
+  "revision": "0fed08eb8645f45a",
   "exportedAt": "2026-10-30T07:13:41.686Z",
   "state": {
     "version": 1,
@@ -68,8 +68,7 @@
         "note": "",
         "tags": [
           "广告",
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -85,7 +84,9 @@
                 "id": "opt_ref_card_reward_choice_0_0",
                 "title": "基础奖励位",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "免费"
+                ],
                 "desc": "展示4个奖励，选择1个",
                 "image": null
               },
@@ -104,7 +105,7 @@
                 "title": "VIP专属奖励位",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "会员专属奖励位",
                 "image": null
@@ -125,7 +126,7 @@
                 "desc": "候选奖励按权重随机生成，不是固定池。",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "image": null
               }
@@ -152,7 +153,7 @@
                 "title": "VIP重抽",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "预设3个阶段奖励",
                 "image": null
@@ -173,7 +174,7 @@
                 "desc": "重抽仍从固定池里出，不引入新的随机维度。",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "image": null
               }
@@ -204,8 +205,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -222,8 +222,7 @@
                 "title": "道具商品配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "道具商品配置",
                 "image": null
@@ -233,8 +232,7 @@
                 "title": "库存展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "库存展示",
                 "image": null
@@ -244,8 +242,7 @@
                 "title": "购买数量限制",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "购买数量限制",
                 "image": null
@@ -263,8 +260,7 @@
                 "title": "内容分类与预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "内容分类与预览",
                 "image": null
@@ -274,8 +270,7 @@
                 "title": "解锁状态展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "解锁状态展示",
                 "image": null
@@ -285,8 +280,7 @@
                 "title": "商品排序",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "商品排序",
                 "image": null
@@ -304,8 +298,7 @@
                 "title": "商店内购商品",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "商店内购商品",
                 "image": null
@@ -315,8 +308,7 @@
                 "title": "购买结果反馈",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "购买结果反馈",
                 "image": null
@@ -326,8 +318,7 @@
                 "title": "重复购买限制",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "重复购买限制",
                 "image": null
@@ -345,8 +336,7 @@
                 "title": "货币兑换比例",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "货币"
                 ],
                 "desc": "货币兑换比例",
                 "image": null
@@ -356,8 +346,7 @@
                 "title": "余额校验",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "货币"
                 ],
                 "desc": "余额校验",
                 "image": null
@@ -367,8 +356,7 @@
                 "title": "兑换确认",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "兑换确认",
                 "image": null
@@ -386,8 +374,7 @@
                 "title": "广告领取商品",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告领取商品",
                 "image": null
@@ -397,8 +384,7 @@
                 "title": "领取次数限制",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "领取次数限制",
                 "image": null
@@ -408,8 +394,7 @@
                 "title": "广告完成后发放",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告完成后发放",
                 "image": null
@@ -427,8 +412,7 @@
                 "title": "软硬货币商品",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "货币"
                 ],
                 "desc": "软硬货币商品",
                 "image": null
@@ -438,8 +422,8 @@
                 "title": "本地价格展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示",
+                  "付费"
                 ],
                 "desc": "本地价格展示",
                 "image": null
@@ -449,8 +433,7 @@
                 "title": "购买到账",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "购买到账",
                 "image": null
@@ -482,8 +465,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -568,8 +550,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -586,8 +567,7 @@
                 "title": "有效期",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "新手有效期",
                 "image": null
@@ -597,8 +577,7 @@
                 "title": "礼包内容预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "礼包内容预览",
                 "image": null
@@ -608,8 +587,7 @@
                 "title": "限购次数",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "限购次数",
                 "image": null
@@ -627,8 +605,7 @@
                 "title": "节日时间配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "节日时间配置",
                 "image": null
@@ -638,8 +615,7 @@
                 "title": "主题商品展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "主题商品展示",
                 "image": null
@@ -649,8 +625,7 @@
                 "title": "活动结束下架",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "活动结束下架",
                 "image": null
@@ -668,8 +643,7 @@
                 "title": "资源不足触发",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "资源不足触发",
                 "image": null
@@ -679,8 +653,7 @@
                 "title": "缺口对应商品",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "缺口对应商品",
                 "image": null
@@ -690,8 +663,7 @@
                 "title": "触发冷却",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "触发冷却",
                 "image": null
@@ -701,8 +673,7 @@
                 "title": "按资源缺口推荐价格档位",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "按资源缺口推荐价格档位",
                 "image": null
@@ -726,16 +697,14 @@
         "id": "card_level_struct",
         "rowId": "row_level",
         "order": 1,
-        "title": "大关卡结构",
+        "title": "关卡结构",
         "body": [
           "线性 / 非线性",
           "单阶段 / 多阶段",
           "大小章"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "定义大关卡的线性或非线性推进结构。",
@@ -826,8 +795,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -844,8 +812,7 @@
                 "title": "随机货架生成",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "随机货架生成",
                 "image": null
@@ -855,8 +822,7 @@
                 "title": "商品库存与限购",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "商品库存与限购",
                 "image": null
@@ -866,8 +832,7 @@
                 "title": "刷新时间展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "刷新时间展示",
                 "image": null
@@ -877,8 +842,7 @@
                 "title": "专属商品",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "",
                 "image": null
@@ -896,8 +860,7 @@
                 "title": "免费重抽次数",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "免费"
                 ],
                 "desc": "免费重抽次数",
                 "image": null
@@ -907,8 +870,8 @@
                 "title": "广告或货币重抽",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "广告",
+                  "货币"
                 ],
                 "desc": "广告或货币重抽",
                 "image": null
@@ -918,8 +881,7 @@
                 "title": "重抽后商品去重",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "重抽后商品去重",
                 "image": null
@@ -937,8 +899,8 @@
                 "title": "折扣商品配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置",
+                  "付费"
                 ],
                 "desc": "折扣商品配置",
                 "image": null
@@ -948,8 +910,7 @@
                 "title": "原价与现价展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "原价与现价展示",
                 "image": null
@@ -959,8 +920,7 @@
                 "title": "限时结束下架",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "限时结束下架",
                 "image": null
@@ -1012,7 +972,7 @@
                 "title": "VIP专属奖励位",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "VIP专属（增加可选项）",
                 "image": null
@@ -1043,7 +1003,7 @@
                 "desc": "宝箱里的候选按权重随机，可补保底。",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "image": null
               }
@@ -1060,7 +1020,6 @@
                 "title": "货币、道具、资源",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "资源",
                   "货币"
                 ],
                 "desc": "金币、道具、资源",
@@ -1092,7 +1051,7 @@
                 "desc": "结算固定发指定奖励，不做随机。",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "image": null
               }
@@ -1170,8 +1129,7 @@
                 "title": "免费",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "免费"
                 ],
                 "desc": "",
                 "image": null
@@ -1189,8 +1147,8 @@
                 "title": "抽取价格展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "展示",
+                  "付费"
                 ],
                 "desc": "抽取价格展示",
                 "image": null
@@ -1200,8 +1158,7 @@
                 "title": "余额校验",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "货币"
                 ],
                 "desc": "余额校验",
                 "image": null
@@ -1211,8 +1168,7 @@
                 "title": "扣除货币与发放奖励保持一致",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "货币"
                 ],
                 "desc": "扣除货币与发放奖励保持一致",
                 "image": null
@@ -1229,7 +1185,9 @@
                 "id": "opt_ref_card_gacha_3_0",
                 "title": "奖池及概率公示",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "合规"
+                ],
                 "desc": "奖池及概率公示",
                 "image": null
               },
@@ -1237,7 +1195,10 @@
                 "id": "opt_ref_card_gacha_3_1",
                 "title": "概率配置",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置",
+                  "合规"
+                ],
                 "desc": "概率版本配置",
                 "image": null
               },
@@ -1245,7 +1206,9 @@
                 "id": "opt_ref_card_gacha_3_2",
                 "title": "地区规则适配",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "合规"
+                ],
                 "desc": "地区规则适配",
                 "image": null
               }
@@ -1262,8 +1225,8 @@
                 "title": "保底次数展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "展示",
+                  "付费"
                 ],
                 "desc": "保底次数展示",
                 "image": null
@@ -1273,8 +1236,7 @@
                 "title": "计数持久化",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "计数持久化",
                 "image": null
@@ -1284,8 +1246,7 @@
                 "title": "保底重置规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "保底重置规则",
                 "image": null
@@ -1303,8 +1264,7 @@
                 "title": "重复奖励转换",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "货币"
                 ],
                 "desc": "重复奖励转换",
                 "image": null
@@ -1314,8 +1274,7 @@
                 "title": "转换比例展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "转换比例展示",
                 "image": null
@@ -1325,8 +1284,7 @@
                 "title": "库存上限处理",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "库存上限处理",
                 "image": null
@@ -1376,8 +1334,7 @@
                 "title": "行为累计",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "留存"
                 ],
                 "desc": "游玩行为累计",
                 "image": null
@@ -1387,8 +1344,7 @@
                 "title": "奖励累计",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "累计比例配置",
                 "image": null
@@ -1398,8 +1354,7 @@
                 "title": "容量进度展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "容量进度展示",
                 "image": null
@@ -1417,8 +1372,7 @@
                 "title": "开启阈值配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "开启阈值配置",
                 "image": null
@@ -1428,8 +1382,7 @@
                 "title": "满罐提示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "满罐提示",
                 "image": null
@@ -1439,8 +1392,7 @@
                 "title": "存满后的继续累积规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "存满后的继续累积规则",
                 "image": null
@@ -1458,9 +1410,7 @@
                 "title": "全部取出",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "广告",
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "商品价格展示",
                 "image": null
@@ -1470,7 +1420,7 @@
                 "title": "部分取出",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告"
+                  "付费"
                 ],
                 "desc": "购买后发放库存",
                 "image": null
@@ -1504,8 +1454,7 @@
         ],
         "note": "",
         "tags": [
-          "广告",
-          "其他"
+          "广告"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -1541,7 +1490,9 @@
                 "id": "opt_ref_card_booster_1_2",
                 "title": "限制使用次数",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "限制连续撤销",
                 "image": null
               }
@@ -1575,7 +1526,7 @@
                 "title": "VIP免费",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "",
                 "image": null
@@ -1609,8 +1560,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -1627,8 +1577,7 @@
                 "title": "按周期发放资源",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "按周期发放资源",
                 "image": null
@@ -1638,8 +1587,7 @@
                 "title": "有效期展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "有效期展示",
                 "image": null
@@ -1649,8 +1597,7 @@
                 "title": "漏领规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "漏领规则",
                 "image": null
@@ -1669,7 +1616,7 @@
                 "categoryId": "cat_paid",
                 "tags": [
                   "付费",
-                  "其他"
+                  "内容"
                 ],
                 "desc": "订阅内容解锁",
                 "image": null
@@ -1679,8 +1626,7 @@
                 "title": "有效期内访问",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "有效期内访问",
                 "image": null
@@ -1690,8 +1636,7 @@
                 "title": "到期后访问规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "到期后访问规则",
                 "image": null
@@ -1709,8 +1654,7 @@
                 "title": "每日领取次数",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "每日领取次数",
                 "image": null
@@ -1720,8 +1664,7 @@
                 "title": "领取重置时间",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "领取重置时间",
                 "image": null
@@ -1731,8 +1674,7 @@
                 "title": "未领取处理",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "未领取处理",
                 "image": null
@@ -1750,8 +1692,7 @@
                 "title": "持续加成配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "持续加成配置",
                 "image": null
@@ -1761,8 +1702,7 @@
                 "title": "权益冲突规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "权益冲突规则",
                 "image": null
@@ -1772,8 +1712,7 @@
                 "title": "到期回收",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "到期回收",
                 "image": null
@@ -1827,8 +1766,7 @@
                 "title": "会员等级或身份",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "会员等级或身份",
                 "image": null
@@ -1838,8 +1776,7 @@
                 "title": "权益生效与到期",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "权益生效与到期",
                 "image": null
@@ -1849,8 +1786,7 @@
                 "title": "权益列表展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "权益列表展示",
                 "image": null
@@ -1885,8 +1821,7 @@
         "note": "",
         "tags": [
           "广告",
-          "付费",
-          "VIP"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -1923,7 +1858,7 @@
                 "title": "使用资源",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "资源"
+                  "消耗"
                 ],
                 "desc": "复活券等",
                 "image": null
@@ -1933,7 +1868,7 @@
                 "title": "VIP免费",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "",
                 "image": null
@@ -1950,7 +1885,9 @@
                 "id": "opt_2r13v206nd",
                 "title": "限制每种复活次数",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -1958,7 +1895,9 @@
                 "id": "opt_1x7c2c2kyi",
                 "title": "限制总复活次数",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               }
@@ -1994,7 +1933,9 @@
                 "id": "opt_ref_card_revive_3_2",
                 "title": "失败后继续入口",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "失败后继续入口",
                 "image": null
               }
@@ -2024,8 +1965,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -2042,8 +1982,7 @@
                 "title": "可自动领取的奖励配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "可自动领取的奖励配置",
                 "image": null
@@ -2053,8 +1992,7 @@
                 "title": "每日次数限制",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "每日次数限制",
                 "image": null
@@ -2064,8 +2002,7 @@
                 "title": "权益有效期校验",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "权益有效期校验",
                 "image": null
@@ -2083,8 +2020,7 @@
                 "title": "快捷操作解锁",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "快捷操作解锁",
                 "image": null
@@ -2094,8 +2030,7 @@
                 "title": "功能开关",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "功能开关",
                 "image": null
@@ -2105,8 +2040,7 @@
                 "title": "权益到期处理",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "权益到期处理",
                 "image": null
@@ -2125,7 +2059,7 @@
                 "categoryId": "cat_paid",
                 "tags": [
                   "付费",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "移除插屏和横幅",
                 "image": null
@@ -2135,8 +2069,7 @@
                 "title": "激励广告权益单独说明",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "激励广告权益单独说明",
                 "image": null
@@ -2146,8 +2079,7 @@
                 "title": "购买恢复",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "购买恢复",
                 "image": null
@@ -2178,9 +2110,7 @@
           "额外奖励"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "在单局内设置任务、进度或阶段目标。",
@@ -2195,7 +2125,9 @@
                 "id": "opt_46ub4dfc1s",
                 "title": "限时",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -2203,7 +2135,9 @@
                 "id": "opt_ref_card_ingame_goal_1_2",
                 "title": "阶段目标",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "分阶段发奖",
                 "image": null
               },
@@ -2211,7 +2145,9 @@
                 "id": "opt_ref_card_ingame_goal_1_1",
                 "title": "阶段进度提示",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "阶段进度提示",
                 "image": null
               },
@@ -2219,7 +2155,9 @@
                 "id": "opt_ji8jc3dwty",
                 "title": "奖励弹出播放",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "",
                 "image": null
               }
@@ -2235,7 +2173,9 @@
                 "id": "opt_ref_card_ingame_goal_3_0",
                 "title": "通过局内表现提升奖励等级",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "成长"
+                ],
                 "desc": "通过局内表现提升奖励等级",
                 "image": null
               },
@@ -2243,7 +2183,9 @@
                 "id": "opt_ref_card_ingame_goal_3_1",
                 "title": "奖励等级展示",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "奖励等级展示",
                 "image": null
               }
@@ -2259,7 +2201,9 @@
                 "id": "opt_ref_card_ingame_goal_0_1",
                 "title": "任务进度展示",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "任务进度展示",
                 "image": null
               },
@@ -2267,7 +2211,9 @@
                 "id": "opt_ref_card_ingame_goal_0_2",
                 "title": "完成即时领奖",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "完成即时领奖",
                 "image": null
               }
@@ -2297,8 +2243,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -2315,9 +2260,7 @@
                 "title": "关卡包进度要求",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "留存"
                 ],
                 "desc": "关卡包进度要求",
                 "image": null
@@ -2327,9 +2270,7 @@
                 "title": "整包购买",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "付费"
                 ],
                 "desc": "整包购买",
                 "image": null
@@ -2339,9 +2280,7 @@
                 "title": "关卡内容下载",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "内容"
                 ],
                 "desc": "关卡内容下载",
                 "image": null
@@ -2351,7 +2290,10 @@
                 "title": "任务解锁内容",
                 "desc": "通过任务进度解锁内容包，而不是直接购买。",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "留存",
+                  "内容"
+                ],
                 "image": null
               }
             ]
@@ -2367,9 +2309,7 @@
                 "title": "主题内容预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "主题内容预览",
                 "image": null
@@ -2379,9 +2319,7 @@
                 "title": "主题包购买或兑换",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "付费"
                 ],
                 "desc": "主题包购买或兑换",
                 "image": null
@@ -2391,9 +2329,7 @@
                 "title": "已购状态同步",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "已购状态同步",
                 "image": null
@@ -2411,9 +2347,7 @@
                 "title": "小型内容组合",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "内容"
                 ],
                 "desc": "小型内容组合",
                 "image": null
@@ -2423,9 +2357,8 @@
                 "title": "组合价格配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置",
+                  "付费"
                 ],
                 "desc": "组合价格配置",
                 "image": null
@@ -2435,9 +2368,7 @@
                 "title": "拥有内容去重",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "拥有内容去重",
                 "image": null
@@ -2455,9 +2386,8 @@
                 "title": "整包价格展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "展示",
+                  "付费"
                 ],
                 "desc": "整包价格展示",
                 "image": null
@@ -2467,9 +2397,7 @@
                 "title": "单项已拥有处理",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "单项已拥有处理",
                 "image": null
@@ -2480,8 +2408,7 @@
                 "categoryId": "cat_paid",
                 "tags": [
                   "付费",
-                  "其他",
-                  "广告"
+                  "内容"
                 ],
                 "desc": "购买后批量解锁",
                 "image": null
@@ -2499,9 +2426,7 @@
                 "title": "免费试玩范围",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "免费"
                 ],
                 "desc": "免费试玩范围",
                 "image": null
@@ -2511,9 +2436,7 @@
                 "title": "试玩结束提示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "试玩结束提示",
                 "image": null
@@ -2523,9 +2446,7 @@
                 "title": "试玩进度继承",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "试玩进度继承",
                 "image": null
@@ -2543,9 +2464,7 @@
                 "title": "图包预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "展示"
                 ],
                 "desc": "图包预览",
                 "image": null
@@ -2555,9 +2474,7 @@
                 "title": "单包解锁条件",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "配置"
                 ],
                 "desc": "单包解锁条件",
                 "image": null
@@ -2567,9 +2484,7 @@
                 "title": "已解锁图包访问",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他",
-                  "广告"
+                  "内容"
                 ],
                 "desc": "已解锁图包访问",
                 "image": null
@@ -2600,8 +2515,7 @@
         ],
         "note": "",
         "tags": [
-          "广告",
-          "其他"
+          "广告"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -2618,8 +2532,7 @@
                 "title": "限时收益倍率",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "限时收益倍率",
                 "image": null
@@ -2629,8 +2542,7 @@
                 "title": "广告激活加成",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告激活加成",
                 "image": null
@@ -2640,8 +2552,7 @@
                 "title": "倍率与持续时间配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "倍率与持续时间配置",
                 "image": null
@@ -2659,8 +2570,7 @@
                 "title": "限时技能试用",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "限时技能试用",
                 "image": null
@@ -2670,8 +2580,7 @@
                 "title": "广告延长持续时间",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告延长持续时间",
                 "image": null
@@ -2681,8 +2590,7 @@
                 "title": "效果到期提示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "效果到期提示",
                 "image": null
@@ -2700,8 +2608,7 @@
                 "title": "结算获得下局增益",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "结算获得下局增益",
                 "image": null
@@ -2711,8 +2618,7 @@
                 "title": "广告升级增益",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告升级增益",
                 "image": null
@@ -2722,8 +2628,7 @@
                 "title": "下一局自动生效",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "下一局自动生效",
                 "image": null
@@ -2741,8 +2646,7 @@
                 "title": "开局选择增益",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "开局选择增益",
                 "image": null
@@ -2752,8 +2656,7 @@
                 "title": "广告解锁增益",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告解锁增益",
                 "image": null
@@ -2763,8 +2666,7 @@
                 "title": "消耗道具启用增益",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "广告",
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "消耗道具启用增益",
                 "image": null
@@ -2879,7 +2781,6 @@
         ],
         "note": "",
         "tags": [
-          "其他",
           "广告"
         ],
         "categoryId": "cat_none",
@@ -2896,7 +2797,9 @@
                 "id": "opt_ref_card_checkin_3_0",
                 "title": "免费领取冷却",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "免费"
+                ],
                 "desc": "免费领取冷却",
                 "image": null
               },
@@ -2914,7 +2817,9 @@
                 "id": "opt_ref_card_checkin_3_2",
                 "title": "奖励内容预览",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "奖励内容预览",
                 "image": null
               }
@@ -2931,7 +2836,7 @@
                 "title": "累计签到进度",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "留存"
                 ],
                 "desc": "累计签到进度",
                 "image": null
@@ -2941,7 +2846,7 @@
                 "title": "里程碑奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "留存"
                 ],
                 "desc": "里程碑奖励",
                 "image": null
@@ -2951,7 +2856,7 @@
                 "title": "漏签不清零",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "留存"
                 ],
                 "desc": "漏签不清零",
                 "image": null
@@ -2969,7 +2874,7 @@
                 "title": "循环周期配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "配置"
                 ],
                 "desc": "循环周期配置",
                 "image": null
@@ -2979,7 +2884,7 @@
                 "title": "周期完成后重置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "配置"
                 ],
                 "desc": "周期完成后重置",
                 "image": null
@@ -2989,7 +2894,7 @@
                 "title": "周期末奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告"
+                  "留存"
                 ],
                 "desc": "周期末奖励",
                 "image": null
@@ -3105,8 +3010,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "VIP"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -3123,7 +3027,7 @@
                 "title": "1周",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3133,7 +3037,7 @@
                 "title": "半个月",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3143,7 +3047,7 @@
                 "title": "1个月",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3161,7 +3065,7 @@
                 "title": "低等级VIP级以上",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3171,7 +3075,7 @@
                 "title": "仅限高等级",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "VIP"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3201,9 +3105,7 @@
           "累计目标 / 里程碑"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "用短期或中期累计任务发放阶段奖励。",
@@ -3218,7 +3120,9 @@
                 "id": "opt_arfsnl64ml",
                 "title": "1周",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -3226,7 +3130,9 @@
                 "id": "opt_omknc6kejj",
                 "title": "半个月",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -3234,7 +3140,9 @@
                 "id": "opt_9c38rdrjfh",
                 "title": "1个月",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "",
                 "image": null
               }
@@ -3250,7 +3158,9 @@
                 "id": "opt_v2ef5cmc9q",
                 "title": "游玩任务",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -3258,7 +3168,9 @@
                 "id": "opt_49x8f1ziam",
                 "title": "付费",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "付费"
+                ],
                 "desc": "",
                 "image": null
               },
@@ -3266,7 +3178,9 @@
                 "id": "opt_0mm754erxn",
                 "title": "广告时长",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "广告"
+                ],
                 "desc": "",
                 "image": null
               }
@@ -3298,7 +3212,6 @@
         ],
         "note": "",
         "tags": [
-          "其他",
           "广告",
           "付费"
         ],
@@ -3316,7 +3229,9 @@
                 "id": "opt_ref_card_challenge_1_0",
                 "title": "1周",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "每日挑战解锁",
                 "image": null
               },
@@ -3324,7 +3239,9 @@
                 "id": "opt_ref_card_challenge_1_1",
                 "title": "半个月",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "连续完成奖励",
                 "image": null
               },
@@ -3332,7 +3249,9 @@
                 "id": "opt_ref_card_challenge_1_2",
                 "title": "1个月",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "错过日期补做规则",
                 "image": null
               },
@@ -3341,8 +3260,7 @@
                 "title": "一直都有",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "",
                 "image": null
@@ -3360,7 +3278,7 @@
                 "title": "体力",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "消耗"
                 ],
                 "desc": "",
                 "image": null
@@ -3390,7 +3308,7 @@
                 "title": "VIP免费",
                 "categoryId": "cat_none",
                 "tags": [
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "",
                 "image": null
@@ -3415,8 +3333,7 @@
                 "title": "连胜计数",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告",
-                  "付费"
+                  "留存"
                 ],
                 "desc": "连胜计数",
                 "image": null
@@ -3426,8 +3343,7 @@
                 "title": "失败重置规则",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "失败重置规则",
                 "image": null
@@ -3437,8 +3353,7 @@
                 "title": "阶段奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "广告",
-                  "付费"
+                  "留存"
                 ],
                 "desc": "阶段奖励",
                 "image": null
@@ -3471,8 +3386,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -3488,7 +3402,9 @@
                 "id": "opt_ref_card_pass_4_0",
                 "title": "任务获取通行证经验",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "任务获取通行证经验",
                 "image": null
               },
@@ -3496,7 +3412,9 @@
                 "id": "opt_ref_card_pass_4_1",
                 "title": "等级进度展示",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "等级进度展示",
                 "image": null
               },
@@ -3504,7 +3422,9 @@
                 "id": "opt_ref_card_pass_4_2",
                 "title": "等级上限配置",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "等级上限配置",
                 "image": null
               }
@@ -3520,7 +3440,9 @@
                 "id": "opt_ref_card_pass_2_0",
                 "title": "赛季时间配置",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "赛季时间配置",
                 "image": null
               },
@@ -3528,7 +3450,9 @@
                 "id": "opt_ref_card_pass_2_1",
                 "title": "赛季结束结算",
                 "categoryId": "cat_paid",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "赛季结束结算",
                 "image": null
               },
@@ -3537,7 +3461,7 @@
                 "title": "赛季进度重置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费"
+                  "配置"
                 ],
                 "desc": "赛季进度重置",
                 "image": null
@@ -3555,8 +3479,7 @@
                 "title": "付费轨",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "解锁通行证付费奖励轨。",
                 "image": {
@@ -3572,8 +3495,7 @@
                 "title": "已达等级补领奖励",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "VIP"
+                  "付费"
                 ],
                 "desc": "已达等级补领奖励",
                 "image": null
@@ -3583,8 +3505,7 @@
                 "title": "购买前奖励预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "VIP"
+                  "展示"
                 ],
                 "desc": "购买前奖励预览",
                 "image": null
@@ -3614,9 +3535,7 @@
           "碎片兑换 / 主题收藏"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "用拼图、集卡等主题收集驱动中期目标。",
@@ -3632,7 +3551,7 @@
                 "title": "掉落与稀有度",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "收集"
                 ],
                 "desc": "掉落与稀有度",
                 "image": null
@@ -3642,7 +3561,7 @@
                 "title": "重复获取与转换",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "收集"
                 ],
                 "desc": "重复卡转换",
                 "image": null
@@ -3652,7 +3571,7 @@
                 "title": "集齐套组",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "收集"
                 ],
                 "desc": "集齐套组奖励",
                 "image": null
@@ -3670,7 +3589,8 @@
                 "title": "碎片库存",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "收集",
+                  "消耗"
                 ],
                 "desc": "碎片库存",
                 "image": null
@@ -3680,7 +3600,7 @@
                 "title": "指定奖励兑换",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "收集"
                 ],
                 "desc": "指定奖励兑换",
                 "image": null
@@ -3690,7 +3610,7 @@
                 "title": "兑换次数限制",
                 "categoryId": "cat_none",
                 "tags": [
-                  "资源"
+                  "配置"
                 ],
                 "desc": "兑换次数限制",
                 "image": null
@@ -3722,9 +3642,7 @@
           "荣誉激励 / 长线留存"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "用每日任务和里程碑驱动日常行为。",
@@ -3739,7 +3657,9 @@
                 "id": "opt_ref_card_quest_1_0",
                 "title": "成就分级目标",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "成就分级目标",
                 "image": null
               },
@@ -3747,7 +3667,9 @@
                 "id": "opt_ref_card_quest_1_1",
                 "title": "永久进度保存",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "配置"
+                ],
                 "desc": "永久进度保存",
                 "image": null
               },
@@ -3755,7 +3677,9 @@
                 "id": "opt_ref_card_quest_1_2",
                 "title": "达成奖励领取",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "达成奖励领取",
                 "image": null
               }
@@ -3771,7 +3695,9 @@
                 "id": "opt_ref_card_quest_0_0",
                 "title": "每日任务池",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "每日任务池",
                 "image": null
               },
@@ -3779,7 +3705,9 @@
                 "id": "opt_ref_card_quest_0_1",
                 "title": "任务进度追踪",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "任务进度追踪",
                 "image": null
               },
@@ -3787,7 +3715,9 @@
                 "id": "opt_ref_card_quest_0_2",
                 "title": "每日重置领奖",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "每日重置领奖",
                 "image": null
               }
@@ -3816,9 +3746,7 @@
           "个人 / 团队目标"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "用个人或团队排行榜制造竞争。",
@@ -3834,7 +3762,7 @@
                 "title": "按进度分组",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "按进度分组",
                 "image": null
@@ -3844,7 +3772,7 @@
                 "title": "组内排名展示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "组内排名展示",
                 "image": null
@@ -3854,7 +3782,7 @@
                 "title": "活动结束结算",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "活动结束结算",
                 "image": null
@@ -3871,7 +3799,9 @@
                 "id": "opt_ref_card_rank_2_0",
                 "title": "个人积分目标",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "个人积分目标",
                 "image": null
               },
@@ -3879,7 +3809,9 @@
                 "id": "opt_ref_card_rank_2_1",
                 "title": "分档奖励",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "留存"
+                ],
                 "desc": "分档奖励",
                 "image": null
               },
@@ -3887,7 +3819,9 @@
                 "id": "opt_ref_card_rank_2_2",
                 "title": "进度与剩余时间展示",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "进度与剩余时间展示",
                 "image": null
               },
@@ -3895,7 +3829,9 @@
                 "id": "opt_hmuh7s15vd",
                 "title": "排行榜",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "desc": "",
                 "image": null
               }
@@ -3924,9 +3860,7 @@
           "分层奖励 / 专属任务"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "按新用户、回流或老用户发放专属活动。",
@@ -3942,7 +3876,7 @@
                 "title": "会员身份校验",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "付费"
                 ],
                 "desc": "会员身份校验",
                 "image": null
@@ -3952,7 +3886,7 @@
                 "title": "专属活动入口",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "专属活动入口",
                 "image": null
@@ -3962,7 +3896,7 @@
                 "title": "权益失效处理",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "权益失效处理",
                 "image": null
@@ -3980,7 +3914,7 @@
                 "title": "新手触发条件",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "新手触发条件",
                 "image": null
@@ -3990,7 +3924,7 @@
                 "title": "新手任务与奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "留存"
                 ],
                 "desc": "新手任务与奖励",
                 "image": null
@@ -4000,7 +3934,7 @@
                 "title": "活动有效期",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "活动有效期",
                 "image": null
@@ -4018,7 +3952,7 @@
                 "title": "回流判定条件",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "回流判定条件",
                 "image": null
@@ -4028,7 +3962,7 @@
                 "title": "回归奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "留存"
                 ],
                 "desc": "回归奖励",
                 "image": null
@@ -4038,7 +3972,7 @@
                 "title": "回流任务周期",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "回流任务周期",
                 "image": null
@@ -4070,9 +4004,7 @@
           "自然恢复 / 额外补充"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_paid",
         "customColor": null,
         "desc": "用体力、门票和自然恢复控制游玩节奏。",
@@ -4088,7 +4020,7 @@
                 "title": "门票库存",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "门票库存",
                 "image": null
@@ -4098,7 +4030,7 @@
                 "title": "指定玩法消耗",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "指定玩法消耗",
                 "image": null
@@ -4108,7 +4040,7 @@
                 "title": "门票获取途径",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "门票获取途径",
                 "image": null
@@ -4126,7 +4058,7 @@
                 "title": "每日次数上限",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "每日次数上限",
                 "image": null
@@ -4136,7 +4068,7 @@
                 "title": "进入时扣减",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "进入时扣减",
                 "image": null
@@ -4146,7 +4078,7 @@
                 "title": "失败返还规则",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "失败返还规则",
                 "image": null
@@ -4164,7 +4096,7 @@
                 "title": "恢复间隔配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "恢复间隔配置",
                 "image": null
@@ -4174,7 +4106,7 @@
                 "title": "离线恢复计算",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "离线恢复计算",
                 "image": null
@@ -4184,7 +4116,7 @@
                 "title": "恢复倒计时",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "恢复倒计时",
                 "image": null
@@ -4202,7 +4134,7 @@
                 "title": "广告补充",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "广告"
                 ],
                 "desc": "广告补充",
                 "image": null
@@ -4212,7 +4144,7 @@
                 "title": "货币购买",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "货币"
                 ],
                 "desc": "货币购买",
                 "image": null
@@ -4222,7 +4154,7 @@
                 "title": "每日补充次数限制",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "每日补充次数限制",
                 "image": null
@@ -4240,7 +4172,7 @@
                 "title": "体力上限",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "体力上限",
                 "image": null
@@ -4250,7 +4182,7 @@
                 "title": "关卡消耗",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "关卡消耗",
                 "image": null
@@ -4260,7 +4192,7 @@
                 "title": "不足提示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "不足提示",
                 "image": null
@@ -4291,7 +4223,6 @@
         ],
         "note": "",
         "tags": [
-          "其他",
           "付费"
         ],
         "categoryId": "cat_paid",
@@ -4309,8 +4240,7 @@
                 "title": "进度解锁条件",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "成长"
                 ],
                 "desc": "进度解锁条件",
                 "image": null
@@ -4320,8 +4250,8 @@
                 "title": "能力效果预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示",
+                  "成长"
                 ],
                 "desc": "能力效果预览",
                 "image": null
@@ -4331,8 +4261,7 @@
                 "title": "解锁状态保存",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "解锁状态保存",
                 "image": null
@@ -4350,8 +4279,7 @@
                 "title": "广告缩短等待",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "广告"
                 ],
                 "desc": "广告缩短等待",
                 "image": null
@@ -4361,7 +4289,6 @@
                 "title": "付费购买加速",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
                   "付费"
                 ],
                 "desc": "付费购买加速",
@@ -4372,8 +4299,7 @@
                 "title": "剩余时间展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "剩余时间展示",
                 "image": null
@@ -4391,7 +4317,7 @@
                 "title": "成长节点奖励",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
+                  "成长",
                   "付费"
                 ],
                 "desc": "成长节点奖励",
@@ -4402,7 +4328,6 @@
                 "title": "购买解锁奖励轨",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
                   "付费"
                 ],
                 "desc": "购买解锁奖励轨",
@@ -4413,8 +4338,7 @@
                 "title": "已达节点补领",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "已达节点补领",
                 "image": null
@@ -4432,8 +4356,8 @@
                 "title": "升级消耗配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "消耗",
+                  "成长"
                 ],
                 "desc": "升级消耗配置",
                 "image": null
@@ -4443,8 +4367,8 @@
                 "title": "属性等级与效果展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示",
+                  "成长"
                 ],
                 "desc": "属性等级与效果展示",
                 "image": null
@@ -4454,8 +4378,7 @@
                 "title": "等级上限",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "等级上限",
                 "image": null
@@ -4488,8 +4411,7 @@
         ],
         "note": "",
         "tags": [
-          "付费",
-          "其他"
+          "付费"
         ],
         "categoryId": "cat_paid",
         "customColor": null,
@@ -4506,8 +4428,7 @@
                 "title": "皮肤获取途径",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "皮肤获取途径",
                 "image": null
@@ -4517,8 +4438,7 @@
                 "title": "皮肤试穿",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "皮肤试穿",
                 "image": null
@@ -4528,8 +4448,7 @@
                 "title": "已拥有状态",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "已拥有状态",
                 "image": null
@@ -4547,8 +4466,7 @@
                 "title": "装扮槽位配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "装扮槽位配置",
                 "image": null
@@ -4558,8 +4476,7 @@
                 "title": "搭配保存",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "搭配保存",
                 "image": null
@@ -4569,8 +4486,7 @@
                 "title": "装扮获取途径",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "装扮获取途径",
                 "image": null
@@ -4588,8 +4504,7 @@
                 "title": "外观效果展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "外观效果展示",
                 "image": null
@@ -4599,8 +4514,7 @@
                 "title": "局内外观应用",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "局内外观应用",
                 "image": null
@@ -4610,8 +4524,7 @@
                 "title": "套装效果展示",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "套装效果展示",
                 "image": null
@@ -4629,8 +4542,8 @@
                 "title": "能力属性说明",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示",
+                  "成长"
                 ],
                 "desc": "能力属性说明",
                 "image": null
@@ -4640,8 +4553,7 @@
                 "title": "能力解锁与升级",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "成长"
                 ],
                 "desc": "能力解锁与升级",
                 "image": null
@@ -4651,8 +4563,7 @@
                 "title": "玩法平衡配置",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "配置"
                 ],
                 "desc": "玩法平衡配置",
                 "image": null
@@ -4670,8 +4581,7 @@
                 "title": "角色解锁条件",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "付费"
                 ],
                 "desc": "角色解锁条件",
                 "image": null
@@ -4681,8 +4591,7 @@
                 "title": "角色选择与切换",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "角色选择与切换",
                 "image": null
@@ -4692,8 +4601,7 @@
                 "title": "角色预览",
                 "categoryId": "cat_paid",
                 "tags": [
-                  "付费",
-                  "其他"
+                  "展示"
                 ],
                 "desc": "角色预览",
                 "image": null
@@ -4725,7 +4633,6 @@
         ],
         "note": "",
         "tags": [
-          "其他",
           "付费"
         ],
         "categoryId": "cat_none",
@@ -4743,8 +4650,7 @@
                 "title": "收藏标记",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "收集"
                 ],
                 "desc": "收藏标记",
                 "image": null
@@ -4754,8 +4660,7 @@
                 "title": "收藏列表",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "收藏列表",
                 "image": null
@@ -4765,8 +4670,7 @@
                 "title": "跨设备同步",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "跨设备同步",
                 "image": null
@@ -4784,8 +4688,7 @@
                 "title": "完成作品展示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "完成作品展示",
                 "image": null
@@ -4795,8 +4698,7 @@
                 "title": "完成时间记录",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "完成时间记录",
                 "image": null
@@ -4806,8 +4708,7 @@
                 "title": "分享入口",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "分享入口",
                 "image": null
@@ -4825,8 +4726,7 @@
                 "title": "套系收集进度",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "收集"
                 ],
                 "desc": "套系收集进度",
                 "image": null
@@ -4836,8 +4736,7 @@
                 "title": "套系完成奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "收集"
                 ],
                 "desc": "套系完成奖励",
                 "image": null
@@ -4847,8 +4746,7 @@
                 "title": "缺失内容提示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "缺失内容提示",
                 "image": null
@@ -4866,8 +4764,7 @@
                 "title": "未解锁内容预览",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "未解锁内容预览",
                 "image": null
@@ -4877,8 +4774,7 @@
                 "title": "获取途径展示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "获取途径展示",
                 "image": null
@@ -4888,8 +4784,7 @@
                 "title": "预览权限配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "预览权限配置",
                 "image": null
@@ -4907,8 +4802,7 @@
                 "title": "按主题筛选",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "按主题筛选",
                 "image": null
@@ -4918,8 +4812,7 @@
                 "title": "按解锁状态筛选",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "按解锁状态筛选",
                 "image": null
@@ -4929,8 +4822,7 @@
                 "title": "排序配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "排序配置",
                 "image": null
@@ -4963,7 +4855,6 @@
         ],
         "note": "",
         "tags": [
-          "其他",
           "广告",
           "付费"
         ],
@@ -4982,9 +4873,7 @@
                 "title": "作品保存",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "内容"
                 ],
                 "desc": "作品保存",
                 "image": null
@@ -4994,9 +4883,7 @@
                 "title": "保存失败提示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "保存失败提示",
                 "image": null
@@ -5006,9 +4893,7 @@
                 "title": "本地作品管理",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "内容"
                 ],
                 "desc": "本地作品管理",
                 "image": null
@@ -5026,9 +4911,7 @@
                 "title": "高清规格配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "高清规格配置",
                 "image": null
@@ -5038,8 +4921,6 @@
                 "title": "导出权益校验",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
                   "付费"
                 ],
                 "desc": "导出权益校验",
@@ -5050,9 +4931,7 @@
                 "title": "导出进度与失败重试",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "导出进度与失败重试",
                 "image": null
@@ -5070,8 +4949,6 @@
                 "title": "会员导出权限",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
                   "付费"
                 ],
                 "desc": "会员导出权限",
@@ -5082,8 +4959,6 @@
                 "title": "有效期校验",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
                   "付费"
                 ],
                 "desc": "有效期校验",
@@ -5094,9 +4969,7 @@
                 "title": "到期后导出规则",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "到期后导出规则",
                 "image": null
@@ -5114,9 +4987,7 @@
                 "title": "壁纸尺寸选择",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "展示"
                 ],
                 "desc": "壁纸尺寸选择",
                 "image": null
@@ -5126,9 +4997,7 @@
                 "title": "保存至设备",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "内容"
                 ],
                 "desc": "保存至设备",
                 "image": null
@@ -5138,9 +5007,7 @@
                 "title": "设备权限处理",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他",
-                  "广告",
-                  "付费"
+                  "配置"
                 ],
                 "desc": "设备权限处理",
                 "image": null
@@ -5170,9 +5037,7 @@
           "阶段解锁 / 装饰收集"
         ],
         "note": "",
-        "tags": [
-          "其他"
-        ],
+        "tags": [],
         "categoryId": "cat_none",
         "customColor": null,
         "desc": "用家园、房间和装饰做建造收集。",
@@ -5188,7 +5053,7 @@
                 "title": "房间主题配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "内容"
                 ],
                 "desc": "房间主题配置",
                 "image": null
@@ -5198,7 +5063,7 @@
                 "title": "家具摆放",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "内容"
                 ],
                 "desc": "家具摆放",
                 "image": null
@@ -5208,7 +5073,7 @@
                 "title": "房间进度保存",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "房间进度保存",
                 "image": null
@@ -5226,7 +5091,7 @@
                 "title": "地图修复节点",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "成长"
                 ],
                 "desc": "地图修复节点",
                 "image": null
@@ -5236,7 +5101,7 @@
                 "title": "节点消耗与奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "节点消耗与奖励",
                 "image": null
@@ -5246,7 +5111,7 @@
                 "title": "修复效果展示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "修复效果展示",
                 "image": null
@@ -5264,7 +5129,7 @@
                 "title": "进度门槛配置",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "进度门槛配置",
                 "image": null
@@ -5274,7 +5139,7 @@
                 "title": "阶段解锁提示",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "展示"
                 ],
                 "desc": "阶段解锁提示",
                 "image": null
@@ -5284,7 +5149,7 @@
                 "title": "阶段奖励",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "成长"
                 ],
                 "desc": "阶段奖励",
                 "image": null
@@ -5302,7 +5167,7 @@
                 "title": "装饰获取途径",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "收集"
                 ],
                 "desc": "装饰获取途径",
                 "image": null
@@ -5312,7 +5177,8 @@
                 "title": "装饰库存",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "收集",
+                  "消耗"
                 ],
                 "desc": "装饰库存",
                 "image": null
@@ -5322,7 +5188,7 @@
                 "title": "放置与替换",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "内容"
                 ],
                 "desc": "放置与替换",
                 "image": null
@@ -5340,7 +5206,7 @@
                 "title": "家园区域解锁",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "成长"
                 ],
                 "desc": "家园区域解锁",
                 "image": null
@@ -5350,7 +5216,7 @@
                 "title": "建造资源消耗",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "消耗"
                 ],
                 "desc": "建造资源消耗",
                 "image": null
@@ -5360,7 +5226,7 @@
                 "title": "家园状态保存",
                 "categoryId": "cat_none",
                 "tags": [
-                  "其他"
+                  "配置"
                 ],
                 "desc": "家园状态保存",
                 "image": null
@@ -5378,7 +5244,9 @@
                 "title": "壁纸展示",
                 "desc": "把壁纸展示在首页。",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "image": null
               },
               {
@@ -5386,7 +5254,9 @@
                 "title": "建造与装饰展示",
                 "desc": "展示家园和装饰成果。",
                 "categoryId": "cat_none",
-                "tags": [],
+                "tags": [
+                  "展示"
+                ],
                 "image": null
               }
             ]
@@ -5415,7 +5285,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -5432,7 +5302,7 @@
                 "title": "随机奖池配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "随机奖池配置",
                 "image": null
@@ -5442,7 +5312,7 @@
                 "title": "抽取结果记录",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "抽取结果记录",
                 "image": null
@@ -5452,7 +5322,7 @@
                 "title": "库存不足处理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "库存不足处理",
                 "image": null
@@ -5470,7 +5340,7 @@
                 "title": "权重与概率配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "权重与概率配置",
                 "image": null
@@ -5480,7 +5350,7 @@
                 "title": "按条件选择奖池",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按条件选择奖池",
                 "image": null
@@ -5490,7 +5360,7 @@
                 "title": "权重版本记录",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "权重版本记录",
                 "image": null
@@ -5508,7 +5378,8 @@
                 "title": "货币余额与流水",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "货币"
                 ],
                 "desc": "货币余额与流水",
                 "image": null
@@ -5518,7 +5389,8 @@
                 "title": "货币获取和消耗",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "货币"
                 ],
                 "desc": "货币获取和消耗",
                 "image": null
@@ -5528,7 +5400,7 @@
                 "title": "余额上限",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "余额上限",
                 "image": null
@@ -5546,7 +5418,7 @@
                 "title": "道具增减与查询",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "道具增减与查询",
                 "image": null
@@ -5556,7 +5428,7 @@
                 "title": "数量上限",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "数量上限",
                 "image": null
@@ -5566,7 +5438,7 @@
                 "title": "跨设备库存同步",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "跨设备库存同步",
                 "image": null
@@ -5584,7 +5456,7 @@
                 "title": "防止重复发奖",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "防止重复发奖",
                 "image": null
@@ -5594,7 +5466,7 @@
                 "title": "异常补发",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "异常补发",
                 "image": null
@@ -5604,7 +5476,7 @@
                 "title": "客户端与服务端结果对账",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "客户端与服务端结果对账",
                 "image": null
@@ -5622,7 +5494,7 @@
                 "title": "固定奖励配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "固定奖励配置",
                 "image": null
@@ -5632,7 +5504,7 @@
                 "title": "批量发放",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "批量发放",
                 "image": null
@@ -5642,7 +5514,7 @@
                 "title": "奖励预览",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "展示"
                 ],
                 "desc": "奖励预览",
                 "image": null
@@ -5673,7 +5545,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -5690,7 +5562,8 @@
                 "title": "展示时机控制",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "广告"
                 ],
                 "desc": "展示时机控制",
                 "image": null
@@ -5700,7 +5573,7 @@
                 "title": "加载失败跳过",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "加载失败跳过",
                 "image": null
@@ -5710,7 +5583,7 @@
                 "title": "展示结果回调",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "展示结果回调",
                 "image": null
@@ -5720,7 +5593,8 @@
                 "title": "按关卡和用户分层配置频率",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "配置",
+                  "广告"
                 ],
                 "desc": "按关卡和用户分层配置频率",
                 "image": null
@@ -5738,7 +5612,7 @@
                 "title": "广告位尺寸适配",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "广告位尺寸适配",
                 "image": null
@@ -5748,7 +5622,7 @@
                 "title": "显示与隐藏控制",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "显示与隐藏控制",
                 "image": null
@@ -5758,7 +5632,7 @@
                 "title": "页面遮挡检查",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "页面遮挡检查",
                 "image": null
@@ -5776,7 +5650,7 @@
                 "title": "按广告类型和用户频控",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按广告类型和用户频控",
                 "image": null
@@ -5786,7 +5660,7 @@
                 "title": "展示间隔与次数上限",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "展示间隔与次数上限",
                 "image": null
@@ -5796,7 +5670,7 @@
                 "title": "跨场景统一计数",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "跨场景统一计数",
                 "image": null
@@ -5814,7 +5688,7 @@
                 "title": "新用户保护期",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "新用户保护期",
                 "image": null
@@ -5824,7 +5698,7 @@
                 "title": "关卡进度保护",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "关卡进度保护",
                 "image": null
@@ -5834,7 +5708,8 @@
                 "title": "付费用户保护策略",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "付费"
                 ],
                 "desc": "付费用户保护策略",
                 "image": null
@@ -5852,7 +5727,7 @@
                 "title": "无填充提示",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "无填充提示",
                 "image": null
@@ -5862,7 +5737,7 @@
                 "title": "重试与超时处理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "重试与超时处理",
                 "image": null
@@ -5872,7 +5747,7 @@
                 "title": "不可用时替代领取规则",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "不可用时替代领取规则",
                 "image": null
@@ -5890,7 +5765,7 @@
                 "title": "广告加载与缓存",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "广告加载与缓存",
                 "image": null
@@ -5900,7 +5775,8 @@
                 "title": "完整观看回调发奖",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "广告"
                 ],
                 "desc": "完整观看回调发奖",
                 "image": null
@@ -5910,7 +5786,7 @@
                 "title": "关闭或失败不发奖",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "关闭或失败不发奖",
                 "image": null
@@ -5920,7 +5796,7 @@
                 "title": "广告位奖励与观看次数配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "配置"
                 ],
                 "desc": "广告位奖励与观看次数配置",
                 "image": null
@@ -5930,7 +5806,7 @@
                 "title": "按用户分层调整激励价值",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "配置"
                 ],
                 "desc": "按用户分层调整激励价值",
                 "image": null
@@ -5961,7 +5837,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -5978,7 +5854,7 @@
                 "title": "服务端票据校验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "服务端票据校验",
                 "image": null
@@ -5988,7 +5864,7 @@
                 "title": "订单幂等发货",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "订单幂等发货",
                 "image": null
@@ -5998,7 +5874,7 @@
                 "title": "未完成订单补单",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "未完成订单补单",
                 "image": null
@@ -6016,7 +5892,7 @@
                 "title": "恢复非消耗型购买",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "恢复非消耗型购买",
                 "image": null
@@ -6026,7 +5902,7 @@
                 "title": "跨设备权益同步",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "跨设备权益同步",
                 "image": null
@@ -6036,7 +5912,7 @@
                 "title": "恢复结果提示",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "展示"
                 ],
                 "desc": "恢复结果提示",
                 "image": null
@@ -6054,7 +5930,7 @@
                 "title": "订阅有效期校验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "订阅有效期校验",
                 "image": null
@@ -6064,7 +5940,7 @@
                 "title": "续订与取消状态同步",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "续订与取消状态同步",
                 "image": null
@@ -6074,7 +5950,7 @@
                 "title": "退款和过期权益处理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "退款和过期权益处理",
                 "image": null
@@ -6092,7 +5968,7 @@
                 "title": "平台商品 ID 映射",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "平台商品 ID 映射",
                 "image": null
@@ -6102,7 +5978,7 @@
                 "title": "本地化价格读取",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "本地化价格读取",
                 "image": null
@@ -6112,7 +5988,7 @@
                 "title": "商品上下架",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "商品上下架",
                 "image": null
@@ -6122,7 +5998,7 @@
                 "title": "价格档位与礼包内容配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "配置"
                 ],
                 "desc": "价格档位与礼包内容配置",
                 "image": null
@@ -6153,7 +6029,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -6170,7 +6046,7 @@
                 "title": "关卡或成长门槛",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "关卡或成长门槛",
                 "image": null
@@ -6180,7 +6056,7 @@
                 "title": "解锁条件组合",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "解锁条件组合",
                 "image": null
@@ -6190,7 +6066,7 @@
                 "title": "进度变化触发",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "进度变化触发",
                 "image": null
@@ -6208,7 +6084,7 @@
                 "title": "用户分群条件",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "用户分群条件",
                 "image": null
@@ -6218,7 +6094,7 @@
                 "title": "资格动态校验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "资格动态校验",
                 "image": null
@@ -6228,7 +6104,7 @@
                 "title": "人群互斥规则",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "人群互斥规则",
                 "image": null
@@ -6246,7 +6122,7 @@
                 "title": "事件驱动计数",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "事件驱动计数",
                 "image": null
@@ -6256,7 +6132,7 @@
                 "title": "去重与上限",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "去重与上限",
                 "image": null
@@ -6266,7 +6142,7 @@
                 "title": "跨局进度持久化",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "跨局进度持久化",
                 "image": null
@@ -6284,7 +6160,7 @@
                 "title": "按日周或周期重置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按日周或周期重置",
                 "image": null
@@ -6294,7 +6170,7 @@
                 "title": "重置时区配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "重置时区配置",
                 "image": null
@@ -6304,7 +6180,7 @@
                 "title": "跨周期未领奖处理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "跨周期未领奖处理",
                 "image": null
@@ -6322,7 +6198,7 @@
                 "title": "活动起止时间",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "活动起止时间",
                 "image": null
@@ -6332,7 +6208,7 @@
                 "title": "时区与服务器时间",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "时区与服务器时间",
                 "image": null
@@ -6342,7 +6218,7 @@
                 "title": "倒计时配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "倒计时配置",
                 "image": null
@@ -6373,7 +6249,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -6390,7 +6266,7 @@
                 "title": "参数类型与默认值",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "参数类型与默认值",
                 "image": null
@@ -6400,7 +6276,7 @@
                 "title": "配置版本管理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "配置版本管理",
                 "image": null
@@ -6410,7 +6286,7 @@
                 "title": "客户端缓存",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "客户端缓存",
                 "image": null
@@ -6428,7 +6304,7 @@
                 "title": "按地区进度和行为分群",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按地区进度和行为分群",
                 "image": null
@@ -6438,7 +6314,7 @@
                 "title": "分群条件配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "分群条件配置",
                 "image": null
@@ -6448,7 +6324,7 @@
                 "title": "用户分组稳定性",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "用户分组稳定性",
                 "image": null
@@ -6466,7 +6342,7 @@
                 "title": "随机分组并保持用户分组不变",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "随机分组并保持用户分组不变",
                 "image": null
@@ -6476,7 +6352,7 @@
                 "title": "实验指标配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "实验指标配置",
                 "image": null
@@ -6486,7 +6362,7 @@
                 "title": "互斥与结束策略",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "互斥与结束策略",
                 "image": null
@@ -6496,7 +6372,8 @@
                 "title": "广告频率与奖励价值实验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "广告"
                 ],
                 "desc": "广告频率与奖励价值实验",
                 "image": null
@@ -6506,7 +6383,7 @@
                 "title": "商品价格与礼包内容实验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "商品价格与礼包内容实验",
                 "image": null
@@ -6524,7 +6401,7 @@
                 "title": "按比例发布",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按比例发布",
                 "image": null
@@ -6534,7 +6411,7 @@
                 "title": "指定人群或地区发布",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "指定人群或地区发布",
                 "image": null
@@ -6544,7 +6421,7 @@
                 "title": "回滚配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "回滚配置",
                 "image": null
@@ -6562,7 +6439,7 @@
                 "title": "按版本或人群开关",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按版本或人群开关",
                 "image": null
@@ -6572,7 +6449,7 @@
                 "title": "默认值与降级",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "默认值与降级",
                 "image": null
@@ -6582,7 +6459,7 @@
                 "title": "紧急关闭",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "紧急关闭",
                 "image": null
@@ -6613,7 +6490,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -6630,7 +6507,7 @@
                 "title": "点击到领取漏斗",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "点击到领取漏斗",
                 "image": null
@@ -6640,7 +6517,7 @@
                 "title": "购买转化漏斗",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "购买转化漏斗",
                 "image": null
@@ -6650,7 +6527,7 @@
                 "title": "失败原因记录",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "失败原因记录",
                 "image": null
@@ -6668,7 +6545,8 @@
                 "title": "广告收入归因",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "广告"
                 ],
                 "desc": "广告收入归因",
                 "image": null
@@ -6678,7 +6556,7 @@
                 "title": "内购收入与退款",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "内购收入与退款",
                 "image": null
@@ -6688,7 +6566,7 @@
                 "title": "按地区和版本分析",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "按地区和版本分析",
                 "image": null
@@ -6698,7 +6576,8 @@
                 "title": "广告位展示率和每千次展示收益",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础",
+                  "广告"
                 ],
                 "desc": "广告位展示率和每千次展示收益",
                 "image": null
@@ -6708,7 +6587,7 @@
                 "title": "付费率与付费用户平均收入",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "付费率与付费用户平均收入",
                 "image": null
@@ -6718,7 +6597,7 @@
                 "title": "用户从进入游戏至今的广告和内购收入",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "用户从进入游戏至今的广告和内购收入",
                 "image": null
@@ -6736,7 +6615,7 @@
                 "title": "次日及周期留存",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "次日及周期留存",
                 "image": null
@@ -6746,7 +6625,7 @@
                 "title": "分群留存分析",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "分群留存分析",
                 "image": null
@@ -6756,7 +6635,7 @@
                 "title": "活动参与留存",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "活动参与留存",
                 "image": null
@@ -6774,7 +6653,7 @@
                 "title": "实验分组与指标记录",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "实验分组与指标记录",
                 "image": null
@@ -6784,7 +6663,7 @@
                 "title": "样本和观察周期",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "样本和观察周期",
                 "image": null
@@ -6794,7 +6673,7 @@
                 "title": "结论与适用范围",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "结论与适用范围",
                 "image": null
@@ -6812,7 +6691,7 @@
                 "title": "玩法与受众背景",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "玩法与受众背景",
                 "image": null
@@ -6822,7 +6701,7 @@
                 "title": "模组参数及依赖",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "模组参数及依赖",
                 "image": null
@@ -6832,7 +6711,7 @@
                 "title": "效果和问题复盘",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "效果和问题复盘",
                 "image": null
@@ -6850,7 +6729,7 @@
                 "title": "页面与广告位曝光",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "页面与广告位曝光",
                 "image": null
@@ -6860,7 +6739,7 @@
                 "title": "曝光去重规则",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "曝光去重规则",
                 "image": null
@@ -6870,7 +6749,7 @@
                 "title": "场景与配置版本记录",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "场景与配置版本记录",
                 "image": null
@@ -6901,7 +6780,7 @@
         ],
         "note": "",
         "tags": [
-          "共用能力"
+          "基础"
         ],
         "categoryId": "cat_infra",
         "customColor": null,
@@ -6918,7 +6797,7 @@
                 "title": "商店本地价格展示",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "展示"
                 ],
                 "desc": "商店本地价格展示",
                 "image": null
@@ -6928,7 +6807,7 @@
                 "title": "货币符号与格式",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "货币符号与格式",
                 "image": null
@@ -6938,7 +6817,7 @@
                 "title": "价格由平台返回",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "价格由平台返回",
                 "image": null
@@ -6956,7 +6835,7 @@
                 "title": "服务器时间基准",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "服务器时间基准",
                 "image": null
@@ -6966,7 +6845,7 @@
                 "title": "活动时区配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "活动时区配置",
                 "image": null
@@ -6976,7 +6855,7 @@
                 "title": "夏令时与跨日处理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "夏令时与跨日处理",
                 "image": null
@@ -6994,7 +6873,7 @@
                 "title": "隐私政策入口",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "隐私政策入口",
                 "image": null
@@ -7004,7 +6883,7 @@
                 "title": "同意状态管理",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "同意状态管理",
                 "image": null
@@ -7014,7 +6893,8 @@
                 "title": "广告隐私信号传递",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规",
+                  "广告"
                 ],
                 "desc": "广告隐私信号传递",
                 "image": null
@@ -7032,7 +6912,7 @@
                 "title": "年龄分级配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "年龄分级配置",
                 "image": null
@@ -7042,7 +6922,7 @@
                 "title": "儿童用户限制",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "儿童用户限制",
                 "image": null
@@ -7052,7 +6932,7 @@
                 "title": "按地区启用适龄体验",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "按地区启用适龄体验",
                 "image": null
@@ -7070,7 +6950,7 @@
                 "title": "随机商品概率披露",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "随机商品概率披露",
                 "image": null
@@ -7080,7 +6960,7 @@
                 "title": "平台支付和订阅规则",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "平台支付和订阅规则",
                 "image": null
@@ -7090,7 +6970,7 @@
                 "title": "地区广告及隐私规则配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "合规"
                 ],
                 "desc": "地区广告及隐私规则配置",
                 "image": null
@@ -7108,7 +6988,7 @@
                 "title": "多语言文案配置",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "多语言文案配置",
                 "image": null
@@ -7118,7 +6998,7 @@
                 "title": "系统语言匹配",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "系统语言匹配",
                 "image": null
@@ -7128,7 +7008,7 @@
                 "title": "长文本与从右至左适配",
                 "categoryId": "cat_infra",
                 "tags": [
-                  "共用能力"
+                  "基础"
                 ],
                 "desc": "长文本与从右至左适配",
                 "image": null
@@ -7150,13 +7030,19 @@
       }
     ],
     "tagPresets": [
-      "付费",
       "广告",
-      "VIP",
+      "付费",
+      "免费",
       "货币",
-      "资源",
-      "共用能力",
-      "其他"
+      "消耗",
+      "留存",
+      "成长",
+      "收集",
+      "内容",
+      "合规",
+      "基础",
+      "配置",
+      "展示"
     ],
     "tagColors": {},
     "meta": {

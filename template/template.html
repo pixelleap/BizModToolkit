@@ -468,7 +468,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.22.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.23.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -878,7 +878,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.22.0';
+const APP_VERSION = '4.23.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -935,7 +935,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.22.0';
+const CACHE_VERSION = '4.23.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1082,7 +1082,7 @@ const ROWS_DEFAULT = [
 ];
 /* __MB_ROWS_DEFAULT_END__ */
 
-const TAG_PRESETS_DEFAULT = ['付费', '广告', 'VIP', '货币', '资源', '共用能力', '其他'];
+const TAG_PRESETS_DEFAULT = ['广告', '付费', '免费', '货币', '消耗', '留存', '成长', '收集', '内容', '合规', '基础', '配置', '展示'];
 
 /* 每张卡：行 / 标题 / 正文（逐行=一条变体）/ 备注 / 标签 / 主分类 */
 /* __MB_CARDS_DEFAULT_START__ */
@@ -1672,7 +1672,9 @@ const TAG_PALETTE = {
   paid: '#B85650',
   retention: '#4C78B8',
   growth: '#3F8775',
-  infra: '#7062AE'
+  infra: '#7062AE',
+  free: '#2F9E8F',
+  muted: '#7C8698'
 };
 function tagColor(tag) {
   const t = String(tag || '').trim();
@@ -1684,6 +1686,8 @@ function tagColor(tag) {
   if (t.indexOf('留存') >= 0 || t === '目标驱动' || t === '竞争' || t === '转化') return TAG_PALETTE.retention;
   if (t.indexOf('内容') >= 0 || t === '收集' || t === '成长' || t.indexOf('消耗') >= 0 || t.indexOf('资源') >= 0 || t === '货币' || t === '道具') return TAG_PALETTE.growth;
   if (t.indexOf('底座') >= 0 || t === '共用能力' || t.indexOf('合规') >= 0) return TAG_PALETTE.infra;
+  if (t === '免费') return TAG_PALETTE.free;
+  if (t === '配置' || t === '展示' || t === '基础') return TAG_PALETTE.muted;
   return null;
 }
 /* 选项上的标签 chip；最多 3 个，超出显示 +n */
@@ -1837,7 +1841,7 @@ function normalizeState(input) {
       updatedAt: c.updatedAt || s.updatedAt || nowISO()
     };
   });
-  const legacyTags = new Set(['留存', '消耗', '收集', '重抽', '复活', '售卖容器', '权益商品', '内容型', '目标驱动', '竞争']);
+  const legacyTags = new Set(['重抽', '复活', '售卖容器', '权益商品', '内容型', '目标驱动', '竞争']);
   s.tagPresets = (Array.isArray(s.tagPresets) && s.tagPresets.length ? s.tagPresets.map(String) : TAG_PRESETS_DEFAULT.slice())
     .filter(function (t) { return t && !legacyTags.has(t); });
   if (!s.tagPresets.length) s.tagPresets = TAG_PRESETS_DEFAULT.slice();
@@ -4753,16 +4757,6 @@ function renderSettings() {
   });
   html.push('<div class="field-hint">按标签文字全局生效，所有卡片上的同名标签一起变。</div></div>');
 
-
-  if (!tagList.length) html.push('<div class="field-hint">还没有标签。</div>');
-  tagList.forEach(function (t) {
-    const c = tagColor(t) || '#94A3B8';
-    html.push('<div class="srow">' +
-      '<input type="color" value="' + c + '" data-tag-color-global="' + escAttr(t) + '" title="修改全局标签颜色">' +
-      '<span class="name" style="font-size:12px;color:var(--text)">' + esc(t) + '</span>' +
-      '</div>');
-  });
-  html.push('<div class="field-hint">按标签文字全局生效，所有卡片上的同名标签一起变。</div></div>');
 
   html.push('<div class="form-section"><h4>悬停说明</h4>' +
     '<div class="srow" style="gap:8px;align-items:center">' +
