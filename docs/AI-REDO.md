@@ -89,9 +89,11 @@ msedge --headless=new --dump-dom "http://127.0.0.1:4176/?selftest=1"   # 自检
 
 ## v4.22.0 之后待办
 
-`docs/LIBRARY-AUDIT.md`（模组库 vs 功能清单审计）和 `docs/TAG-REVIEW.md`（标签清单 + 每个 feat 的打标建议）已产出，**都还没执行**。等确认后：
+`docs/LIBRARY-AUDIT.md`（模组库 vs 功能清单审计）和 **`docs/TAG-REVIEW-v2.md`**（选项级标签，逐条人工标注，13 词表）已产出，**都还没执行**。旧的 `TAG-REVIEW.md` 已废弃（关键词规则那版）。
+
+等确认后：
 
 1. 按 AUDIT 的 A 类删/改名 9 个变体、按 B 类并 4 张卡
-2. 按 TAG-REVIEW 把 390 个 feat 的标签换成新词表（`其他` 退役，`VIP` → `权益商品`）
+2. 按 TAG-REVIEW-v2 把 436 条 feat 标签换成 13 词表（`其他` 退役）
 
-工具：`node tools/tag-plan.mjs` 可重新生成 TAG-REVIEW（改了 docs/data.json 之后要重跑）。
+工具：`node tools/tag-plan-v2.mjs` 重新生成 TAG-REVIEW-v2（改 docs/data.json 后要重跑）。

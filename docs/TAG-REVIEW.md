@@ -1,4 +1,7 @@
-# 标签清单与选项打标
+# 标签清单与选项打标（v1，已废弃）
+
+> **已废弃**：这一版是关键词规则 + 模块兜底，会把「免费」标成「付费、广告」，礼包整块刷成「付费、其他」。
+> 请以 [`TAG-REVIEW-v2.md`](TAG-REVIEW-v2.md) 为准（逐条人工标注，13 个选项标签）。
 
 状态：**待确认，未执行**（这份文档只描述要加什么，没有改任何数据）
 参考：https://pixelleap.github.io/PLBizToolbox/ · https://github.com/pixelleap/PLBizToolbox

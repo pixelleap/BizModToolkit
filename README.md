@@ -21,7 +21,7 @@ https://pixelleap.github.io/BizModToolkit/
 - 编辑密码
 - 自动读取最新 `docs/data.json`
 
-变体 / feat 的结构细节和改造记录见 [`docs/AI-REDO.md`](docs/AI-REDO.md)；模块合并的决策记录见 [`docs/MERGE-REVIEW.md`](docs/MERGE-REVIEW.md)；模组库审计与标签方案见 [`docs/LIBRARY-AUDIT.md`](docs/LIBRARY-AUDIT.md)、[`docs/TAG-REVIEW.md`](docs/TAG-REVIEW.md)。
+变体 / feat 的结构细节和改造记录见 [`docs/AI-REDO.md`](docs/AI-REDO.md)；模块合并的决策记录见 [`docs/MERGE-REVIEW.md`](docs/MERGE-REVIEW.md)；模组库审计见 [`docs/LIBRARY-AUDIT.md`](docs/LIBRARY-AUDIT.md)；选项标签清单见 [`docs/TAG-REVIEW-v2.md`](docs/TAG-REVIEW-v2.md)。
 
 ## 不保存、不缓存
 
