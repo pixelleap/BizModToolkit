@@ -1,7 +1,7 @@
-{
+﻿{
   "format": "module-board-web",
   "schemaVersion": 1,
-  "appVersion": "4.18.0",
+  "appVersion": "4.15.0",
   "projectName": "默认配置",
   "revision": "7ec1c1c9",
   "exportedAt": "2026-10-30T07:13:41.686Z",
@@ -87,17 +87,7 @@
                 "categoryId": "cat_paid",
                 "tags": [],
                 "desc": "展示4个奖励，选择1个",
-                "image": null,
-                "ai": {
-                  "role": "base",
-                  "channel": null,
-                  "params": {
-                    "slotCount": 1
-                  },
-                  "summary": "默认基础奖励位",
-                  "requires": [],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_reward_choice_0_1",
@@ -107,21 +97,7 @@
                   "广告"
                 ],
                 "desc": "广告专属奖励位",
-                "image": null,
-                "ai": {
-                  "role": "expansion",
-                  "channel": "ad",
-                  "params": {
-                    "extraSlotCount": 1,
-                    "adWatchCount": 1,
-                    "maxPerLevel": 1
-                  },
-                  "summary": "看广告额外开放一个奖励位",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_reward_choice_0_2",
@@ -131,19 +107,7 @@
                   "VIP"
                 ],
                 "desc": "会员专属奖励位",
-                "image": null,
-                "ai": {
-                  "role": "expansion",
-                  "channel": "vip",
-                  "params": {
-                    "extraSlotCount": 1
-                  },
-                  "summary": "VIP 额外开放一个奖励位",
-                  "requires": [
-                    "vip_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_reward_choice_0_3",
@@ -153,32 +117,9 @@
                   "广告"
                 ],
                 "desc": "看广告重抽",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "ad",
-                  "params": {
-                    "adWatchCount": 1,
-                    "rerollMax": 1
-                  },
-                  "summary": "看广告重抽一次",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               }
-            ],
-            "ai": {
-              "role": "mode",
-              "selectionMode": "single",
-              "exclusiveGroup": "pre_reward_mode",
-              "params": {
-                "choiceCount": 4,
-                "chooseCount": 1
-              },
-              "summary": "开局展示 4 个奖励，选择一个"
-            }
+            ]
           },
           {
             "id": "dir_card_reward_choice_1",
@@ -194,20 +135,7 @@
                   "广告"
                 ],
                 "desc": "随机获得1个奖励",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "ad",
-                  "params": {
-                    "adWatchCount": 1,
-                    "rerollMax": 1
-                  },
-                  "summary": "看广告重抽一次",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_reward_choice_1_1",
@@ -217,19 +145,7 @@
                   "VIP"
                 ],
                 "desc": "预设3个阶段奖励",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "vip",
-                  "params": {
-                    "rerollMax": 1
-                  },
-                  "summary": "VIP 获得一次重抽",
-                  "requires": [
-                    "vip_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_qcjfqyrih1",
@@ -239,30 +155,9 @@
                   "货币"
                 ],
                 "desc": "",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "currency",
-                  "params": {
-                    "priceCurrency": "currency",
-                    "priceAmount": 50,
-                    "rerollMax": 1
-                  },
-                  "summary": "消耗货币重抽一次",
-                  "requires": [],
-                  "conflicts": []
-                }
+                "image": null
               }
-            ],
-            "ai": {
-              "role": "featureGroup",
-              "selectionMode": "multi",
-              "exclusiveGroup": null,
-              "params": {
-                "rerollMax": 1
-              },
-              "summary": "在基础选择上追加重抽能力"
-            }
+            ]
           }
         ],
         "optionsSeeded": true,
@@ -274,26 +169,7 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:44:27.984Z",
-        "ai": {
-          "family": "GamePlay",
-          "conditions": [
-            "通关",
-            "关卡"
-          ],
-          "summary": "开局或结算前让玩家从多个奖励中选一个，并通过广告/VIP/货币增加奖励位或重抽。",
-          "params": {
-            "payoutMode": {
-              "type": "enum",
-              "values": [
-                "random",
-                "fixed"
-              ],
-              "default": "random",
-              "label": "奖励形式"
-            }
-          }
-        }
+        "updatedAt": "2026-10-30T03:44:27.984Z"
       },
       {
         "id": "card_shop",
@@ -656,6 +532,49 @@
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
         "updatedAt": "2026-10-30T03:30:01.484Z"
+      },
+      {
+        "id": "card_random_reward",
+        "rowId": "row_level",
+        "order": 4,
+        "title": "奖励形式",
+        "body": [
+          "宝箱结算",
+          "随机出奖励"
+        ],
+        "note": "",
+        "tags": [
+          "其他"
+        ],
+        "categoryId": "cat_none",
+        "customColor": null,
+        "desc": "通关奖励采用随机或固定发放。",
+        "options": [
+          {
+            "id": "opt_0j3wimaz0b",
+            "title": "随机",
+            "desc": "",
+            "isGroup": true,
+            "options": []
+          },
+          {
+            "id": "opt_a1ury351jj",
+            "title": "固定",
+            "desc": "",
+            "isGroup": true,
+            "options": []
+          }
+        ],
+        "optionsSeeded": true,
+        "shots": [],
+        "thumb": {
+          "id": "thumb_builtin_card_random_reward",
+          "mime": "image/webp",
+          "w": 640,
+          "h": 360,
+          "updatedAt": "2026-10-30T07:13:30.788Z"
+        },
+        "updatedAt": "2026-10-30T03:46:20.320Z"
       },
       {
         "id": "card_bundle",
@@ -1083,19 +1002,7 @@
                   "VIP"
                 ],
                 "desc": "VIP专属（增加可选项）",
-                "image": null,
-                "ai": {
-                  "role": "expansion",
-                  "channel": "vip",
-                  "params": {
-                    "extraSlotCount": 1
-                  },
-                  "summary": "VIP 增加宝箱可选项",
-                  "requires": [
-                    "vip_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_level_result_1_2",
@@ -1105,19 +1012,7 @@
                   "付费"
                 ],
                 "desc": "付费增加可选项",
-                "image": null,
-                "ai": {
-                  "role": "expansion",
-                  "channel": "paid",
-                  "params": {
-                    "extraSlotCount": 1
-                  },
-                  "summary": "付费增加宝箱可选项",
-                  "requires": [
-                    "payment_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_level_result_1_5",
@@ -1127,32 +1022,9 @@
                   "广告"
                 ],
                 "desc": "广告领取全部",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "ad",
-                  "params": {
-                    "adWatchCount": 1,
-                    "claimMode": "all"
-                  },
-                  "summary": "看广告领取宝箱全部奖励",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               }
-            ],
-            "ai": {
-              "role": "mode",
-              "selectionMode": "single",
-              "exclusiveGroup": "settlement_reward_mode",
-              "params": {
-                "defaultOptionCount": 1,
-                "choiceCount": 1
-              },
-              "summary": "结算时打开宝箱，从奖励项中选择一个"
-            }
+            ]
           },
           {
             "id": "dir_card_level_result_0",
@@ -1169,21 +1041,7 @@
                   "货币"
                 ],
                 "desc": "金币、道具、资源",
-                "image": null,
-                "ai": {
-                  "role": "base",
-                  "channel": null,
-                  "params": {
-                    "rewardTypes": [
-                      "currency",
-                      "item",
-                      "resource"
-                    ]
-                  },
-                  "summary": "直接奖励金币、道具或资源",
-                  "requires": [],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_level_result_0_1",
@@ -1193,20 +1051,7 @@
                   "广告"
                 ],
                 "desc": "看广告双倍",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "ad",
-                  "params": {
-                    "adWatchCount": 1,
-                    "multiplier": 2
-                  },
-                  "summary": "看广告获得双倍结算奖励",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               },
               {
                 "id": "opt_ref_card_level_result_0_2",
@@ -1216,30 +1061,9 @@
                   "广告"
                 ],
                 "desc": "看广告参与倍率小游戏",
-                "image": null,
-                "ai": {
-                  "role": "modifier",
-                  "channel": "ad",
-                  "params": {
-                    "adWatchCount": 1
-                  },
-                  "summary": "看广告参与倍率小游戏提升奖励",
-                  "requires": [
-                    "ad_system"
-                  ],
-                  "conflicts": []
-                }
+                "image": null
               }
-            ],
-            "ai": {
-              "role": "mode",
-              "selectionMode": "single",
-              "exclusiveGroup": "settlement_reward_mode",
-              "params": {
-                "claimMode": "direct"
-              },
-              "summary": "结算时直接发放基础奖励"
-            }
+            ]
           }
         ],
         "optionsSeeded": true,
@@ -1251,25 +1075,7 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:54:34.587Z",
-        "ai": {
-          "family": "GamePlay",
-          "conditions": [
-            "关卡"
-          ],
-          "summary": "关卡结算时直接领取奖励或通过宝箱选择奖励，并用广告/VIP/付费增强。",
-          "params": {
-            "payoutMode": {
-              "type": "enum",
-              "values": [
-                "random",
-                "fixed"
-              ],
-              "default": "random",
-              "label": "奖励形式"
-            }
-          }
-        }
+        "updatedAt": "2026-10-30T03:54:34.587Z"
       },
       {
         "id": "card_gacha",
