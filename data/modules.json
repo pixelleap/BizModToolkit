@@ -6787,9 +6787,7 @@
             "id": "opt_ref_card_economy_1_0",
             "title": "随机奖池配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "随机奖池配置",
             "image": null,
             "options": []
@@ -6798,9 +6796,7 @@
             "id": "opt_ref_card_economy_1_1",
             "title": "抽取结果记录",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "抽取结果记录",
             "image": null,
             "options": []
@@ -6809,9 +6805,7 @@
             "id": "opt_ref_card_economy_1_2",
             "title": "库存不足处理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "库存不足处理",
             "image": null,
             "options": []
@@ -6827,9 +6821,7 @@
             "id": "opt_ref_card_economy_2_0",
             "title": "权重与概率配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "权重与概率配置",
             "image": null,
             "options": []
@@ -6838,9 +6830,7 @@
             "id": "opt_ref_card_economy_2_1",
             "title": "按条件选择奖池",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按条件选择奖池",
             "image": null,
             "options": []
@@ -6849,9 +6839,7 @@
             "id": "opt_ref_card_economy_2_2",
             "title": "权重版本记录",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "权重版本记录",
             "image": null,
             "options": []
@@ -6867,10 +6855,7 @@
             "id": "opt_ref_card_economy_3_0",
             "title": "货币余额与流水",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "货币"
-            ],
+            "tags": [],
             "desc": "货币余额与流水",
             "image": null,
             "options": []
@@ -6879,10 +6864,7 @@
             "id": "opt_ref_card_economy_3_1",
             "title": "货币获取和消耗",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "货币"
-            ],
+            "tags": [],
             "desc": "货币获取和消耗",
             "image": null,
             "options": []
@@ -6891,9 +6873,7 @@
             "id": "opt_ref_card_economy_3_2",
             "title": "余额上限",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "余额上限",
             "image": null,
             "options": []
@@ -6909,9 +6889,7 @@
             "id": "opt_ref_card_economy_4_0",
             "title": "道具增减与查询",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "道具增减与查询",
             "image": null,
             "options": []
@@ -6920,9 +6898,7 @@
             "id": "opt_ref_card_economy_4_1",
             "title": "数量上限",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "数量上限",
             "image": null,
             "options": []
@@ -6931,9 +6907,7 @@
             "id": "opt_ref_card_economy_4_2",
             "title": "跨设备库存同步",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "跨设备库存同步",
             "image": null,
             "options": []
@@ -6949,9 +6923,7 @@
             "id": "opt_ref_card_economy_5_0",
             "title": "防止重复发奖",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "防止重复发奖",
             "image": null,
             "options": []
@@ -6960,9 +6932,7 @@
             "id": "opt_ref_card_economy_5_1",
             "title": "异常补发",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "异常补发",
             "image": null,
             "options": []
@@ -6971,9 +6941,7 @@
             "id": "opt_ref_card_economy_5_2",
             "title": "客户端与服务端结果对账",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "客户端与服务端结果对账",
             "image": null,
             "options": []
@@ -6989,9 +6957,7 @@
             "id": "opt_ref_card_economy_0_0",
             "title": "固定奖励配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "固定奖励配置",
             "image": null,
             "options": []
@@ -7000,9 +6966,7 @@
             "id": "opt_ref_card_economy_0_1",
             "title": "批量发放",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "批量发放",
             "image": null,
             "options": []
@@ -7011,9 +6975,7 @@
             "id": "opt_ref_card_economy_0_2",
             "title": "奖励预览",
             "categoryId": "cat_infra",
-            "tags": [
-              "展示"
-            ],
+            "tags": [],
             "desc": "奖励预览",
             "image": null,
             "options": []
@@ -7048,10 +7010,7 @@
             "id": "opt_ref_card_ad_system_1_0",
             "title": "展示时机控制",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "广告"
-            ],
+            "tags": [],
             "desc": "展示时机控制",
             "image": null,
             "options": []
@@ -7060,9 +7019,7 @@
             "id": "opt_ref_card_ad_system_1_1",
             "title": "加载失败跳过",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "加载失败跳过",
             "image": null,
             "options": []
@@ -7071,9 +7028,7 @@
             "id": "opt_ref_card_ad_system_1_2",
             "title": "展示结果回调",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "展示结果回调",
             "image": null,
             "options": []
@@ -7082,10 +7037,7 @@
             "id": "opt_ref_card_ad_system_1_3",
             "title": "按关卡和用户分层配置频率",
             "categoryId": "cat_infra",
-            "tags": [
-              "配置",
-              "广告"
-            ],
+            "tags": [],
             "desc": "按关卡和用户分层配置频率",
             "image": null,
             "options": []
@@ -7101,9 +7053,7 @@
             "id": "opt_ref_card_ad_system_2_0",
             "title": "广告位尺寸适配",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "广告位尺寸适配",
             "image": null,
             "options": []
@@ -7112,9 +7062,7 @@
             "id": "opt_ref_card_ad_system_2_1",
             "title": "显示与隐藏控制",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "显示与隐藏控制",
             "image": null,
             "options": []
@@ -7123,9 +7071,7 @@
             "id": "opt_ref_card_ad_system_2_2",
             "title": "页面遮挡检查",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "页面遮挡检查",
             "image": null,
             "options": []
@@ -7141,9 +7087,7 @@
             "id": "opt_ref_card_ad_system_3_0",
             "title": "按广告类型和用户频控",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按广告类型和用户频控",
             "image": null,
             "options": []
@@ -7152,9 +7096,7 @@
             "id": "opt_ref_card_ad_system_3_1",
             "title": "展示间隔与次数上限",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "展示间隔与次数上限",
             "image": null,
             "options": []
@@ -7163,9 +7105,7 @@
             "id": "opt_ref_card_ad_system_3_2",
             "title": "跨场景统一计数",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "跨场景统一计数",
             "image": null,
             "options": []
@@ -7181,9 +7121,7 @@
             "id": "opt_ref_card_ad_system_4_0",
             "title": "新用户保护期",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "新用户保护期",
             "image": null,
             "options": []
@@ -7192,9 +7130,7 @@
             "id": "opt_ref_card_ad_system_4_1",
             "title": "关卡进度保护",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "关卡进度保护",
             "image": null,
             "options": []
@@ -7203,10 +7139,7 @@
             "id": "opt_ref_card_ad_system_4_2",
             "title": "付费用户保护策略",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "付费"
-            ],
+            "tags": [],
             "desc": "付费用户保护策略",
             "image": null,
             "options": []
@@ -7222,9 +7155,7 @@
             "id": "opt_ref_card_ad_system_5_0",
             "title": "无填充提示",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "无填充提示",
             "image": null,
             "options": []
@@ -7233,9 +7164,7 @@
             "id": "opt_ref_card_ad_system_5_1",
             "title": "重试与超时处理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "重试与超时处理",
             "image": null,
             "options": []
@@ -7244,9 +7173,7 @@
             "id": "opt_ref_card_ad_system_5_2",
             "title": "不可用时替代领取规则",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "不可用时替代领取规则",
             "image": null,
             "options": []
@@ -7262,9 +7189,7 @@
             "id": "opt_ref_card_ad_system_0_0",
             "title": "广告加载与缓存",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "广告加载与缓存",
             "image": null,
             "options": []
@@ -7273,10 +7198,7 @@
             "id": "opt_ref_card_ad_system_0_1",
             "title": "完整观看回调发奖",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "广告"
-            ],
+            "tags": [],
             "desc": "完整观看回调发奖",
             "image": null,
             "options": []
@@ -7285,9 +7207,7 @@
             "id": "opt_ref_card_ad_system_0_2",
             "title": "关闭或失败不发奖",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "关闭或失败不发奖",
             "image": null,
             "options": []
@@ -7296,9 +7216,7 @@
             "id": "opt_ref_card_ad_system_0_3",
             "title": "广告位奖励与观看次数配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "配置"
-            ],
+            "tags": [],
             "desc": "广告位奖励与观看次数配置",
             "image": null,
             "options": []
@@ -7307,9 +7225,7 @@
             "id": "opt_ref_card_ad_system_0_4",
             "title": "按用户分层调整激励价值",
             "categoryId": "cat_infra",
-            "tags": [
-              "配置"
-            ],
+            "tags": [],
             "desc": "按用户分层调整激励价值",
             "image": null,
             "options": []
@@ -7344,9 +7260,7 @@
             "id": "opt_ref_card_payment_1_0",
             "title": "服务端票据校验",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "服务端票据校验",
             "image": null,
             "options": []
@@ -7355,9 +7269,7 @@
             "id": "opt_ref_card_payment_1_1",
             "title": "订单幂等发货",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "订单幂等发货",
             "image": null,
             "options": []
@@ -7366,9 +7278,7 @@
             "id": "opt_ref_card_payment_1_2",
             "title": "未完成订单补单",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "未完成订单补单",
             "image": null,
             "options": []
@@ -7384,9 +7294,7 @@
             "id": "opt_ref_card_payment_2_0",
             "title": "恢复非消耗型购买",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "恢复非消耗型购买",
             "image": null,
             "options": []
@@ -7395,9 +7303,7 @@
             "id": "opt_ref_card_payment_2_1",
             "title": "跨设备权益同步",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "跨设备权益同步",
             "image": null,
             "options": []
@@ -7406,9 +7312,7 @@
             "id": "opt_ref_card_payment_2_2",
             "title": "恢复结果提示",
             "categoryId": "cat_infra",
-            "tags": [
-              "展示"
-            ],
+            "tags": [],
             "desc": "恢复结果提示",
             "image": null,
             "options": []
@@ -7424,9 +7328,7 @@
             "id": "opt_ref_card_payment_3_0",
             "title": "订阅有效期校验",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "订阅有效期校验",
             "image": null,
             "options": []
@@ -7435,9 +7337,7 @@
             "id": "opt_ref_card_payment_3_1",
             "title": "续订与取消状态同步",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "续订与取消状态同步",
             "image": null,
             "options": []
@@ -7446,9 +7346,7 @@
             "id": "opt_ref_card_payment_3_2",
             "title": "退款和过期权益处理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "退款和过期权益处理",
             "image": null,
             "options": []
@@ -7464,9 +7362,7 @@
             "id": "opt_ref_card_payment_0_0",
             "title": "平台商品 ID 映射",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "平台商品 ID 映射",
             "image": null,
             "options": []
@@ -7475,9 +7371,7 @@
             "id": "opt_ref_card_payment_0_1",
             "title": "本地化价格读取",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "本地化价格读取",
             "image": null,
             "options": []
@@ -7486,9 +7380,7 @@
             "id": "opt_ref_card_payment_0_2",
             "title": "商品上下架",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "商品上下架",
             "image": null,
             "options": []
@@ -7497,9 +7389,7 @@
             "id": "opt_ref_card_payment_0_3",
             "title": "价格档位与礼包内容配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "配置"
-            ],
+            "tags": [],
             "desc": "价格档位与礼包内容配置",
             "image": null,
             "options": []
@@ -7534,9 +7424,7 @@
             "id": "opt_ref_card_condition_1_0",
             "title": "关卡或成长门槛",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "关卡或成长门槛",
             "image": null,
             "options": []
@@ -7545,9 +7433,7 @@
             "id": "opt_ref_card_condition_1_1",
             "title": "解锁条件组合",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "解锁条件组合",
             "image": null,
             "options": []
@@ -7556,9 +7442,7 @@
             "id": "opt_ref_card_condition_1_2",
             "title": "进度变化触发",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "进度变化触发",
             "image": null,
             "options": []
@@ -7574,9 +7458,7 @@
             "id": "opt_ref_card_condition_2_0",
             "title": "用户分群条件",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "用户分群条件",
             "image": null,
             "options": []
@@ -7585,9 +7467,7 @@
             "id": "opt_ref_card_condition_2_1",
             "title": "资格动态校验",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "资格动态校验",
             "image": null,
             "options": []
@@ -7596,9 +7476,7 @@
             "id": "opt_ref_card_condition_2_2",
             "title": "人群互斥规则",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "人群互斥规则",
             "image": null,
             "options": []
@@ -7614,9 +7492,7 @@
             "id": "opt_ref_card_condition_3_0",
             "title": "事件驱动计数",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "事件驱动计数",
             "image": null,
             "options": []
@@ -7625,9 +7501,7 @@
             "id": "opt_ref_card_condition_3_1",
             "title": "去重与上限",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "去重与上限",
             "image": null,
             "options": []
@@ -7636,9 +7510,7 @@
             "id": "opt_ref_card_condition_3_2",
             "title": "跨局进度持久化",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "跨局进度持久化",
             "image": null,
             "options": []
@@ -7654,9 +7526,7 @@
             "id": "opt_ref_card_condition_4_0",
             "title": "按日周或周期重置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按日周或周期重置",
             "image": null,
             "options": []
@@ -7665,9 +7535,7 @@
             "id": "opt_ref_card_condition_4_1",
             "title": "重置时区配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "重置时区配置",
             "image": null,
             "options": []
@@ -7676,9 +7544,7 @@
             "id": "opt_ref_card_condition_4_2",
             "title": "跨周期未领奖处理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "跨周期未领奖处理",
             "image": null,
             "options": []
@@ -7694,9 +7560,7 @@
             "id": "opt_ref_card_condition_0_0",
             "title": "活动起止时间",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "活动起止时间",
             "image": null,
             "options": []
@@ -7705,9 +7569,7 @@
             "id": "opt_ref_card_condition_0_1",
             "title": "时区与服务器时间",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "时区与服务器时间",
             "image": null,
             "options": []
@@ -7716,9 +7578,7 @@
             "id": "opt_ref_card_condition_0_2",
             "title": "倒计时配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "倒计时配置",
             "image": null,
             "options": []
@@ -7753,9 +7613,7 @@
             "id": "opt_ref_card_remote_1_0",
             "title": "参数类型与默认值",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "参数类型与默认值",
             "image": null,
             "options": []
@@ -7764,9 +7622,7 @@
             "id": "opt_ref_card_remote_1_1",
             "title": "配置版本管理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "配置版本管理",
             "image": null,
             "options": []
@@ -7775,9 +7631,7 @@
             "id": "opt_ref_card_remote_1_2",
             "title": "客户端缓存",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "客户端缓存",
             "image": null,
             "options": []
@@ -7793,9 +7647,7 @@
             "id": "opt_ref_card_remote_2_0",
             "title": "按地区进度和行为分群",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按地区进度和行为分群",
             "image": null,
             "options": []
@@ -7804,9 +7656,7 @@
             "id": "opt_ref_card_remote_2_1",
             "title": "分群条件配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "分群条件配置",
             "image": null,
             "options": []
@@ -7815,9 +7665,7 @@
             "id": "opt_ref_card_remote_2_2",
             "title": "用户分组稳定性",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "用户分组稳定性",
             "image": null,
             "options": []
@@ -7833,9 +7681,7 @@
             "id": "opt_ref_card_remote_3_0",
             "title": "随机分组并保持用户分组不变",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "随机分组并保持用户分组不变",
             "image": null,
             "options": []
@@ -7844,9 +7690,7 @@
             "id": "opt_ref_card_remote_3_1",
             "title": "实验指标配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "实验指标配置",
             "image": null,
             "options": []
@@ -7855,9 +7699,7 @@
             "id": "opt_ref_card_remote_3_2",
             "title": "互斥与结束策略",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "互斥与结束策略",
             "image": null,
             "options": []
@@ -7866,10 +7708,7 @@
             "id": "opt_ref_card_remote_3_3",
             "title": "广告频率与奖励价值实验",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "广告"
-            ],
+            "tags": [],
             "desc": "广告频率与奖励价值实验",
             "image": null,
             "options": []
@@ -7878,9 +7717,7 @@
             "id": "opt_ref_card_remote_3_4",
             "title": "商品价格与礼包内容实验",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "商品价格与礼包内容实验",
             "image": null,
             "options": []
@@ -7896,9 +7733,7 @@
             "id": "opt_ref_card_remote_4_0",
             "title": "按比例发布",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按比例发布",
             "image": null,
             "options": []
@@ -7907,9 +7742,7 @@
             "id": "opt_ref_card_remote_4_1",
             "title": "指定人群或地区发布",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "指定人群或地区发布",
             "image": null,
             "options": []
@@ -7918,9 +7751,7 @@
             "id": "opt_ref_card_remote_4_2",
             "title": "回滚配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "回滚配置",
             "image": null,
             "options": []
@@ -7936,9 +7767,7 @@
             "id": "opt_ref_card_remote_0_0",
             "title": "按版本或人群开关",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按版本或人群开关",
             "image": null,
             "options": []
@@ -7947,9 +7776,7 @@
             "id": "opt_ref_card_remote_0_1",
             "title": "默认值与降级",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "默认值与降级",
             "image": null,
             "options": []
@@ -7958,9 +7785,7 @@
             "id": "opt_ref_card_remote_0_2",
             "title": "紧急关闭",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "紧急关闭",
             "image": null,
             "options": []
@@ -7995,9 +7820,7 @@
             "id": "opt_ref_card_data_1_0",
             "title": "点击到领取漏斗",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "点击到领取漏斗",
             "image": null,
             "options": []
@@ -8006,9 +7829,7 @@
             "id": "opt_ref_card_data_1_1",
             "title": "购买转化漏斗",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "购买转化漏斗",
             "image": null,
             "options": []
@@ -8017,9 +7838,7 @@
             "id": "opt_ref_card_data_1_2",
             "title": "失败原因记录",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "失败原因记录",
             "image": null,
             "options": []
@@ -8035,10 +7854,7 @@
             "id": "opt_ref_card_data_2_0",
             "title": "广告收入归因",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "广告"
-            ],
+            "tags": [],
             "desc": "广告收入归因",
             "image": null,
             "options": []
@@ -8047,9 +7863,7 @@
             "id": "opt_ref_card_data_2_1",
             "title": "内购收入与退款",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "内购收入与退款",
             "image": null,
             "options": []
@@ -8058,9 +7872,7 @@
             "id": "opt_ref_card_data_2_2",
             "title": "按地区和版本分析",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "按地区和版本分析",
             "image": null,
             "options": []
@@ -8069,10 +7881,7 @@
             "id": "opt_ref_card_data_2_3",
             "title": "广告位展示率和每千次展示收益",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础",
-              "广告"
-            ],
+            "tags": [],
             "desc": "广告位展示率和每千次展示收益",
             "image": null,
             "options": []
@@ -8081,9 +7890,7 @@
             "id": "opt_ref_card_data_2_4",
             "title": "付费率与付费用户平均收入",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "付费率与付费用户平均收入",
             "image": null,
             "options": []
@@ -8092,9 +7899,7 @@
             "id": "opt_ref_card_data_2_5",
             "title": "用户从进入游戏至今的广告和内购收入",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "用户从进入游戏至今的广告和内购收入",
             "image": null,
             "options": []
@@ -8110,9 +7915,7 @@
             "id": "opt_ref_card_data_3_0",
             "title": "次日及周期留存",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "次日及周期留存",
             "image": null,
             "options": []
@@ -8121,9 +7924,7 @@
             "id": "opt_ref_card_data_3_1",
             "title": "分群留存分析",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "分群留存分析",
             "image": null,
             "options": []
@@ -8132,9 +7933,7 @@
             "id": "opt_ref_card_data_3_2",
             "title": "活动参与留存",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "活动参与留存",
             "image": null,
             "options": []
@@ -8150,9 +7949,7 @@
             "id": "opt_ref_card_data_4_0",
             "title": "实验分组与指标记录",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "实验分组与指标记录",
             "image": null,
             "options": []
@@ -8161,9 +7958,7 @@
             "id": "opt_ref_card_data_4_1",
             "title": "样本和观察周期",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "样本和观察周期",
             "image": null,
             "options": []
@@ -8172,9 +7967,7 @@
             "id": "opt_ref_card_data_4_2",
             "title": "结论与适用范围",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "结论与适用范围",
             "image": null,
             "options": []
@@ -8190,9 +7983,7 @@
             "id": "opt_ref_card_data_5_0",
             "title": "玩法与受众背景",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "玩法与受众背景",
             "image": null,
             "options": []
@@ -8201,9 +7992,7 @@
             "id": "opt_ref_card_data_5_1",
             "title": "模组参数及依赖",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "模组参数及依赖",
             "image": null,
             "options": []
@@ -8212,9 +8001,7 @@
             "id": "opt_ref_card_data_5_2",
             "title": "效果和问题复盘",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "效果和问题复盘",
             "image": null,
             "options": []
@@ -8230,9 +8017,7 @@
             "id": "opt_ref_card_data_0_0",
             "title": "页面与广告位曝光",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "页面与广告位曝光",
             "image": null,
             "options": []
@@ -8241,9 +8026,7 @@
             "id": "opt_ref_card_data_0_1",
             "title": "曝光去重规则",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "曝光去重规则",
             "image": null,
             "options": []
@@ -8252,9 +8035,7 @@
             "id": "opt_ref_card_data_0_2",
             "title": "场景与配置版本记录",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "场景与配置版本记录",
             "image": null,
             "options": []
@@ -8289,9 +8070,7 @@
             "id": "opt_ref_card_compliance_1_0",
             "title": "商店本地价格展示",
             "categoryId": "cat_infra",
-            "tags": [
-              "展示"
-            ],
+            "tags": [],
             "desc": "商店本地价格展示",
             "image": null,
             "options": []
@@ -8300,9 +8079,7 @@
             "id": "opt_ref_card_compliance_1_1",
             "title": "货币符号与格式",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "货币符号与格式",
             "image": null,
             "options": []
@@ -8311,9 +8088,7 @@
             "id": "opt_ref_card_compliance_1_2",
             "title": "价格由平台返回",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "价格由平台返回",
             "image": null,
             "options": []
@@ -8329,9 +8104,7 @@
             "id": "opt_ref_card_compliance_2_0",
             "title": "服务器时间基准",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "服务器时间基准",
             "image": null,
             "options": []
@@ -8340,9 +8113,7 @@
             "id": "opt_ref_card_compliance_2_1",
             "title": "活动时区配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "活动时区配置",
             "image": null,
             "options": []
@@ -8351,9 +8122,7 @@
             "id": "opt_ref_card_compliance_2_2",
             "title": "夏令时与跨日处理",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "夏令时与跨日处理",
             "image": null,
             "options": []
@@ -8369,9 +8138,7 @@
             "id": "opt_ref_card_compliance_3_0",
             "title": "隐私政策入口",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "隐私政策入口",
             "image": null,
             "options": []
@@ -8380,9 +8147,7 @@
             "id": "opt_ref_card_compliance_3_1",
             "title": "同意状态管理",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "同意状态管理",
             "image": null,
             "options": []
@@ -8391,10 +8156,7 @@
             "id": "opt_ref_card_compliance_3_2",
             "title": "广告隐私信号传递",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规",
-              "广告"
-            ],
+            "tags": [],
             "desc": "广告隐私信号传递",
             "image": null,
             "options": []
@@ -8410,9 +8172,7 @@
             "id": "opt_ref_card_compliance_4_0",
             "title": "年龄分级配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "年龄分级配置",
             "image": null,
             "options": []
@@ -8421,9 +8181,7 @@
             "id": "opt_ref_card_compliance_4_1",
             "title": "儿童用户限制",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "儿童用户限制",
             "image": null,
             "options": []
@@ -8432,9 +8190,7 @@
             "id": "opt_ref_card_compliance_4_2",
             "title": "按地区启用适龄体验",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "按地区启用适龄体验",
             "image": null,
             "options": []
@@ -8450,9 +8206,7 @@
             "id": "opt_ref_card_compliance_5_0",
             "title": "随机商品概率披露",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "随机商品概率披露",
             "image": null,
             "options": []
@@ -8461,9 +8215,7 @@
             "id": "opt_ref_card_compliance_5_1",
             "title": "平台支付和订阅规则",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "平台支付和订阅规则",
             "image": null,
             "options": []
@@ -8472,9 +8224,7 @@
             "id": "opt_ref_card_compliance_5_2",
             "title": "地区广告及隐私规则配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "合规"
-            ],
+            "tags": [],
             "desc": "地区广告及隐私规则配置",
             "image": null,
             "options": []
@@ -8490,9 +8240,7 @@
             "id": "opt_ref_card_compliance_0_0",
             "title": "多语言文案配置",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "多语言文案配置",
             "image": null,
             "options": []
@@ -8501,9 +8249,7 @@
             "id": "opt_ref_card_compliance_0_1",
             "title": "系统语言匹配",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "系统语言匹配",
             "image": null,
             "options": []
@@ -8512,9 +8258,7 @@
             "id": "opt_ref_card_compliance_0_2",
             "title": "长文本与从右至左适配",
             "categoryId": "cat_infra",
-            "tags": [
-              "基础"
-            ],
+            "tags": [],
             "desc": "长文本与从右至左适配",
             "image": null,
             "options": []
