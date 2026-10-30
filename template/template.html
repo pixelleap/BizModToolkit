@@ -464,7 +464,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.20.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.21.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -874,7 +874,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.20.0';
+const APP_VERSION = '4.21.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -931,7 +931,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.20.0';
+const CACHE_VERSION = '4.21.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -7223,11 +7223,10 @@ async function init() {
   }, 320);
   if (params.get('demo') === 'variant') {
     const dp = activeProject();
-    dp.selected = Array.from(new Set((dp.selected || []).concat(['card_reward_choice', 'card_level_result', 'card_random_reward'])));
+    dp.selected = Array.from(new Set((dp.selected || []).concat(['card_reward_choice', 'card_level_result'])));
     dp.optionSelections = dp.optionSelections || {};
     dp.optionSelections['card_reward_choice'] = ['dir_card_reward_choice_0', 'opt_ref_card_reward_choice_0_1', 'opt_ref_card_reward_choice_0_2'];
     dp.optionSelections['card_level_result'] = ['dir_card_level_result_1'];
-    dp.optionSelections['card_random_reward'] = ['opt_0j3wimaz0b'];
     state.defaults = { selected: dp.selected.slice(), optionSelections: clone(dp.optionSelections) };
     renderAll();
   }

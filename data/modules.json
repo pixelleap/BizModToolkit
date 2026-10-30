@@ -530,39 +530,6 @@
     "variantMode": true
   },
   {
-    "id": "card_random_reward",
-    "order": 2,
-    "title": "奖励形式",
-    "rowId": "row_level",
-    "categoryId": "cat_none",
-    "tags": [
-      "其他"
-    ],
-    "body": [
-      "宝箱结算",
-      "随机出奖励"
-    ],
-    "note": "",
-    "desc": "【迁移中】随机 / 固定 已作为 feat 并入「游玩前奖励选择」和「结算时奖励方式」；确认无误后再删除本模块。",
-    "options": [
-      {
-        "id": "opt_0j3wimaz0b",
-        "title": "随机",
-        "desc": "通关奖励按权重随机掉落，用不确定性制造惊喜。",
-        "isGroup": true,
-        "options": []
-      },
-      {
-        "id": "opt_a1ury351jj",
-        "title": "固定",
-        "desc": "通关固定发放指定奖励，给玩家稳定预期。",
-        "isGroup": true,
-        "options": []
-      }
-    ],
-    "variantMode": true
-  },
-  {
     "id": "card_bundle",
     "order": 2,
     "title": "礼包",
@@ -893,6 +860,7 @@
       {
         "id": "opt_card_level_struct_0",
         "title": "线性",
+        "order": 0,
         "categoryId": "cat_none",
         "tags": [],
         "desc": "关卡按固定顺序逐个推进。",
@@ -908,6 +876,7 @@
       {
         "id": "opt_card_level_struct_1",
         "title": "非线性/无限",
+        "order": 1,
         "categoryId": "cat_none",
         "tags": [],
         "desc": "关卡可自由选择或无限延伸。",
@@ -919,6 +888,40 @@
           "updatedAt": "2026-10-29T12:06:56.250993+00:00"
         },
         "options": []
+      },
+      {
+        "id": "opt_4bhgmpdggd",
+        "title": "单阶段",
+        "order": 0,
+        "categoryId": "cat_none",
+        "tags": [],
+        "desc": "小关一次完成一个阶段。",
+        "image": {
+          "id": "optimg_opt_4bhgmpdggd",
+          "mime": "image/webp",
+          "w": 720,
+          "h": 405,
+          "updatedAt": "2026-10-29T12:06:58.822210+00:00"
+        },
+        "options": [],
+        "isGroup": true
+      },
+      {
+        "id": "opt_18naeiwlq3",
+        "title": "多阶段",
+        "order": 1,
+        "categoryId": "cat_none",
+        "tags": [],
+        "desc": "小关分成多个阶段推进。",
+        "image": {
+          "id": "optimg_opt_18naeiwlq3",
+          "mime": "image/webp",
+          "w": 720,
+          "h": 405,
+          "updatedAt": "2026-10-29T12:06:58.905171+00:00"
+        },
+        "options": [],
+        "isGroup": true
       }
     ],
     "variantMode": true
@@ -3085,7 +3088,8 @@
       {
         "id": "dir_card_content_unlock_1",
         "title": "关卡包",
-        "order": 1,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_1_0",
@@ -3097,8 +3101,7 @@
               "广告"
             ],
             "desc": "关卡包进度要求",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_1_1",
@@ -3110,8 +3113,7 @@
               "广告"
             ],
             "desc": "整包购买",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_1_2",
@@ -3123,15 +3125,23 @@
               "广告"
             ],
             "desc": "关卡内容下载",
-            "image": null,
-            "options": []
+            "image": null
+          },
+          {
+            "id": "opt_card_content_unlock_0",
+            "title": "任务解锁内容",
+            "desc": "通过任务进度解锁内容包，而不是直接购买。",
+            "categoryId": "cat_paid",
+            "tags": [],
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_content_unlock_2",
         "title": "主题包",
-        "order": 2,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_2_0",
@@ -3143,8 +3153,7 @@
               "广告"
             ],
             "desc": "主题内容预览",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_2_1",
@@ -3156,8 +3165,7 @@
               "广告"
             ],
             "desc": "主题包购买或兑换",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_2_2",
@@ -3169,15 +3177,15 @@
               "广告"
             ],
             "desc": "已购状态同步",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_content_unlock_3",
         "title": "迷你包",
-        "order": 3,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_3_0",
@@ -3189,8 +3197,7 @@
               "广告"
             ],
             "desc": "小型内容组合",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_3_1",
@@ -3202,8 +3209,7 @@
               "广告"
             ],
             "desc": "组合价格配置",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_3_2",
@@ -3215,15 +3221,15 @@
               "广告"
             ],
             "desc": "拥有内容去重",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_content_unlock_4",
         "title": "整包",
-        "order": 4,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_4_0",
@@ -3235,8 +3241,7 @@
               "广告"
             ],
             "desc": "整包价格展示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_4_1",
@@ -3248,8 +3253,7 @@
               "广告"
             ],
             "desc": "单项已拥有处理",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_4_2",
@@ -3261,15 +3265,15 @@
               "广告"
             ],
             "desc": "购买后批量解锁",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_content_unlock_5",
         "title": "试用",
-        "order": 5,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_5_0",
@@ -3281,8 +3285,7 @@
               "广告"
             ],
             "desc": "免费试玩范围",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_5_1",
@@ -3294,8 +3297,7 @@
               "广告"
             ],
             "desc": "试玩结束提示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_5_2",
@@ -3307,49 +3309,15 @@
               "广告"
             ],
             "desc": "试玩进度继承",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
-        "id": "opt_card_content_unlock_0",
-        "title": "任务",
-        "categoryId": "cat_paid",
-        "tags": [],
-        "desc": "做任务免费解锁内容包。",
-        "image": {
-          "id": "optimg_opt_card_content_unlock_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:58.322219+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_content_unlock_1",
-        "title": "购买",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费",
-          "广告",
-          "货币"
-        ],
-        "desc": "直接购买内容包。",
-        "image": {
-          "id": "optimg_opt_card_content_unlock_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:58.406219+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_content_unlock_0",
         "title": "图包",
-        "order": 999,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_content_unlock_0_0",
@@ -3361,8 +3329,7 @@
               "广告"
             ],
             "desc": "图包预览",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_0_1",
@@ -3374,8 +3341,7 @@
               "广告"
             ],
             "desc": "单包解锁条件",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_content_unlock_0_2",
@@ -3387,8 +3353,7 @@
               "广告"
             ],
             "desc": "已解锁图包访问",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       }
@@ -3830,52 +3795,6 @@
           "w": 720,
           "h": 405,
           "updatedAt": "2026-10-29T12:06:58.737209+00:00"
-        },
-        "options": []
-      }
-    ],
-    "variantMode": true
-  },
-  {
-    "id": "card_n1owjv4amm",
-    "order": 10,
-    "title": "小关卡结构",
-    "rowId": "row_level",
-    "categoryId": "cat_none",
-    "tags": [],
-    "body": [
-      "正文说明"
-    ],
-    "note": "",
-    "desc": "定义单个小关是一段还是多阶段推进。",
-    "options": [
-      {
-        "id": "opt_4bhgmpdggd",
-        "title": "单阶段",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "小关一次完成一个阶段。",
-        "image": {
-          "id": "optimg_opt_4bhgmpdggd",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:58.822210+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_18naeiwlq3",
-        "title": "多阶段",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "小关分成多个阶段推进。",
-        "image": {
-          "id": "optimg_opt_18naeiwlq3",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:58.905171+00:00"
         },
         "options": []
       }
@@ -6202,7 +6121,8 @@
       {
         "id": "dir_card_character_1",
         "title": "皮肤",
-        "order": 1,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_character_1_0",
@@ -6213,8 +6133,7 @@
               "其他"
             ],
             "desc": "皮肤获取途径",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_1_1",
@@ -6225,8 +6144,7 @@
               "其他"
             ],
             "desc": "皮肤试穿",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_1_2",
@@ -6237,15 +6155,15 @@
               "其他"
             ],
             "desc": "已拥有状态",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_character_2",
         "title": "装扮",
-        "order": 2,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_character_2_0",
@@ -6256,8 +6174,7 @@
               "其他"
             ],
             "desc": "装扮槽位配置",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_2_1",
@@ -6268,8 +6185,7 @@
               "其他"
             ],
             "desc": "搭配保存",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_2_2",
@@ -6280,15 +6196,15 @@
               "其他"
             ],
             "desc": "装扮获取途径",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_character_3",
         "title": "外观价值",
-        "order": 3,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_character_3_0",
@@ -6299,8 +6215,7 @@
               "其他"
             ],
             "desc": "外观效果展示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_3_1",
@@ -6311,8 +6226,7 @@
               "其他"
             ],
             "desc": "局内外观应用",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_3_2",
@@ -6323,15 +6237,15 @@
               "其他"
             ],
             "desc": "套装效果展示",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_character_4",
         "title": "能力价值",
-        "order": 4,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_character_4_0",
@@ -6342,8 +6256,7 @@
               "其他"
             ],
             "desc": "能力属性说明",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_4_1",
@@ -6354,8 +6267,7 @@
               "其他"
             ],
             "desc": "能力解锁与升级",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_4_2",
@@ -6366,69 +6278,15 @@
               "其他"
             ],
             "desc": "玩法平衡配置",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
-        "id": "opt_card_character_0",
-        "title": "解锁角色",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费",
-          "货币"
-        ],
-        "desc": "付费解锁新角色。",
-        "image": {
-          "id": "optimg_opt_card_character_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.328550+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_character_1",
-        "title": "角色外观",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费",
-          "货币"
-        ],
-        "desc": "购买皮肤、立绘或装扮。",
-        "image": {
-          "id": "optimg_opt_card_character_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.413922+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_fqpt5uv39s",
-        "title": "角色属性",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费",
-          "货币"
-        ],
-        "desc": "付费获得角色数值加成。",
-        "image": {
-          "id": "optimg_opt_fqpt5uv39s",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.507977+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_character_0",
         "title": "角色",
-        "order": 999,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_character_0_0",
@@ -6439,8 +6297,7 @@
               "其他"
             ],
             "desc": "角色解锁条件",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_0_1",
@@ -6451,8 +6308,7 @@
               "其他"
             ],
             "desc": "角色选择与切换",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_character_0_2",
@@ -6463,8 +6319,7 @@
               "其他"
             ],
             "desc": "角色预览",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       }
@@ -6492,7 +6347,8 @@
       {
         "id": "dir_card_album_1",
         "title": "收藏",
-        "order": 1,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_album_1_0",
@@ -6503,8 +6359,7 @@
               "付费"
             ],
             "desc": "收藏标记",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_1_1",
@@ -6515,8 +6370,7 @@
               "付费"
             ],
             "desc": "收藏列表",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_1_2",
@@ -6527,15 +6381,15 @@
               "付费"
             ],
             "desc": "跨设备同步",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_album_2",
         "title": "完成展示",
-        "order": 2,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_album_2_0",
@@ -6546,8 +6400,7 @@
               "付费"
             ],
             "desc": "完成作品展示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_2_1",
@@ -6558,8 +6411,7 @@
               "付费"
             ],
             "desc": "完成时间记录",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_2_2",
@@ -6570,15 +6422,15 @@
               "付费"
             ],
             "desc": "分享入口",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_album_3",
         "title": "套系进度",
-        "order": 3,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_album_3_0",
@@ -6589,8 +6441,7 @@
               "付费"
             ],
             "desc": "套系收集进度",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_3_1",
@@ -6601,8 +6452,7 @@
               "付费"
             ],
             "desc": "套系完成奖励",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_3_2",
@@ -6613,15 +6463,15 @@
               "付费"
             ],
             "desc": "缺失内容提示",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_album_4",
         "title": "未解锁预览",
-        "order": 4,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_album_4_0",
@@ -6632,8 +6482,7 @@
               "付费"
             ],
             "desc": "未解锁内容预览",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_4_1",
@@ -6644,8 +6493,7 @@
               "付费"
             ],
             "desc": "获取途径展示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_4_2",
@@ -6656,45 +6504,15 @@
               "付费"
             ],
             "desc": "预览权限配置",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
-        "id": "opt_card_album_0",
-        "title": "筛选功能",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "按图包或条件筛选收藏。",
-        "image": {
-          "id": "optimg_opt_card_album_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.584979+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_dvvbc812gv",
-        "title": "收藏功能",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "标记并收藏喜欢的图包。",
-        "image": {
-          "id": "optimg_opt_dvvbc812gv",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.742888+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_album_0",
         "title": "筛选",
-        "order": 999,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_album_0_0",
@@ -6705,8 +6523,7 @@
               "付费"
             ],
             "desc": "按主题筛选",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_0_1",
@@ -6717,8 +6534,7 @@
               "付费"
             ],
             "desc": "按解锁状态筛选",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_album_0_2",
@@ -6729,8 +6545,7 @@
               "付费"
             ],
             "desc": "排序配置",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       }
@@ -6760,7 +6575,8 @@
       {
         "id": "dir_card_export_1",
         "title": "作品保存",
-        "order": 1,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_export_1_0",
@@ -6772,8 +6588,7 @@
               "付费"
             ],
             "desc": "作品保存",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_1_1",
@@ -6785,8 +6600,7 @@
               "付费"
             ],
             "desc": "保存失败提示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_1_2",
@@ -6798,15 +6612,15 @@
               "付费"
             ],
             "desc": "本地作品管理",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_export_2",
         "title": "高清导出",
-        "order": 2,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_export_2_0",
@@ -6818,8 +6632,7 @@
               "付费"
             ],
             "desc": "高清规格配置",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_2_1",
@@ -6831,8 +6644,7 @@
               "付费"
             ],
             "desc": "导出权益校验",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_2_2",
@@ -6844,15 +6656,15 @@
               "付费"
             ],
             "desc": "导出进度与失败重试",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_export_3",
         "title": "会员权益",
-        "order": 3,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_export_3_0",
@@ -6864,8 +6676,7 @@
               "付费"
             ],
             "desc": "会员导出权限",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_3_1",
@@ -6877,8 +6688,7 @@
               "付费"
             ],
             "desc": "有效期校验",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_3_2",
@@ -6890,15 +6700,15 @@
               "付费"
             ],
             "desc": "到期后导出规则",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_export_0",
         "title": "壁纸下载",
-        "order": 999,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_export_0_0",
@@ -6910,8 +6720,7 @@
               "付费"
             ],
             "desc": "壁纸尺寸选择",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_0_1",
@@ -6923,8 +6732,7 @@
               "付费"
             ],
             "desc": "保存至设备",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_export_0_2",
@@ -6936,61 +6744,9 @@
               "付费"
             ],
             "desc": "设备权限处理",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
-      },
-      {
-        "id": "opt_card_export_0",
-        "title": "看广告",
-        "categoryId": "cat_none",
-        "tags": [
-          "广告"
-        ],
-        "desc": "看广告后下载内容。",
-        "image": {
-          "id": "optimg_opt_card_export_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.830888+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_export_1",
-        "title": "使用货币",
-        "categoryId": "cat_none",
-        "tags": [
-          "货币"
-        ],
-        "desc": "用金币或钻石下载内容。",
-        "image": {
-          "id": "optimg_opt_card_export_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.916570+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_export_3",
-        "title": "VIP权益",
-        "categoryId": "cat_none",
-        "tags": [
-          "VIP"
-        ],
-        "desc": "VIP免费或高清下载。",
-        "image": {
-          "id": "optimg_opt_card_export_3",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.999689+00:00"
-        },
-        "options": []
       }
     ],
     "variantMode": true
@@ -7014,7 +6770,8 @@
       {
         "id": "dir_card_decor_1",
         "title": "房间",
-        "order": 1,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_decor_1_0",
@@ -7024,8 +6781,7 @@
               "其他"
             ],
             "desc": "房间主题配置",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_1_1",
@@ -7035,8 +6791,7 @@
               "其他"
             ],
             "desc": "家具摆放",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_1_2",
@@ -7046,15 +6801,15 @@
               "其他"
             ],
             "desc": "房间进度保存",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_decor_2",
         "title": "地图修复",
-        "order": 2,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_decor_2_0",
@@ -7064,8 +6819,7 @@
               "其他"
             ],
             "desc": "地图修复节点",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_2_1",
@@ -7075,8 +6829,7 @@
               "其他"
             ],
             "desc": "节点消耗与奖励",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_2_2",
@@ -7086,15 +6839,15 @@
               "其他"
             ],
             "desc": "修复效果展示",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_decor_3",
         "title": "阶段解锁",
-        "order": 3,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_decor_3_0",
@@ -7104,8 +6857,7 @@
               "其他"
             ],
             "desc": "进度门槛配置",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_3_1",
@@ -7115,8 +6867,7 @@
               "其他"
             ],
             "desc": "阶段解锁提示",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_3_2",
@@ -7126,15 +6877,15 @@
               "其他"
             ],
             "desc": "阶段奖励",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_decor_4",
         "title": "装饰收集",
-        "order": 4,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_decor_4_0",
@@ -7144,8 +6895,7 @@
               "其他"
             ],
             "desc": "装饰获取途径",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_4_1",
@@ -7155,8 +6905,7 @@
               "其他"
             ],
             "desc": "装饰库存",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_4_2",
@@ -7166,15 +6915,15 @@
               "其他"
             ],
             "desc": "放置与替换",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
         "id": "dir_card_decor_0",
         "title": "家园",
-        "order": 999,
+        "desc": "",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_decor_0_0",
@@ -7184,8 +6933,7 @@
               "其他"
             ],
             "desc": "家园区域解锁",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_0_1",
@@ -7195,8 +6943,7 @@
               "其他"
             ],
             "desc": "建造资源消耗",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_decor_0_2",
@@ -7206,59 +6953,33 @@
               "其他"
             ],
             "desc": "家园状态保存",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
-      }
-    ],
-    "variantMode": true
-  },
-  {
-    "id": "card_bg",
-    "order": 37,
-    "title": "首页背景",
-    "rowId": "row_other",
-    "categoryId": "cat_none",
-    "tags": [
-      "其他"
-    ],
-    "body": [
-      "首页壁纸展示",
-      "主题背景"
-    ],
-    "note": "",
-    "desc": "把壁纸和主题背景作为内容奖励展示。",
-    "options": [
-      {
-        "id": "opt_card_bg_0",
-        "title": "壁纸展示",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "把壁纸展示在首页。",
-        "image": {
-          "id": "optimg_opt_card_bg_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.261660+00:00"
-        },
-        "options": []
       },
       {
-        "id": "opt_card_bg_1",
-        "title": "建造与装饰展示",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "展示家园和装饰成果。",
-        "image": {
-          "id": "optimg_opt_card_bg_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.351381+00:00"
-        },
-        "options": []
+        "id": "dir_card_decor_home",
+        "title": "首页展示",
+        "desc": "把玩家已有的内容放到首页：壁纸，或家园 / 装饰的成果展示。",
+        "isGroup": true,
+        "options": [
+          {
+            "id": "opt_card_bg_0",
+            "title": "壁纸展示",
+            "desc": "把壁纸展示在首页。",
+            "categoryId": "cat_none",
+            "tags": [],
+            "image": null
+          },
+          {
+            "id": "opt_card_bg_1",
+            "title": "建造与装饰展示",
+            "desc": "展示家园和装饰成果。",
+            "categoryId": "cat_none",
+            "tags": [],
+            "image": null
+          }
+        ]
       }
     ],
     "variantMode": true
