@@ -454,7 +454,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.14.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.15.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -859,7 +859,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.14.0';
+const APP_VERSION = '4.15.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -4377,13 +4377,18 @@ function renderSettings() {
     '<div class="field-hint">鼠标停在卡片上先走进度条，满设定时间再弹说明；范围 0–10 秒。离开后的窗口保留 0–5 秒。</div>' +
     '</div>');
 
+  if (IS_WEB) {
+    html.push('<div class="form-section"><h4>发布到 GitHub</h4>' +
+      '<button class="btn primary" data-act="export-web-data">导出 data.json（发布）</button>' +
+      '<div class="field-hint">下载后替换仓库的 docs/data.json，再提交/上传即可更新线上。</div></div>');
+  }
   html.push('<div class="form-section"><h4>数据与身份</h4>' +
     '<div class="tag-add" style="flex-wrap:wrap">' +
     '<button class="btn" data-act="open-share">打开「分享」面板</button>' +
     '<button class="btn danger" data-act="reset">恢复默认数据</button>' +
     '</div>' +
     '<div class="field-hint">可编辑分享文件、导出图片 / PDF、JSON 导入导出、编辑者与最后修改记录，都集中在顶栏「分享」里。</div>' +
-    '<div class="field-hint">网页不保存选择、草稿和图片；刷新会恢复 docs/data.json 的默认配置。编辑后请导出 data.json 发布。</div>' +
+    '<div class="field-hint">数据会缓存在当前浏览器；编辑后请导出 data.json 发布。</div>' +
     '<div class="field-hint">版本 v' + APP_VERSION + ' · 模块 ' + state.cards.length + ' 个 · 默认配置 1 个</div>' +
     '</div>');
   $('#settingsBody').innerHTML = html.join('');
@@ -5431,6 +5436,7 @@ function bindUI() {
     const b = e.target.closest('[data-act]');
     if (!b) return;
     const act = b.dataset.act, id = b.dataset.id;
+    if (act === 'export-web-data') { exportWebData(); return; }
     if (act === 'cat-add') addCategory();
     else if (act === 'cat-del') deleteCategory(id);
     else if (act === 'cat-up') { commit(s => { moveItem(s.categories, id, -1); }); renderSettings(); }
