@@ -452,7 +452,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.9.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.10.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -560,15 +560,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <div class="field">
           <label>备注（图 1 的「PM / 80 / WWMJ」）</label>
           <input type="text" id="inspNote" maxlength="16" placeholder="可留空">
-        </div>
-        <div class="field">
-          <label>分类（筛选/图例，不决定卡片主色）</label>
-          <div class="swatches" id="inspCats"></div>
-          <div class="cat-color-row">
-            <label for="inspCatColor">分类颜色</label>
-            <input type="color" id="inspCatColor" value="#94A3B8" title="修改这个分类的全部卡片颜色">
-            <span class="field-hint">只影响筛选与图例；卡片颜色由已选选项决定</span>
-          </div>
         </div>
         <div class="field" style="display:none">
           <label>自定义颜色</label>
@@ -866,7 +857,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.9.0';
+const APP_VERSION = '4.10.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1350,6 +1341,15 @@ function activeProject() {
 function selectedSet() { return new Set(activeProject().selected || []); }
 function isSelected(id) { return !!(activeProject() && Array.isArray(activeProject().selected) && activeProject().selected.indexOf(id) >= 0); }
 function catOf(id) { return state.categories.find(c => c.id === id) || state.categories.find(c => c.id === 'cat_none') || state.categories[0]; }
+function autoCategoryId(card) {
+  if (!card) return 'cat_none';
+  if (card.rowId === 'row_infra') return 'cat_infra';
+  const paid = optionsOf(card).some(function (o) {
+    return (o.tags || []).some(function (t) { return t === '付费' || t === '广告' || t === 'VIP'; });
+  });
+  return paid ? 'cat_paid' : 'cat_none';
+}
+function cardCategory(card) { return catOf(autoCategoryId(card)); }
 function rowOf(id) { return state.rows.find(r => r.id === id) || state.rows[state.rows.length - 1]; }
 function cardsOfRow(rowId) { return state.cards.filter(c => c.rowId === rowId).sort((a, b) => a.order - b.order); }
 function findCard(id) { return state.cards.find(c => c.id === id) || null; }
@@ -2043,8 +2043,7 @@ function matchesFilter(c) {
   const sel = isSelected(c.id);
   if (f.only === 'selected' && !sel) return false;
   if (f.only === 'unselected' && sel) return false;
-  const optionCats = optionsOf(c).map(function (o) { return o.categoryId; });
-  if (f.categoryIds.length && f.categoryIds.indexOf(c.categoryId) < 0 && !optionCats.some(function (id) { return f.categoryIds.indexOf(id) >= 0; })) return false;
+  if (f.categoryIds.length && f.categoryIds.indexOf(autoCategoryId(c)) < 0) return false;
   const optionTags = [];
   optionsOf(c).forEach(function (o) { (o.tags || []).forEach(function (t) { if (optionTags.indexOf(t) < 0) optionTags.push(t); }); });
   if (f.tags.length && !f.tags.every(t => optionTags.indexOf(t) >= 0)) return false;
@@ -2072,7 +2071,7 @@ function fitTitle(text, maxW) {
 }
 
 function layoutCardContent(card, width, selected) {
-  const cat = catOf(card.categoryId);
+  const cat = cardCategory(card);
   const color = cardColor(card, selected);
   const panelW = LAY.panelW;
   const titlePad = 10;
@@ -2186,7 +2185,7 @@ function computeLayout(opts) {
 
     const legendY = LAY.pad + titleH;
     const legendChips = state.categories.slice().sort((a, b) => a.order - b.order).map(cat => {
-      const n = cards.filter(c => c.categoryId === cat.id && selSet.has(c.id)).length;
+      const n = cards.filter(c => autoCategoryId(c) === cat.id && selSet.has(c.id)).length;
       const text = cat.name + ' ' + n;
       return { id: cat.id, label: cat.name, count: n, text: text, color: cat.color, w: Math.round(textWidth(text, FONTS.body(11.5)) + 26) };
     }).filter(function (x) { return x.count > 0; });
@@ -3087,7 +3086,7 @@ function mergePlanCount(plan) {
 }
 function mergeAddedItem(it, i) {
   return '<div class="merge-item"><div class="mi-head"><span class="mi-tag add">新增</span>' + esc(it.card.title) +
-    '</div><div class="mi-diff">' + esc(rowOf(it.card.rowId).name) + ' · ' + esc(catOf(it.card.categoryId).name) + '</div>' +
+    '</div><div class="mi-diff">' + esc(rowOf(it.card.rowId).name) + ' · ' + esc(cardCategory(it.card).name) + '</div>' +
     '<label class="check" style="margin-top:7px"><input type="checkbox" data-add="' + i + '" checked> 加入这张卡片</label></div>';
 }
 function mergeChangedItem(it, i) {
@@ -3488,7 +3487,7 @@ function scheduleHideHoverCard() {
   hoverState.hideTimer = setTimeout(function () { hideHoverCard(); }, leaveDelayMs());
 }
 function fillHoverCard(card) {
-  const cat = catOf(card.categoryId);
+  const cat = cardCategory(card);
   const sel = isSelected(card.id);
   const color = cardColor(card, sel);
   $('#hcBand').style.background = color;
@@ -4037,7 +4036,7 @@ function renderCatFilter() {
   const box = $('#catFilter');
   const f = state.ui.filter;
   box.innerHTML = state.categories.slice().sort((a, b) => a.order - b.order).map(c => {
-    const n = state.cards.filter(x => x.categoryId === c.id).length;
+    const n = state.cards.filter(x => autoCategoryId(x) === c.id).length;
     return '<button class="fchip' + (f.categoryIds.indexOf(c.id) >= 0 ? ' on' : '') + '" data-cat-filter="' + escAttr(c.id) + '">' +
       '<span class="dot" style="background:' + c.color + '"></span>' + esc(c.name) + ' <span class="num">' + n + '</span></button>';
   }).join('');
@@ -4146,7 +4145,7 @@ function closeInspector() {
 function fillInspector() {
   const card = findCard(view.inspectingId);
   if (!card) { closeInspector(); return; }
-  const cat = catOf(card.categoryId);
+  const cat = cardCategory(card);
   $('#inspSub').textContent = rowOf(card.rowId).name + ' · ' + cat.name + ' · ' + card.id;
   const t = $('#inspTitle');
   if (document.activeElement !== t) t.value = card.title;
@@ -4168,7 +4167,7 @@ function fillInspector() {
       '<div class="opt-kind' + (level === 2 ? ' child' : '') + '">' + (level === 2 ? '二级选项' : '一级选项 · 直接选择') + '</div>' +
       '<div class="opt-edit-top">' + move +
       '<input type="text" class="opt-edit-title" data-opt-title="' + escAttr(o.id) + '" maxlength="60" value="' + escAttr(o.title) + '" placeholder="选项名称">' +
-      '<select data-opt-cat="' + escAttr(o.id) + '">' + catOptions.map(function (c) { return '<option value="' + escAttr(c.id) + '"' + (c.id === o.categoryId ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select>' +
+
       '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除二级选项">×</button></div>' +
       '<div class="opt-edit-meta"><div class="opt-tag-chips">' + (state.tagPresets || []).map(function (t) {
         const col = tagColor(t);
@@ -4215,17 +4214,6 @@ function fillInspector() {
     const hint = $('#shotsHint');
     if (hint) hint.textContent = shots.length + ' / ' + MAX_SHOTS + ' 张' + (shots.length ? ' · ' + formatMB(shotsBytes(shots)) : '');
   }
-
-  $('#inspCats').innerHTML = state.categories.slice().sort((a, b2) => a.order - b2.order).map(c =>
-    '<button class="swatch' + (c.id === card.categoryId ? ' on' : '') + '" data-set-cat="' + escAttr(c.id) + '">' +
-    '<span class="dot" style="background:' + c.color + '"></span>' + esc(c.name) + '</button>'
-  ).join('');
-
-  const custom = !!card.customColor;
-  $('#inspCatColor').value = cat.color;
-  $('#inspCustomColor').checked = custom;
-  $('#inspColor').value = custom ? card.customColor : cat.color;
-  $('#inspColor').disabled = !custom;
 
   $('#inspTags').innerHTML = (card.tags || []).map(tag => {
     const tc = tagColor(tag) || '#94A3B8';
@@ -4314,7 +4302,7 @@ function renderSettings() {
   const html = [];
   html.push('<div class="form-section"><h4>分类（筛选/图例）<button class="btn sm" data-act="cat-add">＋ 新增分类</button></h4>');
   cats.forEach((c, i) => {
-    const n = state.cards.filter(x => x.categoryId === c.id).length;
+    const n = state.cards.filter(x => autoCategoryId(x) === c.id).length;
     html.push('<div class="srow">' +
       '<input type="color" value="' + c.color + '" data-cat-color="' + escAttr(c.id) + '" title="修改颜色">' +
       '<input type="text" class="name" value="' + escAttr(c.name) + '" data-cat-name="' + escAttr(c.id) + '" maxlength="8">' +
@@ -5131,7 +5119,6 @@ function bindUI() {
     const t = e.target;
     if (!view.inspectingId) return;
     if (t.dataset.optTitle) updateOption(view.inspectingId, t.dataset.optTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改选项名称');
-    else if (t.dataset.optCat) updateOption(view.inspectingId, t.dataset.optCat, { categoryId: t.value }, '改选项分类');
     else if (t.dataset.optTags) updateOption(view.inspectingId, t.dataset.optTags, { tags: parseOptionTags(t.value) }, '改选项标签');
     else if (t.dataset.optDesc) updateOption(view.inspectingId, t.dataset.optDesc, { desc: t.value.slice(0, 800) }, '改选项说明');
   });
@@ -5301,12 +5288,6 @@ function bindUI() {
     if (files.length) { e.preventDefault(); addShotFiles(files); }
   });
 
-  $('#inspCats').addEventListener('click', e => {
-    const b = e.target.closest('[data-set-cat]');
-    if (!b || !view.inspectingId) return;
-    patchCard(view.inspectingId, { categoryId: b.dataset.setCat }, { label: '改分类' });
-    fillInspector();
-  });
   $('#inspCustomColor').addEventListener('change', e => {
     if (!view.inspectingId) return;
     const on = e.target.checked;
@@ -5318,13 +5299,6 @@ function bindUI() {
     if (!$('#inspCustomColor').checked) $('#inspCustomColor').checked = true;
     $('#inspColor').disabled = false;
     patchCardSilent(view.inspectingId, { customColor: e.target.value }, '改颜色');
-  });
-  $('#inspCatColor').addEventListener('change', e => {
-    if (!view.inspectingId) return;
-    const card = findCard(view.inspectingId);
-    if (!card) return;
-    updateCategory(card.categoryId, { color: e.target.value }, { label: '改分类颜色' });
-    fillInspector();
   });
   $('#inspTags').addEventListener('change', e => {
     const input = e.target.closest('[data-tag-color]');
