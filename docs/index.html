@@ -454,7 +454,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.15.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.16.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -859,7 +859,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.15.0';
+const APP_VERSION = '4.16.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -4382,6 +4382,12 @@ function renderSettings() {
       '<button class="btn primary" data-act="export-web-data">导出 data.json（发布）</button>' +
       '<div class="field-hint">下载后替换仓库的 docs/data.json，再提交/上传即可更新线上。</div></div>');
   }
+  if (IS_WEB) {
+    html.push('<div class="form-section"><h4>重新加载 / 备份</h4>' +
+      '<button class="btn" data-act="reload-data">重新加载线上 data.json</button>' +
+      '<button class="btn" data-act="restore-backup">恢复重置前备份</button>' +
+      '<div class="field-hint">「恢复默认数据」是恢复程序内置初始数据，不会读取线上 data.json。要重新加载线上内容请用上面的按钮。</div></div>');
+  }
   html.push('<div class="form-section"><h4>数据与身份</h4>' +
     '<div class="tag-add" style="flex-wrap:wrap">' +
     '<button class="btn" data-act="open-share">打开「分享」面板</button>' +
@@ -4624,15 +4630,40 @@ function importJSON() {
   input.click();
 }
 async function resetAll() {
-  const ok = await askConfirm({ title: '恢复默认数据', message: '将清空所有游戏项目、模块与分类修改，恢复为初始示例数据。当前数据会先备份，可用「导入 JSON」找回。', okText: '恢复默认', danger: true });
+  const ok = await askConfirm({ title: '恢复默认数据', message: '这会清空所有项目、模块和选项修改，恢复为程序内置初始数据。它不是“重新加载线上 data.json”。重置前会自动备份到本机并下载一份备份。', okText: '恢复默认', danger: true });
   if (!ok) return;
-  if (!IS_WEB) { try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ } }
+  try {
+    const backup = JSON.stringify(state);
+    localStorage.setItem(NS.backupKey, backup);
+    downloadBlob(new Blob([backup], { type: 'application/json;charset=utf-8' }), '重置前备份-' + fileStamp() + '.json');
+  } catch (e) { /* ignore */ }
   state = normalizeState(defaultState());
   history = []; future = [];
   closeInspector();
   saveNow();
   renderAll();
-  toast('已恢复默认数据');
+  toast('已恢复默认数据；重置前备份已保存');
+}
+function restoreLastBackup() {
+  const raw = (function () { try { return localStorage.getItem(NS.backupKey); } catch (e) { return null; } })();
+  if (!raw) { toast('没有可恢复的重置前备份'); return; }
+  try {
+    state = normalizeState(JSON.parse(raw));
+    history = []; future = [];
+    closeInspector();
+    saveNow(); renderAll();
+    toast('已恢复重置前备份');
+  } catch (e) { toast('备份读取失败'); }
+}
+function reloadOnlineData() {
+  askConfirm({ title: '重新加载线上 data.json', message: '将清除本机缓存中的当前状态，然后从 docs/data.json 重新加载。当前本机修改会先备份。', okText: '重新加载' }).then(function (ok) {
+    if (!ok) return;
+    window.__mbSkipUnloadSave = true;
+    clearTimeout(saveTimer);
+    try { localStorage.setItem(NS.backupKey, JSON.stringify(state)); } catch (e) { /* ignore */ }
+    try { localStorage.removeItem(NS.stateKey); } catch (e) { /* ignore */ }
+    location.reload();
+  });
 }
 async function clearSelection() {
   const ok = await askConfirm({ title: '清空选择', message: '清空「' + activeProject().name + '」的全部勾选？模块库不受影响。', okText: '清空', danger: true });
@@ -5437,6 +5468,8 @@ function bindUI() {
     if (!b) return;
     const act = b.dataset.act, id = b.dataset.id;
     if (act === 'export-web-data') { exportWebData(); return; }
+    if (act === 'restore-backup') { restoreLastBackup(); return; }
+    if (act === 'reload-data') { reloadOnlineData(); return; }
     if (act === 'cat-add') addCategory();
     else if (act === 'cat-del') deleteCategory(id);
     else if (act === 'cat-up') { commit(s => { moveItem(s.categories, id, -1); }); renderSettings(); }
@@ -5596,7 +5629,7 @@ function bindUI() {
       roRaf = requestAnimationFrame(relayout);
     }).observe($('#viewport'));
   }
-  window.addEventListener('beforeunload', () => { try { saveNow(); } catch (e) { /* ignore */ } });
+  window.addEventListener('beforeunload', () => { if (window.__mbSkipUnloadSave) return; try { saveNow(); } catch (e) { /* ignore */ } });
 }
 
 /* ------------------------- 22. 自检与调试钩子 ------------------------- */
