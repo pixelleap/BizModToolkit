@@ -454,7 +454,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.16.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.17.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -859,7 +859,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.16.0';
+const APP_VERSION = '4.17.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -4386,12 +4386,11 @@ function renderSettings() {
     html.push('<div class="form-section"><h4>重新加载 / 备份</h4>' +
       '<button class="btn" data-act="reload-data">重新加载线上 data.json</button>' +
       '<button class="btn" data-act="restore-backup">恢复重置前备份</button>' +
-      '<div class="field-hint">「恢复默认数据」是恢复程序内置初始数据，不会读取线上 data.json。要重新加载线上内容请用上面的按钮。</div></div>');
+      '<div class="field-hint">「重新加载线上 data.json」会清除本机缓存，读取仓库里的 data.json；不会恢复程序内置示例。</div></div>');
   }
   html.push('<div class="form-section"><h4>数据与身份</h4>' +
     '<div class="tag-add" style="flex-wrap:wrap">' +
     '<button class="btn" data-act="open-share">打开「分享」面板</button>' +
-    '<button class="btn danger" data-act="reset">恢复默认数据</button>' +
     '</div>' +
     '<div class="field-hint">可编辑分享文件、导出图片 / PDF、JSON 导入导出、编辑者与最后修改记录，都集中在顶栏「分享」里。</div>' +
     '<div class="field-hint">数据会缓存在当前浏览器；编辑后请导出 data.json 发布。</div>' +
@@ -4628,21 +4627,6 @@ function importJSON() {
     reader.readAsText(file, 'utf-8');
   };
   input.click();
-}
-async function resetAll() {
-  const ok = await askConfirm({ title: '恢复默认数据', message: '这会清空所有项目、模块和选项修改，恢复为程序内置初始数据。它不是“重新加载线上 data.json”。重置前会自动备份到本机并下载一份备份。', okText: '恢复默认', danger: true });
-  if (!ok) return;
-  try {
-    const backup = JSON.stringify(state);
-    localStorage.setItem(NS.backupKey, backup);
-    downloadBlob(new Blob([backup], { type: 'application/json;charset=utf-8' }), '重置前备份-' + fileStamp() + '.json');
-  } catch (e) { /* ignore */ }
-  state = normalizeState(defaultState());
-  history = []; future = [];
-  closeInspector();
-  saveNow();
-  renderAll();
-  toast('已恢复默认数据；重置前备份已保存');
 }
 function restoreLastBackup() {
   const raw = (function () { try { return localStorage.getItem(NS.backupKey); } catch (e) { return null; } })();
@@ -5480,7 +5464,6 @@ function bindUI() {
     else if (act === 'row-down') { commit(s => { moveItem(s.rows, id, 1); }); renderSettings(); }
     else if (act === 'export-json') exportJSON();
     else if (act === 'import-json') importJSON();
-    else if (act === 'reset') resetAll();
     else if (act === 'open-share') { $('#settingsDialog').classList.add('hidden'); openShare('export'); }
     else if (act === 'clear-selection') clearSelection();
   });
