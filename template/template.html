@@ -432,7 +432,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.3.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.4.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -832,7 +832,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.3.0';
+const APP_VERSION = '4.4.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1368,6 +1368,18 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
   const raw = Array.isArray(rawOptions) ? rawOptions : [];
   const nested = raw.some(function (o) { return o && Array.isArray(o.options); });
   const groups = new Map();
+  const direct = [];
+  function directLeaf(o, order) {
+    if (!o) return;
+    const oid = (typeof o.id === 'string' && /^[a-z0-9_]+$/.test(o.id)) ? o.id : ('opt_' + cardId + '_' + direct.length);
+    if (direct.some(function (x) { return x.id === oid; })) return;
+    direct.push({
+      id: oid, title: String(o.title || '未命名选项').slice(0, 120), order: order,
+      categoryId: catOk(o.categoryId) ? o.categoryId : (catOk(cardCat) ? cardCat : 'cat_none'),
+      tags: Array.isArray(o.tags) ? Array.from(new Set(o.tags.map(String))) : [],
+      desc: String(o.desc || '').slice(0, 800), image: normalizeOptionImage(o.image), options: []
+    });
+  }
   function addLeaf(o, directionId, directionTitle, directionOrder) {
     if (!o) return;
     if (!groups.has(directionId)) groups.set(directionId, { id: directionId, title: directionTitle || '基础', order: directionOrder, options: [] });
@@ -1384,10 +1396,12 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
   }
   if (nested) {
     raw.forEach(function (g, gi) {
-      if (!g || !Array.isArray(g.options)) return;
+      if (!g) return;
+      const order = typeof g.order === 'number' ? g.order : gi;
+      if (!Array.isArray(g.options) || !g.options.length) { directLeaf(g, order); return; }
       const gid = (typeof g.id === 'string' && /^[a-z0-9_]+$/.test(g.id)) ? g.id : ('dir_' + cardId + '_' + gi);
       const title = String(g.title || '基础').slice(0, 120);
-      (g.options || []).forEach(function (o) { addLeaf(o, gid, title, typeof g.order === 'number' ? g.order : gi); });
+      g.options.forEach(function (o) { addLeaf(o, gid, title, order); });
     });
   } else {
     raw.forEach(function (o, oi) {
@@ -1395,7 +1409,7 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
       addLeaf(o, gid, (o && o.directionTitle) || '基础', Number(o && o.directionOrder) || (o && o.directionId ? 0 : 999));
     });
   }
-  return Array.from(groups.values()).filter(function (g) { return g.options.length; }).sort(function (a, b) { return a.order - b.order || a.title.localeCompare(b.title, 'zh'); }).map(function (g) { return { id: g.id, title: g.title, options: g.options }; });
+  return Array.from(groups.values()).filter(function (g) { return g.options.length; }).concat(direct).sort(function (a, b) { return a.order - b.order || a.title.localeCompare(b.title, 'zh'); }).map(function (g) { return (g.options && g.options.length) ? { id: g.id, title: g.title, options: g.options } : g; });
 }
 function defaultProject() {
   const d = defaultSelection();
@@ -1466,9 +1480,9 @@ const CARD_COLOR_DEFAULT = '#D8DEE9';
 const CARD_COLOR_PAID = '#D9534F';
 const CARD_COLOR_FREE = '#5B8DEF';
 function topOptionsOf(card) { return (card && Array.isArray(card.options)) ? card.options : []; }
-function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { (g.options || []).forEach(function (o) { out.push(o); }); }); return out; }
+function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else out.push(g); }); return out; }
 function optionsOf(card) { return leafOptionsOf(card); }
-function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { return { id: g.id, title: g.title || '基础', options: g.options || [] }; }); }
+function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; return { id: g.id, title: g.title || '基础', direct: !hasChildren, options: hasChildren ? g.options : [g] }; }); }
 function selectedOptionIds(cardId) {
   const map = (activeProject() && activeProject().optionSelections && typeof activeProject().optionSelections === 'object') ? activeProject().optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
@@ -2189,28 +2203,15 @@ function layoutCardContent(card, width, selected) {
   const hasChosen = chosen.size > 0;
   let rawBody = [];
   const groups = optionGroupsOf(card);
-  const activeGroups = hasChosen ? groups.filter(function (g) { return g.options.some(function (o) { return chosen.has(o.id); }); }) : groups;
-  const shownGroups = activeGroups.slice(0, 6);
+  const shownGroups = groups.slice(0, 8);
   shownGroups.forEach(function (g) {
-    const label = String(g.title || '基础');
-    if (!hasChosen) {
-      wrapText(label, panelW - LAY.cardPadX * 2, bodyFont, 2).forEach(function (text) {
-        rawBody.push({ text: text, selected: false, mode: 'default' });
-      });
-      return;
-    }
-    wrapText(label, panelW - LAY.cardPadX * 2, FONTS.bodyBold(LAY.bodySize), 2).forEach(function (text) {
-      rawBody.push({ text: text, selected: true, mode: 'on' });
+    const on = g.direct ? chosen.has(g.id) : g.options.some(function (o) { return chosen.has(o.id); });
+    const font = on ? FONTS.bodyBold(LAY.bodySize) : bodyFont;
+    wrapText(String(g.title || '基础'), panelW - LAY.cardPadX * 2, font, 2).forEach(function (text) {
+      rawBody.push({ text: text, selected: on, mode: on ? 'on' : 'off' });
     });
-    g.options.slice(0, 4).forEach(function (o) {
-      const on = chosen.has(o.id);
-      wrapText(String(o.title || ''), panelW - LAY.cardPadX * 2 - 10, on ? FONTS.bodyBold(LAY.bodySize) : bodyFont, 1).forEach(function (text) {
-        rawBody.push({ text: text, selected: on, mode: on ? 'on' : 'off' });
-      });
-    });
-    if (g.options.length > 4) rawBody.push({ text: '+ ' + (g.options.length - 4) + ' 项', selected: false, mode: 'off' });
   });
-  if (activeGroups.length > shownGroups.length) rawBody.push({ text: '+ ' + (activeGroups.length - shownGroups.length) + ' 个方向', selected: false, mode: hasChosen ? 'off' : 'default' });
+  if (groups.length > shownGroups.length) rawBody.push({ text: '+ ' + (groups.length - shownGroups.length) + ' 个选项', selected: false, mode: 'off' });
   const truncated = rawBody.length > 40;
   const bodyLines = truncated ? rawBody.slice(0, 40) : rawBody;
   const chipFont = FONTS.chip(LAY.chipSize);
@@ -2302,10 +2303,10 @@ function computeLayout(opts) {
 
     const legendY = LAY.pad + titleH;
     const legendChips = state.categories.slice().sort((a, b) => a.order - b.order).map(cat => {
-      const n = cards.filter(c => c.categoryId === cat.id).length;
+      const n = cards.filter(c => c.categoryId === cat.id && selSet.has(c.id)).length;
       const text = cat.name + ' ' + n;
       return { id: cat.id, label: cat.name, count: n, text: text, color: cat.color, w: Math.round(textWidth(text, FONTS.body(11.5)) + 26) };
-    });
+    }).filter(function (x) { return x.count > 0; });
     let lx = LAY.pad, ly = legendY, legendRows = 1;
     const items = [];
     legendChips.forEach(it => {
@@ -3619,6 +3620,12 @@ function fillHoverCard(card) {
   const groups = optionGroupsOf(card);
   $('#hcOptCount').textContent = opts.length ? (chosen.size + ' / ' + opts.length + ' 已选') : '';
   $('#hcOptList').innerHTML = opts.length ? groups.map(function (g) {
+    if (g.direct) {
+      const o = g.options[0]; const on = chosen.has(o.id);
+      return '<div class="hc-opt' + (on ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
+        '<span class="hc-opt-check">' + (on ? '✓' : '') + '</span>' +
+        '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+    }
     const onCount = g.options.filter(function (o) { return chosen.has(o.id); }).length;
     return '<div class="hc-opt-block' + (onCount ? ' group-on' : '') + '">' +
       '<div class="hc-opt-head"><span>' + esc(g.title) + '</span><span class="hc-opt-count">' + onCount + ' / ' + g.options.length + '</span></div>' +
@@ -3704,6 +3711,10 @@ function renderOptionPicker() {
     '<div class="picker-tags">' + tags.map(function (t) { return '<span class="hc-tag">' + esc(t) + '</span>'; }).join('') + '</div>' +
     (selectedTitles.length ? '<p style="margin-top:8px;color:#475467">已选：' + esc(selectedTitles.join(' · ')) + '</p>' : '');
   $('#pickerGroups').innerHTML = groups.length ? groups.map(function (g, gi) {
+    if (g.direct) {
+      const o = g.options[0]; const on = pickerSelected(o.id);
+      return '<div class="picker-opt' + (on ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '"><span class="picker-opt-check">' + (on ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+    }
     const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length;
     return '<div class="picker-group' + (n ? ' on' : '') + '" data-picker-group="' + escAttr(g.id) + '">' +
       '<div class="picker-group-head"><span class="picker-group-title">' + esc(g.title) + '</span><span class="picker-group-count">' + n + ' / ' + g.options.length + '</span></div>' +
@@ -4222,27 +4233,31 @@ function fillInspector() {
   if (document.activeElement !== nEl) nEl.value = card.note || '';
   const dEl = $('#inspDesc');
   if (document.activeElement !== dEl) dEl.value = card.desc || '';
-  const opts = optionsOf(card);
+  const groups = topOptionsOf(card);
   const catOptions = state.categories.slice().sort(function (a, b) { return a.order - b.order; });
-  $('#inspOptions').innerHTML = opts.length ? opts.map(function (o, oi) {
+  function leafEditor(o) {
     const paid = isPaidOption(o);
     return '<div class="opt-edit" data-opt-edit="' + escAttr(o.id) + '">' +
       '<div class="opt-edit-top">' +
       '<input type="text" class="opt-edit-title" data-opt-title="' + escAttr(o.id) + '" maxlength="60" value="' + escAttr(o.title) + '" placeholder="选项名称">' +
       '<select data-opt-cat="' + escAttr(o.id) + '">' + catOptions.map(function (c) { return '<option value="' + escAttr(c.id) + '"' + (c.id === o.categoryId ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select>' +
-      '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除选项">×</button>' +
-      '</div>' +
+      '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除二级选项">×</button></div>' +
       '<div class="opt-edit-meta"><input type="text" class="opt-edit-tags" data-opt-tags="' + escAttr(o.id) + '" maxlength="120" value="' + escAttr((o.tags || []).join(', ')) + '" placeholder="标签，逗号分隔">' +
       (paid ? '<span class="opt-edit-paid">付费点</span>' : '') + '</div>' +
-      '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="这个选项的说明（悬停时显示）">' + esc(o.desc || '') + '</textarea>' +
-      '<div class="opt-edit-image">' +
-      '<div class="opt-image-thumb">' + (o.image && getShot(o.image.id) ? '<img alt="" src="' + getShot(o.image.id) + '">' : '<span>无图</span>') + '</div>' +
-      '<div class="opt-image-ops">' +
-      '<button class="btn sm" type="button" data-opt-img-pick="' + escAttr(o.id) + '">' + (o.image ? '更换图片' : '选择图片') + '</button>' +
-      (o.image ? '<button class="btn sm danger" type="button" data-opt-img-del="' + escAttr(o.id) + '">删除图片</button>' : '') +
-      '</div></div>' +
-      '</div>';
-  }).join('') : '<div class="field-hint">还没有功能选项，点下面添加。</div>';
+      '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="这个选项的说明">' + esc(o.desc || '') + '</textarea>' +
+      '<div class="opt-edit-image"><div class="opt-image-thumb">' + (o.image && getShot(o.image.id) ? '<img alt="" src="' + getShot(o.image.id) + '">' : '<span>无图</span>') + '</div>' +
+      '<div class="opt-image-ops"><button class="btn sm" type="button" data-opt-img-pick="' + escAttr(o.id) + '">' + (o.image ? '更换图片' : '选择图片') + '</button>' +
+      (o.image ? '<button class="btn sm danger" type="button" data-opt-img-del="' + escAttr(o.id) + '">删除图片</button>' : '') + '</div></div></div>';
+  }
+  $('#inspOptions').innerHTML = groups.length ? groups.map(function (g) {
+    const kids = Array.isArray(g.options) ? g.options : [];
+    if (!kids.length) return leafEditor(g);
+    return '<div class="opt-group-edit" data-top-edit="' + escAttr(g.id) + '"><div class="opt-edit-top" style="margin-bottom:6px">' +
+      '<input type="text" class="opt-edit-title" data-top-title="' + escAttr(g.id) + '" maxlength="60" value="' + escAttr(g.title) + '" placeholder="一级选项名称">' +
+      '<button class="icon-btn opt-edit-del" data-top-del="' + escAttr(g.id) + '" title="删除一级选项">×</button></div>' +
+      '<div class="option-editor">' + kids.map(leafEditor).join('') + '</div>' +
+      '<button class="btn sm" type="button" data-top-add-child="' + escAttr(g.id) + '" style="margin-top:6px">＋ 添加二级选项</button></div>';
+  }).join('') : '<div class="field-hint">还没有选项，点下面添加。</div>';
   const thumbSrc = getThumb(card);
   const thumbEmpty = $('#thumbEmpty'), thumbPreview = $('#thumbPreview');
   if (thumbEmpty) thumbEmpty.classList.toggle('hidden', !!thumbSrc);
@@ -5100,10 +5115,16 @@ function bindUI() {
     });
     return out.slice(0, 12);
   }
+  function updateTop(cardId, topId, patch, label) {
+    const card = findCard(cardId); if (!card) return;
+    const next = topOptionsOf(card).map(function (g) { return g.id === topId ? Object.assign({}, g, patch) : g; });
+    patchCard(cardId, { options: next, optionsSeeded: true }, { label: label || '修改一级选项' });
+  }
   function updateOption(cardId, optId, patch, label) {
     const card = findCard(cardId);
     if (!card) return;
     const next = topOptionsOf(card).map(function (g) {
+      if (g.id === optId && (!g.options || !g.options.length)) return Object.assign({}, g, patch);
       return Object.assign({}, g, { options: (g.options || []).map(function (o) { return o.id === optId ? Object.assign({}, o, patch) : o; }) });
     });
     patchCard(cardId, { options: next, optionsSeeded: true }, { label: label || '修改选项' });
@@ -5117,6 +5138,25 @@ function bindUI() {
     else if (t.dataset.optDesc) updateOption(view.inspectingId, t.dataset.optDesc, { desc: t.value.slice(0, 800) }, '改选项说明');
   });
   $('#inspOptions').addEventListener('click', function (e) {
+    if (!view.inspectingId) return;
+    const cardNow = findCard(view.inspectingId); if (!cardNow) return;
+    const topDel = e.target.closest('[data-top-del]');
+    if (topDel) {
+      const gid = topDel.getAttribute('data-top-del');
+      const groups = topOptionsOf(cardNow);
+      const g = groups.find(function (x) { return x.id === gid; });
+      if (g) (g.options || []).forEach(function (o) { if (o.image) removeShot(o.image.id); });
+      commit(function (s) { const c = s.cards.find(function (x) { return x.id === cardNow.id; }); if (!c) return; c.options = (c.options || []).filter(function (x) { return x.id !== gid; }); s.projects.forEach(function (p) { const ids = (p.optionSelections || {})[cardNow.id] || []; p.optionSelections[cardNow.id] = ids.filter(function (id) { return !(g && (g.options || []).some(function (o) { return o.id === id; })); }); if (!p.optionSelections[cardNow.id].length) delete p.optionSelections[cardNow.id]; }); }, { label: '删除一级选项' });
+      fillInspector(); return;
+    }
+    const addChild = e.target.closest('[data-top-add-child]');
+    if (addChild) {
+      const gid = addChild.getAttribute('data-top-add-child');
+      const groups = topOptionsOf(cardNow).map(function (g) { return Object.assign({}, g, { options: (g.options || []).slice() }); });
+      const g = groups.find(function (x) { return x.id === gid; }); if (!g) return;
+      g.options.push({ id: uid('opt'), title: '新二级选项', categoryId: cardNow.categoryId, tags: (cardNow.tags || []).slice(), desc: '', image: null });
+      patchCard(cardNow.id, { options: groups, optionsSeeded: true }, { label: '添加二级选项' }); fillInspector(); return;
+    }
     const btn = e.target.closest('[data-opt-del]');
     if (!btn || !view.inspectingId) return;
     const card = findCard(view.inspectingId);
@@ -5127,7 +5167,10 @@ function bindUI() {
     commit(function (s) {
       const c = s.cards.find(function (x) { return x.id === card.id; });
       if (!c) return;
-      c.options = (c.options || []).map(function (g) { return Object.assign({}, g, { options: (g.options || []).filter(function (o) { return o.id !== optId; }) }); }).filter(function (g) { return g.options.length; });
+      c.options = (c.options || []).map(function (g) {
+        if (g.id === optId && (!g.options || !g.options.length)) return null;
+        return Object.assign({}, g, { options: (g.options || []).filter(function (o) { return o.id !== optId; }) });
+      }).filter(function (g) { return g && g.options.length; });
       c.optionsSeeded = true;
       s.projects.forEach(function (p) {
         if (!p.optionSelections || !p.optionSelections[card.id]) return;
@@ -5174,11 +5217,9 @@ function bindUI() {
     if (!view.inspectingId) return;
     const card = findCard(view.inspectingId);
     if (!card) return;
-    const opt = { id: uid('opt'), title: '新选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null };
-    let groups = topOptionsOf(card).map(function (g) { return Object.assign({}, g, { options: (g.options || []).slice() }); });
-    if (!groups.length) groups = [{ id: 'dir_basic_' + card.id, title: '基础', options: [] }];
-    groups[0].options.push(opt);
-    patchCard(card.id, { options: groups, optionsSeeded: true }, { label: '添加选项' });
+    const opt = { id: uid('opt'), title: '新选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null, options: [] };
+    const groups = topOptionsOf(card).concat([opt]);
+    patchCard(card.id, { options: groups, optionsSeeded: true }, { label: '添加一级选项' }); fillInspector();
   });
 
   /* 卡片缩略图 */
