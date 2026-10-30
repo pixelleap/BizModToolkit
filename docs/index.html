@@ -452,7 +452,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.12.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.13.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -857,7 +857,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.12.0';
+const APP_VERSION = '4.13.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1362,9 +1362,9 @@ const CARD_COLOR_DEFAULT = '#D8DEE9';
 const CARD_COLOR_PAID = '#D9534F';
 const CARD_COLOR_FREE = '#5B8DEF';
 function topOptionsOf(card) { return (card && Array.isArray(card.options)) ? card.options : []; }
-function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else if (!g.isGroup) out.push(g); }); return out; }
+function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else out.push(g); }); return out; }
 function optionsOf(card) { return leafOptionsOf(card); }
-function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; const isGroup = hasChildren || g.isGroup === true; return { id: g.id, title: g.title || '基础', direct: !isGroup, options: isGroup ? (g.options || []) : [g] }; }); }
+function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; return { id: g.id, title: g.title || '基础', direct: !hasChildren, options: hasChildren ? g.options : [g] }; }); }
 function selectedOptionIds(cardId) {
   const map = (activeProject() && activeProject().optionSelections && typeof activeProject().optionSelections === 'object') ? activeProject().optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
