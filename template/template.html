@@ -452,7 +452,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.11.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.12.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -857,7 +857,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.11.0';
+const APP_VERSION = '4.12.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -5294,7 +5294,8 @@ function bindUI() {
   $('#inspOptions').addEventListener('change', function (e) {
     const t = e.target;
     if (!view.inspectingId) return;
-    if (t.dataset.optTitle) updateOption(view.inspectingId, t.dataset.optTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改选项名称');
+    if (t.dataset.topTitle) updateTop(view.inspectingId, t.dataset.topTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改一级选项名称');
+    else if (t.dataset.optTitle) updateOption(view.inspectingId, t.dataset.optTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改选项名称');
     else if (t.dataset.optTags) updateOption(view.inspectingId, t.dataset.optTags, { tags: parseOptionTags(t.value) }, '改选项标签');
     else if (t.dataset.optDesc) updateOption(view.inspectingId, t.dataset.optDesc, { desc: t.value.slice(0, 800) }, '改选项说明');
   });
