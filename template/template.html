@@ -468,7 +468,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.24.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.25.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -878,7 +878,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.24.0';
+const APP_VERSION = '4.25.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -935,7 +935,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.24.0';
+const CACHE_VERSION = '4.25.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -2464,11 +2464,6 @@ function computeLayout(opts) {
     };
 
     const legendY = LAY.pad + titleH;
-    const legendChips = state.categories.slice().sort((a, b) => a.order - b.order).map(cat => {
-      const n = cards.filter(c => autoCategoryId(c) === cat.id && selSet.has(c.id)).length;
-      const text = cat.name + ' ' + n;
-      return { id: cat.id, label: cat.name, count: n, text: text, color: cat.color, w: Math.round(textWidth(text, FONTS.body(11.5)) + 26) };
-    }).filter(function (x) { return x.count > 0; });
     let lx = LAY.pad, ly = legendY, legendRows = 1;
     const items = [];
     function placeLegend(it) {
@@ -2476,31 +2471,30 @@ function computeLayout(opts) {
       items.push(Object.assign({}, it, { x: lx, y: ly, h: 22 }));
       lx += it.w + 8;
     }
-    legendChips.forEach(placeLegend);
 
-    /* 选项标签统计（全库所有模块的 feat，不按选中过滤） */
-    if (!opts.noTagStats) {
-      const tagCounts = {};
-      state.cards.forEach(c => (c.options || []).forEach(v => (v.options || []).forEach(o => {
+    /* 图例 = 当前已选选项（feat）的标签统计，只看选中的 */
+    const tagCounts = {};
+    cards.forEach(c => {
+      if (!selSet.has(c.id)) return;
+      const ids = new Set(selectedOptionIds(c.id));
+      (c.options || []).forEach(v => (v.options || []).forEach(o => {
+        if (!ids.has(o.id)) return;
         (o.tags || []).forEach(t => { if (t) tagCounts[t] = (tagCounts[t] || 0) + 1; });
-      })));
-      const tagList = (state.tagPresets && state.tagPresets.length ? state.tagPresets : []).filter(t => tagCounts[t] > 0);
-      if (tagList.length) {
-        lx = LAY.pad; ly += 26; legendRows += 1;
-        const labelText = '选项标签';
-        placeLegend({ plain: true, text: labelText, w: Math.round(textWidth(labelText, FONTS.body(11)) + 8) });
-        tagList.forEach(t => {
-          const n = tagCounts[t];
-          const text = t + ' ' + n;
-          placeLegend({
-            id: 'tag:' + t, label: t, count: n, text: text, tag: t,
-            color: tagColor(t) || '#94A3B8',
-            w: Math.round(textWidth(text, FONTS.body(11.5)) + 26)
-          });
-        });
-      }
-    }
-    out.legend = { x: LAY.pad, y: legendY, h: legendRows * 26, items: items };
+      }));
+    });
+    const order = (state.tagPresets && state.tagPresets.length) ? state.tagPresets : Object.keys(tagCounts);
+    order.filter(t => tagCounts[t] > 0).forEach(t => {
+      const n = tagCounts[t];
+      const text = t + ' ' + n;
+      placeLegend({
+        id: 'tag:' + t, label: t, count: n, text: text, tag: t,
+        color: tagColor(t) || '#94A3B8',
+        w: Math.round(textWidth(text, FONTS.body(11.5)) + 26)
+      });
+    });
+    out.legend = items.length
+      ? { x: LAY.pad, y: legendY, h: legendRows * 26, items: items }
+      : { x: LAY.pad, y: legendY, h: 0, items: [] };
   }
 
   const rowsTop = chrome ? (LAY.pad + (out.title ? out.title.h : LAY.titleH) + out.legend.h + 8) : LAY.pad;
