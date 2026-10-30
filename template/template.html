@@ -468,7 +468,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.23.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.24.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -878,7 +878,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.23.0';
+const APP_VERSION = '4.24.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -935,7 +935,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.23.0';
+const CACHE_VERSION = '4.24.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -2471,11 +2471,35 @@ function computeLayout(opts) {
     }).filter(function (x) { return x.count > 0; });
     let lx = LAY.pad, ly = legendY, legendRows = 1;
     const items = [];
-    legendChips.forEach(it => {
+    function placeLegend(it) {
       if (lx + it.w > width - LAY.pad) { lx = LAY.pad; ly += 26; legendRows += 1; }
       items.push(Object.assign({}, it, { x: lx, y: ly, h: 22 }));
       lx += it.w + 8;
-    });
+    }
+    legendChips.forEach(placeLegend);
+
+    /* 选项标签统计（全库所有模块的 feat，不按选中过滤） */
+    if (!opts.noTagStats) {
+      const tagCounts = {};
+      state.cards.forEach(c => (c.options || []).forEach(v => (v.options || []).forEach(o => {
+        (o.tags || []).forEach(t => { if (t) tagCounts[t] = (tagCounts[t] || 0) + 1; });
+      })));
+      const tagList = (state.tagPresets && state.tagPresets.length ? state.tagPresets : []).filter(t => tagCounts[t] > 0);
+      if (tagList.length) {
+        lx = LAY.pad; ly += 26; legendRows += 1;
+        const labelText = '选项标签';
+        placeLegend({ plain: true, text: labelText, w: Math.round(textWidth(labelText, FONTS.body(11)) + 8) });
+        tagList.forEach(t => {
+          const n = tagCounts[t];
+          const text = t + ' ' + n;
+          placeLegend({
+            id: 'tag:' + t, label: t, count: n, text: text, tag: t,
+            color: tagColor(t) || '#94A3B8',
+            w: Math.round(textWidth(text, FONTS.body(11.5)) + 26)
+          });
+        });
+      }
+    }
     out.legend = { x: LAY.pad, y: legendY, h: legendRows * 26, items: items };
   }
 
@@ -2642,6 +2666,7 @@ function buildBoardMarkup(layout, opts) {
   /* 图例 */
   if (layout.legend && layout.legend.items.length) {
     layout.legend.items.forEach(it => {
+      if (it.plain) { out.push(svgText(it.x, it.y + 15, it.text, 11, '#98A2B3', 500)); return; }
       out.push('<rect x="' + fmt(it.x) + '" y="' + fmt(it.y) + '" width="' + fmt(it.w) + '" height="' + fmt(it.h) +
         '" rx="11" fill="#FFFFFF" stroke="' + LINE_SOFT + '"/>');
       out.push('<circle cx="' + fmt(it.x + 11) + '" cy="' + fmt(it.y + 11) + '" r="4" fill="' + it.color + '"/>');
@@ -2899,6 +2924,7 @@ function renderCanvas(layout, scale, opts) {
   /* 图例 */
   if (layout.legend) {
     layout.legend.items.forEach(it => {
+      if (it.plain) { cText(ctx, it.x, it.y + 15, it.text, 11, '#98A2B3', 500); return; }
       canvasRoundRect(ctx, it.x, it.y, it.w, it.h, 11);
       ctx.fillStyle = '#FFFFFF'; ctx.fill();
       ctx.strokeStyle = LINE_SOFT; ctx.lineWidth = 1; ctx.stroke();
