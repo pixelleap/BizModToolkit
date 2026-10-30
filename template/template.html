@@ -464,7 +464,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.19.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.20.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -535,11 +535,11 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
           <div class="field-hint">留空时悬停显示上面的正文。</div>
         </div>
         <div class="field">
-          <label>功能选项</label>
+          <label>变体 / feat</label>
           <div class="option-editor" id="inspOptions"></div>
-          <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加一级选项</button>
+          <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加变体</button>
           <input type="file" id="optImageFile" accept="image/*" class="hidden">
-          <div class="field-hint">选项分类/标签决定卡片红蓝；悬停卡片时先显示选项，再显示说明。</div>
+          <div class="field-hint">变体开启才算选中，feat 在变体开启后可多选；变体和 feat 的标签一起决定卡片红蓝。</div>
         </div>
         <div class="field hidden" id="inspAi">
           <label>AI 结构（只读）</label>
@@ -777,7 +777,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   </div>
   <div class="hc-scroll" id="hcScroll">
     <div class="hc-opt-block" id="hcOptBlock">
-      <div class="hc-opt-head"><span>功能选项</span><span class="hc-opt-count" id="hcOptCount"></span></div>
+      <div class="hc-opt-head"><span>变体</span><span class="hc-opt-count" id="hcOptCount"></span></div>
       <div class="hc-opt-list" id="hcOptList"></div>
       <div class="hc-opt-desc" id="hcOptDesc">悬停选项查看说明</div>
     </div>
@@ -874,7 +874,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.19.0';
+const APP_VERSION = '4.20.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -931,7 +931,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.19.0';
+const CACHE_VERSION = '4.20.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1538,9 +1538,10 @@ function catOf(id) { return state.categories.find(c => c.id === id) || state.cat
 function autoCategoryId(card) {
   if (!card) return 'cat_none';
   if (card.rowId === 'row_infra') return 'cat_infra';
-  const paid = optionsOf(card).some(function (o) {
+  const paidTag = function (o) {
     return (o.tags || []).some(function (t) { return t === '付费' || t === '广告' || t === 'VIP'; });
-  });
+  };
+  const paid = optionsOf(card).some(paidTag) || topOptionsOf(card).some(paidTag);
   return paid ? 'cat_paid' : 'cat_none';
 }
 function cardCategory(card) { return catOf(autoCategoryId(card)); }
@@ -1575,6 +1576,42 @@ function selectedOptionIds(cardId) {
   if (!card) return [];
   const valid = selectionValidIds(card);
   return arr.filter(function (id) { return valid.has(id); });
+}
+/* 变体模式下，feat 被选中时父变体必须一起启用；老数据/外部导入都可能缺父 id。
+   幂等：只补缺、只删不存在的 id、空数组删 key。 */
+function repairSelectionMap(cards, map) {
+  if (!map || typeof map !== 'object' || Array.isArray(map)) return 0;
+  let added = 0;
+  Object.keys(map).forEach(function (cid) {
+    const card = cards.find(function (c) { return c.id === cid; });
+    if (!card) { delete map[cid]; return; }
+    const arr = Array.isArray(map[cid]) ? map[cid] : [];
+    const set = new Set(arr);
+    if (isVariantCard(card)) {
+      topOptionsOf(card).forEach(function (v) {
+        const kids = featsOfVariant(v).map(function (o) { return o.id; });
+        if (!kids.length) return;
+        const anyChild = kids.some(function (k) { return set.has(k); });
+        if (anyChild && !set.has(v.id)) { set.add(v.id); added++; }
+      });
+    }
+    const valid = selectionValidIds(card);
+    const out = Array.from(set).filter(function (id) { return valid.has(id); });
+    if (out.length) map[cid] = out; else delete map[cid];
+  });
+  return added;
+}
+function repairVariantSelections(s) {
+  if (!s || !Array.isArray(s.cards)) return 0;
+  let added = 0;
+  if (s.defaults) added += repairSelectionMap(s.cards, s.defaults.optionSelections);
+  (s.projects || []).forEach(function (p) {
+    added += repairSelectionMap(s.cards, p.optionSelections);
+    const sel = new Set(Array.isArray(p.selected) ? p.selected : []);
+    Object.keys(p.optionSelections || {}).forEach(function (cid) { sel.add(cid); });
+    p.selected = Array.from(sel).filter(function (cid) { return s.cards.some(function (c) { return c.id === cid; }); });
+  });
+  return added;
 }
 function selectedOptions(cardId) {
   const ids = new Set(selectedOptionIds(cardId));
@@ -1730,7 +1767,8 @@ function ensureNewCards() {
     categoryId: def.cat,
     customColor: null,
     desc: DEFAULT_DESC[id] || '',
-    options: normalizeTopOptions(def.options, id, CATEGORIES_DEFAULT, def.cat),
+    variantMode: def.variantMode === true,
+    options: normalizeTopOptions(def.options, id, CATEGORIES_DEFAULT, def.cat, def.variantMode === true),
     optionsSeeded: true,
     shots: [],
     thumb: null,
@@ -1886,6 +1924,7 @@ function normalizeState(input) {
     }
   };
   s.updatedAt = s.updatedAt || nowISO();
+  repairVariantSelections(s);
   return s;
 }
 
@@ -2207,7 +2246,7 @@ function redo() {
 function toggleSelected(id, opts) {
   const card = findCard(id);
   if (!isSelected(id) && !canSelectCard(id)) {
-    toast('请先选择至少一个功能选项');
+    toast('请先启用至少一个变体');
     return;
   }
   const extra = Object.assign({ scope: 'selection', label: '勾选「' + ((card && card.title) || '模块') + '」' }, opts || {});
@@ -3760,14 +3799,14 @@ function fillHoverCard(card) {
           '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
           '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
       }).join('') + '</div></div>';
-  }).join('')) : '<div class="field-hint" style="padding:2px 0">这个模块还没有功能选项</div>';
-  $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加选项';
+  }).join('')) : '<div class="field-hint" style="padding:2px 0">这个模块还没有变体</div>';
+  $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加变体';
   const desc = String(card.desc || '').trim();
   const bodyEl = $('#hcBody');
   bodyEl.textContent = desc || '还没有说明';
   $('#hcShots').innerHTML = '';
   $('#hcTags').innerHTML = '';
-  $('#hcFoot').textContent = opts.length ? '悬停选项查看详情 · 编辑模式可编辑选项' : '编辑模式可添加功能选项';
+  $('#hcFoot').textContent = opts.length ? '悬停选项查看详情 · 编辑模式可编辑选项' : '编辑模式可添加变体';
   $('#hoverCard').style.visibility = 'hidden';
 }
 function positionHoverCard(cardId) {
@@ -3816,7 +3855,7 @@ function openOptionPicker(cardId) {
   pickerState.cardId = cardId;
   pickerState.draft = new Set(selectedOptionIds(cardId));
   pickerState.original = new Set(pickerState.draft);
-  $('#pickerTitle').textContent = card.title || '选择选项';
+  $('#pickerTitle').textContent = card.title || '选择变体';
   renderOptionPicker();
   hidePickerTip();
   $('#optionPicker').classList.remove('hidden');
@@ -3883,7 +3922,7 @@ function renderOptionPicker() {
         return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
           '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
       }).join('') + '</div>';
-  }).join('') : '<div class="field-hint">这个模块还没有选项</div>';
+  }).join('') : '<div class="field-hint">这个模块还没有变体</div>';
 }
 function pickerVariantOf(card, variantId) {
   return topOptionsOf(card).find(function (x) { return x.id === variantId; }) || null;
@@ -4492,17 +4531,17 @@ function fillInspector() {
       ? '<button class="opt-order-btn" data-opt-up="' + escAttr(o.id) + '" data-parent="' + escAttr(parentId) + '" title="上移">↑</button><button class="opt-order-btn" data-opt-down="' + escAttr(o.id) + '" data-parent="' + escAttr(parentId) + '" title="下移">↓</button>'
       : '<button class="opt-order-btn" data-top-up="' + escAttr(o.id) + '" title="上移">↑</button><button class="opt-order-btn" data-top-down="' + escAttr(o.id) + '" title="下移">↓</button>';
     return '<div class="opt-edit" data-opt-edit="' + escAttr(o.id) + '">' +
-      '<div class="opt-kind' + (level === 2 ? ' child' : '') + '">' + (level === 2 ? '二级选项' : '一级选项 · 直接选择') + '</div>' +
+      '<div class="opt-kind' + (level === 2 ? ' child' : '') + '">' + (level === 2 ? 'feat' : '变体 · 无 feat') + '</div>' +
       '<div class="opt-edit-top">' + move +
-      '<input type="text" class="opt-edit-title" data-opt-title="' + escAttr(o.id) + '" maxlength="60" value="' + escAttr(o.title) + '" placeholder="选项名称">' +
+      '<input type="text" class="opt-edit-title" data-opt-title="' + escAttr(o.id) + '" maxlength="60" value="' + escAttr(o.title) + '" placeholder="' + (level === 2 ? 'feat 名称' : '变体名称') + '">' +
 
-      '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除二级选项">×</button></div>' +
+      '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除 feat">×</button></div>' +
       '<div class="opt-edit-meta"><div class="opt-tag-chips">' + (state.tagPresets || []).map(function (t) {
         const col = tagColor(t);
         return '<button type="button" class="opt-tag-chip' + (tags.indexOf(t) >= 0 ? ' on' : '') + '" data-opt-tag="' + escAttr(o.id) + '" data-tag="' + escAttr(t) + '" style="' + (tags.indexOf(t) >= 0 ? 'border-color:' + col + ';color:' + col + ';background:' + col + '18' : '') + '">' + esc(t) + '</button>';
       }).join('') + '</div>' +
       (paid ? '<span class="opt-edit-paid">付费点</span>' : '') + '</div>' +
-      '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="这个选项的说明">' + esc(o.desc || '') + '</textarea>' +
+      '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="' + (level === 2 ? 'feat 说明' : '变体说明') + '">' + esc(o.desc || '') + '</textarea>' +
       '<div class="opt-edit-image"><div class="opt-image-thumb">' + (o.image && getShot(o.image.id) ? '<img alt="" src="' + getShot(o.image.id) + '">' : '<span>无图</span>') + '</div>' +
       '<div class="opt-image-ops"><button class="btn sm" type="button" data-opt-img-pick="' + escAttr(o.id) + '">' + (o.image ? '更换图片' : '选择图片') + '</button>' +
       (o.image ? '<button class="btn sm danger" type="button" data-opt-img-del="' + escAttr(o.id) + '">删除图片</button>' : '') + '</div></div></div>';
@@ -4510,14 +4549,14 @@ function fillInspector() {
   $('#inspOptions').innerHTML = groups.length ? groups.map(function (g) {
     const kids = Array.isArray(g.options) ? g.options : [];
     if (!kids.length && !g.isGroup) return leafEditor(g, 1);
-    return '<div class="opt-group-edit" data-top-edit="' + escAttr(g.id) + '"><div class="opt-kind">一级选项</div><div class="opt-edit-top" style="margin-bottom:6px">' +
+    return '<div class="opt-group-edit" data-top-edit="' + escAttr(g.id) + '"><div class="opt-kind">变体</div><div class="opt-edit-top" style="margin-bottom:6px">' +
       '<button class="opt-order-btn" data-top-up="' + escAttr(g.id) + '" title="上移">↑</button><button class="opt-order-btn" data-top-down="' + escAttr(g.id) + '" title="下移">↓</button>' +
-      '<input type="text" class="opt-edit-title" data-top-title="' + escAttr(g.id) + '" maxlength="60" value="' + escAttr(g.title) + '" placeholder="一级选项名称">' +
-      '<button class="icon-btn opt-edit-del" data-top-del="' + escAttr(g.id) + '" title="删除一级选项">×</button></div>' +
-      '<textarea class="opt-edit-desc" data-top-desc="' + escAttr(g.id) + '" maxlength="800" placeholder="一级选项说明">' + esc(g.desc || '') + '</textarea>' +
+      '<input type="text" class="opt-edit-title" data-top-title="' + escAttr(g.id) + '" maxlength="60" value="' + escAttr(g.title) + '" placeholder="变体名称">' +
+      '<button class="icon-btn opt-edit-del" data-top-del="' + escAttr(g.id) + '" title="删除变体">×</button></div>' +
+      '<textarea class="opt-edit-desc" data-top-desc="' + escAttr(g.id) + '" maxlength="800" placeholder="变体说明（在弹窗里显示）">' + esc(g.desc || '') + '</textarea>' +
       '<div class="option-editor opt-group-kids">' + kids.map(function (o) { return leafEditor(o, 2, g.id); }).join('') + '</div>' +
-      '<button class="btn sm" type="button" data-top-add-child="' + escAttr(g.id) + '" style="margin-top:6px">＋ 添加二级选项</button></div>';
-  }).join('') : '<div class="field-hint">还没有选项，点下面添加。</div>';
+      '<button class="btn sm" type="button" data-top-add-child="' + escAttr(g.id) + '" style="margin-top:6px">＋ 添加 feat</button></div>';
+  }).join('') : '<div class="field-hint">还没有变体，点下面添加。</div>';
   const aiBox = $('#inspAi');
   if (aiBox) {
     if (!card.ai) aiBox.classList.add('hidden');
@@ -4953,6 +4992,7 @@ function importJSON() {
         const choice = await askImportTarget(sourceName, sourceName);
         if (!choice) return;
         const optionSelections = {}; selected.forEach(function (id) { optionSelections[id] = valid[id].slice(); });
+        repairSelectionMap(state.cards, optionSelections);
         commit(function (s) {
           if (choice.mode === 'new') {
             s.projects.push({ id: uid('prj'), name: choice.name || sourceName || '导入项目', selected: selected.slice(), optionSelections: clone(optionSelections), createdAt: nowISO(), updatedAt: nowISO() });
@@ -5468,7 +5508,7 @@ function bindUI() {
     const arr = topOptionsOf(card).slice(); const i = arr.findIndex(function (g) { return g.id === topId; });
     const j = i + dir; if (i < 0 || j < 0 || j >= arr.length) return;
     const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    patchCard(cardId, { options: arr, optionsSeeded: true }, { label: '调整一级选项顺序' }); fillInspector();
+    patchCard(cardId, { options: arr, optionsSeeded: true }, { label: '调整变体顺序' }); fillInspector();
   }
   function moveChildOption(cardId, parentId, optId, dir) {
     const card = findCard(cardId); if (!card) return;
@@ -5477,12 +5517,12 @@ function bindUI() {
     const i = g.options.findIndex(function (o) { return o.id === optId; }); const j = i + dir;
     if (i < 0 || j < 0 || j >= g.options.length) return;
     const t = g.options[i]; g.options[i] = g.options[j]; g.options[j] = t;
-    patchCard(cardId, { options: groups, optionsSeeded: true }, { label: '调整二级选项顺序' }); fillInspector();
+    patchCard(cardId, { options: groups, optionsSeeded: true }, { label: '调整 feat 顺序' }); fillInspector();
   }
   function updateTop(cardId, topId, patch, label) {
     const card = findCard(cardId); if (!card) return;
     const next = topOptionsOf(card).map(function (g) { return g.id === topId ? Object.assign({}, g, patch) : g; });
-    patchCard(cardId, { options: next, optionsSeeded: true }, { label: label || '修改一级选项' });
+    patchCard(cardId, { options: next, optionsSeeded: true }, { label: label || '修改变体' });
   }
   function updateOption(cardId, optId, patch, label) {
     const card = findCard(cardId);
@@ -5496,8 +5536,8 @@ function bindUI() {
   $('#inspOptions').addEventListener('change', function (e) {
     const t = e.target;
     if (!view.inspectingId) return;
-    if (t.dataset.topTitle) updateTop(view.inspectingId, t.dataset.topTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改一级选项名称');
-    else if (t.dataset.topDesc) updateTop(view.inspectingId, t.dataset.topDesc, { desc: t.value.slice(0, 800) }, '改一级选项说明');
+    if (t.dataset.topTitle) updateTop(view.inspectingId, t.dataset.topTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改变体名称');
+    else if (t.dataset.topDesc) updateTop(view.inspectingId, t.dataset.topDesc, { desc: t.value.slice(0, 800) }, '改变体说明');
     else if (t.dataset.optTitle) updateOption(view.inspectingId, t.dataset.optTitle, { title: t.value.slice(0, 60) || '未命名选项' }, '改选项名称');
     else if (t.dataset.optTags) updateOption(view.inspectingId, t.dataset.optTags, { tags: parseOptionTags(t.value) }, '改选项标签');
     else if (t.dataset.optDesc) updateOption(view.inspectingId, t.dataset.optDesc, { desc: t.value.slice(0, 800) }, '改选项说明');
@@ -5522,7 +5562,7 @@ function bindUI() {
       const groups = topOptionsOf(cardNow);
       const g = groups.find(function (x) { return x.id === gid; });
       if (g) (g.options || []).forEach(function (o) { if (o.image) removeShot(o.image.id); });
-      commit(function (s) { const c = s.cards.find(function (x) { return x.id === cardNow.id; }); if (!c) return; c.options = (c.options || []).filter(function (x) { return x.id !== gid; }); s.projects.forEach(function (p) { const ids = (p.optionSelections || {})[cardNow.id] || []; p.optionSelections[cardNow.id] = ids.filter(function (id) { return !(g && (g.options || []).some(function (o) { return o.id === id; })); }); if (!p.optionSelections[cardNow.id].length) delete p.optionSelections[cardNow.id]; }); }, { label: '删除一级选项' });
+      commit(function (s) { const c = s.cards.find(function (x) { return x.id === cardNow.id; }); if (!c) return; c.options = (c.options || []).filter(function (x) { return x.id !== gid; }); s.projects.forEach(function (p) { const ids = (p.optionSelections || {})[cardNow.id] || []; p.optionSelections[cardNow.id] = ids.filter(function (id) { return id !== gid && !(g && (g.options || []).some(function (o) { return o.id === id; })); }); if (!p.optionSelections[cardNow.id].length) delete p.optionSelections[cardNow.id]; }); }, { label: '删除变体' });
       fillInspector(); return;
     }
     const addChild = e.target.closest('[data-top-add-child]');
@@ -5530,8 +5570,8 @@ function bindUI() {
       const gid = addChild.getAttribute('data-top-add-child');
       const groups = topOptionsOf(cardNow).map(function (g) { return Object.assign({}, g, { options: (g.options || []).slice() }); });
       const g = groups.find(function (x) { return x.id === gid; }); if (!g) return;
-      g.options.push({ id: uid('opt'), title: '新二级选项', categoryId: cardNow.categoryId, tags: (cardNow.tags || []).slice(), desc: '', image: null });
-      patchCard(cardNow.id, { options: groups, optionsSeeded: true }, { label: '添加二级选项' }); fillInspector(); return;
+      g.options.push({ id: uid('opt'), title: '新 feat', categoryId: cardNow.categoryId, tags: (cardNow.tags || []).slice(), desc: '', image: null });
+      patchCard(cardNow.id, { options: groups, optionsSeeded: true }, { label: '添加 feat' }); fillInspector(); return;
     }
     const btn = e.target.closest('[data-opt-del]');
     if (!btn || !view.inspectingId) return;
@@ -5546,7 +5586,7 @@ function bindUI() {
       c.options = (c.options || []).map(function (g) {
         if (g.id === optId && (!g.options || !g.options.length)) return null;
         return Object.assign({}, g, { options: (g.options || []).filter(function (o) { return o.id !== optId; }) });
-      }).filter(function (g) { return g && g.options.length; });
+      }).filter(function (g) { return g && (g.options.length || (isVariantCard(c) && g.isGroup)); });
       c.optionsSeeded = true;
       s.projects.forEach(function (p) {
         if (!p.optionSelections || !p.optionSelections[card.id]) return;
@@ -5593,9 +5633,9 @@ function bindUI() {
     if (!view.inspectingId) return;
     const card = findCard(view.inspectingId);
     if (!card) return;
-    const opt = { id: uid('opt'), title: '新一级选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null, options: [], isGroup: true };
+    const opt = { id: uid('opt'), title: '新变体', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null, options: [], isGroup: true };
     const groups = topOptionsOf(card).concat([opt]);
-    patchCard(card.id, { options: groups, optionsSeeded: true }, { label: '添加一级选项' }); fillInspector();
+    patchCard(card.id, { options: groups, optionsSeeded: true }, { label: '添加变体' }); fillInspector();
   });
 
   /* 卡片缩略图 */
@@ -5999,7 +6039,9 @@ function runSelfTest() {
     if (nonBase.some(function (c) { return isSelected(c.id); })) throw new Error('非底座模块不应选中');
     base.forEach(function (c) {
       const ids = state.defaults.optionSelections[c.id] || [];
-      if (ids.length !== optionsOf(c).length) throw new Error('底座选项未全选：' + c.title);
+      const featIds = new Set(optionsOf(c).map(function (o) { return o.id; }));
+      const featPicked = ids.filter(function (id) { return featIds.has(id); }).length;
+      if (featPicked !== featIds.size) throw new Error('底座选项未全选：' + c.title);
     });
     nonBase.forEach(function (c) { if (state.defaults.optionSelections[c.id]) throw new Error('非底座选项不应选中'); });
     return true;
@@ -6848,7 +6890,7 @@ async function runUITest() {
     ok('说明输入写回模型', findCard(id).desc === '这是测试说明');
 
     const optionCountBefore = optionsOf(findCard(id)).length;
-    ok('检查器显示功能选项', document.querySelectorAll('#inspOptions .opt-edit').length === optionCountBefore && optionCountBefore > 0);
+    ok('检查器显示变体', document.querySelectorAll('#inspOptions .opt-edit').length === optionCountBefore && optionCountBefore > 0);
     const firstOption = optionsOf(findCard(id))[0];
     const optTitleInput = document.querySelector('#inspOptions [data-opt-title]');
     optTitleInput.value = 'UI 选项标题';
@@ -6857,12 +6899,12 @@ async function runUITest() {
     ok('选项标题可编辑', optionsOf(findCard(id))[0].title === 'UI 选项标题');
     document.getElementById('inspOptionAdd').click();
     await wait(30);
-    ok('可新增功能选项', optionsOf(findCard(id)).length === optionCountBefore + 1);
+    ok('可新增变体', optionsOf(findCard(id)).length === optionCountBefore + 1);
     const added = optionsOf(findCard(id)).slice(-1)[0];
     const delBtn = document.querySelector('#inspOptions [data-opt-del="' + added.id + '"]');
     if (delBtn) delBtn.click();
     await wait(30);
-    ok('可删除功能选项', optionsOf(findCard(id)).length === optionCountBefore);
+    ok('可删除变体', optionsOf(findCard(id)).length === optionCountBefore);
 
     const tcv = document.createElement('canvas');
     tcv.width = 640; tcv.height = 360;
@@ -6912,7 +6954,7 @@ async function runUITest() {
     ok('主悬停只显示模块说明文字', document.getElementById('hcBody').textContent === '这是测试说明' && document.getElementById('hcShots').textContent === '' && document.getElementById('hcTags').textContent === '');
     ok('说明层不超出视口', hc.getBoundingClientRect().top >= 0 && hc.getBoundingClientRect().bottom <= window.innerHeight + 1);
     const optRows = Array.from(document.querySelectorAll('#hcOptList .hc-opt'));
-    ok('悬停面板先显示功能选项', optRows.length === optionsOf(findCard(id)).length && optRows.length > 0, optRows.length + ' rows');
+    ok('悬停面板先显示变体', optRows.length === optionsOf(findCard(id)).length && optRows.length > 0, optRows.length + ' rows');
     const firstOpt = optionsOf(findCard(id))[0];
     optRows[0].dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
     await wait(30);

@@ -1,9 +1,9 @@
 ﻿{
   "format": "module-board-web",
   "schemaVersion": 1,
-  "appVersion": "4.19.0",
+  "appVersion": "4.20.0",
   "projectName": "默认配置",
-  "revision": "6f9f5f4e8e9d8841",
+  "revision": "19055d017292e678",
   "exportedAt": "2026-10-30T07:13:41.686Z",
   "state": {
     "version": 1,
@@ -467,7 +467,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.484Z"
+        "updatedAt": "2026-10-30T03:30:01.484Z",
+        "variantMode": true
       },
       {
         "id": "card_pack_shop",
@@ -552,7 +553,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.484Z"
+        "updatedAt": "2026-10-30T03:30:01.484Z",
+        "variantMode": true
       },
       {
         "id": "card_random_reward",
@@ -761,7 +763,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T07:04:03.015Z"
+        "updatedAt": "2026-10-30T07:04:03.015Z",
+        "variantMode": true
       },
       {
         "id": "card_level_struct",
@@ -823,7 +826,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:46:47.446Z"
+        "updatedAt": "2026-10-30T05:46:47.446Z",
+        "variantMode": true
       },
       {
         "id": "card_flash",
@@ -987,7 +991,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T07:05:10.326Z"
+        "updatedAt": "2026-10-30T07:05:10.326Z",
+        "variantMode": true
       },
       {
         "id": "card_level_result",
@@ -1352,7 +1357,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T07:07:58.757Z"
+        "updatedAt": "2026-10-30T07:07:58.757Z",
+        "variantMode": true
       },
       {
         "id": "card_piggy",
@@ -1495,7 +1501,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T07:00:23.475Z"
+        "updatedAt": "2026-10-30T07:00:23.475Z",
+        "variantMode": true
       },
       {
         "id": "card_booster",
@@ -1599,7 +1606,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:41:52.826Z"
+        "updatedAt": "2026-10-30T05:41:52.826Z",
+        "variantMode": true
       },
       {
         "id": "card_vip",
@@ -1873,7 +1881,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.484Z"
+        "updatedAt": "2026-10-30T03:30:01.484Z",
+        "variantMode": true
       },
       {
         "id": "card_revive",
@@ -2015,7 +2024,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T04:02:06.810Z"
+        "updatedAt": "2026-10-30T04:02:06.810Z",
+        "variantMode": true
       },
       {
         "id": "card_noads",
@@ -2118,24 +2128,6 @@
             ]
           },
           {
-            "id": "opt_card_noads_0",
-            "title": "移除指定广告类型",
-            "order": 2,
-            "categoryId": "cat_paid",
-            "tags": [
-              "付费"
-            ],
-            "desc": "付费关闭指定广告。",
-            "image": {
-              "id": "optimg_opt_card_noads_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:06:57.983388+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_noads_0",
             "title": "移除指定广告类型",
             "desc": "",
@@ -2186,7 +2178,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.484Z"
+        "updatedAt": "2026-10-30T03:30:01.484Z",
+        "variantMode": true
       },
       {
         "id": "card_ingame_goal",
@@ -2304,7 +2297,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T04:04:32.080Z"
+        "updatedAt": "2026-10-30T04:04:32.080Z",
+        "variantMode": true
       },
       {
         "id": "card_content_unlock",
@@ -2634,7 +2628,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_boost",
@@ -2828,7 +2823,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:41:33.682Z"
+        "updatedAt": "2026-10-30T05:41:33.682Z",
+        "variantMode": true
       },
       {
         "id": "card_ad_slot",
@@ -2910,7 +2906,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:46:34.824Z"
+        "updatedAt": "2026-10-30T05:46:34.824Z",
+        "variantMode": true
       },
       {
         "id": "card_n1owjv4amm",
@@ -2968,7 +2965,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:46:48.489Z"
+        "updatedAt": "2026-10-30T05:46:48.489Z",
+        "variantMode": true
       },
       {
         "id": "card_checkin",
@@ -3109,7 +3107,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:19:09.082Z"
+        "updatedAt": "2026-10-30T06:19:09.082Z",
+        "variantMode": true
       },
       {
         "id": "card_free_chest",
@@ -3193,7 +3192,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_vip_event",
@@ -3289,7 +3289,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T05:59:42.592Z"
+        "updatedAt": "2026-10-30T05:59:42.592Z",
+        "variantMode": true
       },
       {
         "id": "card_cumulative",
@@ -3382,7 +3383,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:00:59.649Z"
+        "updatedAt": "2026-10-30T06:00:59.649Z",
+        "variantMode": true
       },
       {
         "id": "card_challenge",
@@ -3554,7 +3556,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:20:37.948Z"
+        "updatedAt": "2026-10-30T06:20:37.948Z",
+        "variantMode": true
       },
       {
         "id": "card_pass",
@@ -3699,7 +3702,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:18:51.059Z"
+        "updatedAt": "2026-10-30T06:18:51.059Z",
+        "variantMode": true
       },
       {
         "id": "card_collect",
@@ -3804,7 +3808,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:25:13.785Z"
+        "updatedAt": "2026-10-30T06:25:13.785Z",
+        "variantMode": true
       },
       {
         "id": "card_quest",
@@ -3899,7 +3904,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:26:25.470Z"
+        "updatedAt": "2026-10-30T06:26:25.470Z",
+        "variantMode": true
       },
       {
         "id": "card_rank",
@@ -4006,7 +4012,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:28:19.527Z"
+        "updatedAt": "2026-10-30T06:28:19.527Z",
+        "variantMode": true
       },
       {
         "id": "card_segment",
@@ -4149,7 +4156,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T06:48:27.678Z"
+        "updatedAt": "2026-10-30T06:48:27.678Z",
+        "variantMode": true
       },
       {
         "id": "card_energy",
@@ -4323,41 +4331,6 @@
             ]
           },
           {
-            "id": "opt_card_energy_1",
-            "title": "看广告 / 使用金币补充",
-            "order": 4,
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "货币"
-            ],
-            "desc": "看广告或金币恢复体力。",
-            "image": {
-              "id": "optimg_opt_card_energy_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:00.895962+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_energy_3",
-            "title": "自然恢复",
-            "order": 5,
-            "categoryId": "cat_paid",
-            "tags": [],
-            "desc": "体力随时间自动恢复。",
-            "image": {
-              "id": "optimg_opt_card_energy_3",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:00.981793+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_energy_0",
             "title": "体力",
             "desc": "",
@@ -4405,7 +4378,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_meta_growth",
@@ -4549,60 +4523,6 @@
             ]
           },
           {
-            "id": "opt_card_meta_growth_0",
-            "title": "属性升级 / 能力解锁",
-            "order": 3,
-            "categoryId": "cat_paid",
-            "tags": [
-              "付费"
-            ],
-            "desc": "用资源升级属性或解锁能力。",
-            "image": {
-              "id": "optimg_opt_card_meta_growth_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:01.066793+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_meta_growth_1",
-            "title": "付费加速 / 成长基金",
-            "order": 4,
-            "categoryId": "cat_paid",
-            "tags": [
-              "付费"
-            ],
-            "desc": "付费加速成长或购买基金。",
-            "image": {
-              "id": "optimg_opt_card_meta_growth_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:01.147267+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_db3daqg89e",
-            "title": "付费元素 / 属性",
-            "order": 5,
-            "categoryId": "cat_paid",
-            "tags": [
-              "付费"
-            ],
-            "desc": "付费获得额外元素或属性。",
-            "image": {
-              "id": "optimg_opt_db3daqg89e",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:01.244399+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_meta_growth_0",
             "title": "属性升级",
             "desc": "",
@@ -4653,7 +4573,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_character",
@@ -4947,7 +4868,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_album",
@@ -5149,22 +5071,6 @@
             ]
           },
           {
-            "id": "opt_card_album_1",
-            "title": "进度 / 未解锁预览",
-            "order": 5,
-            "categoryId": "cat_none",
-            "tags": [],
-            "desc": "展示套系进度和未解锁内容。",
-            "image": {
-              "id": "optimg_opt_card_album_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:01.661698+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "opt_dvvbc812gv",
             "title": "收藏功能",
             "order": 6,
@@ -5231,7 +5137,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_export",
@@ -5494,7 +5401,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_decor",
@@ -5628,22 +5536,6 @@
             ]
           },
           {
-            "id": "opt_card_decor_0",
-            "title": "家园 / 房间 / 地图修复",
-            "order": 4,
-            "categoryId": "cat_none",
-            "tags": [],
-            "desc": "建造和修复家园地图。",
-            "image": {
-              "id": "optimg_opt_card_decor_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.087685+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_decor_4",
             "title": "装饰收集",
             "desc": "",
@@ -5680,22 +5572,6 @@
                 "image": null
               }
             ]
-          },
-          {
-            "id": "opt_card_decor_1",
-            "title": "阶段解锁 / 装饰收集",
-            "order": 5,
-            "categoryId": "cat_none",
-            "tags": [],
-            "desc": "按阶段解锁装饰。",
-            "image": {
-              "id": "optimg_opt_card_decor_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.174661+00:00"
-            },
-            "options": []
           },
           {
             "id": "dir_card_decor_0",
@@ -5745,7 +5621,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.788Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_bg",
@@ -5806,7 +5683,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_economy",
@@ -6016,24 +5894,6 @@
             ]
           },
           {
-            "id": "opt_card_economy_0",
-            "title": "固定 / 随机 / 权重奖励",
-            "order": 6,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "统一三种奖励发放方式。",
-            "image": {
-              "id": "optimg_opt_card_economy_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.442890+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_economy_0",
             "title": "固定奖励",
             "desc": "",
@@ -6070,24 +5930,6 @@
                 "image": null
               }
             ]
-          },
-          {
-            "id": "opt_card_economy_1",
-            "title": "货币 / 库存 / 发奖校验",
-            "order": 7,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "管理货币库存并校验发奖。",
-            "image": {
-              "id": "optimg_opt_card_economy_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.529241+00:00"
-            },
-            "options": []
           }
         ],
         "optionsSeeded": true,
@@ -6099,7 +5941,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_ad_system",
@@ -6319,42 +6162,6 @@
             ]
           },
           {
-            "id": "opt_card_ad_system_0",
-            "title": "激励 / 插屏 / 横幅",
-            "order": 5,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "接入三类广告位。",
-            "image": {
-              "id": "optimg_opt_card_ad_system_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.622283+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_ad_system_1",
-            "title": "频控 / 保护期 / 兜底",
-            "order": 6,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "控制广告频率并处理失败。",
-            "image": {
-              "id": "optimg_opt_card_ad_system_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.704408+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_ad_system_0",
             "title": "激励广告",
             "desc": "",
@@ -6422,7 +6229,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_payment",
@@ -6556,42 +6364,6 @@
             ]
           },
           {
-            "id": "opt_card_payment_0",
-            "title": "商品目录 / 订单校验",
-            "order": 3,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "管理商品和订单校验。",
-            "image": {
-              "id": "optimg_opt_card_payment_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.791187+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_payment_1",
-            "title": "恢复购买 / 订阅状态",
-            "order": 4,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "恢复购买并同步订阅。",
-            "image": {
-              "id": "optimg_opt_card_payment_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.884419+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_payment_0",
             "title": "商品目录",
             "desc": "",
@@ -6649,7 +6421,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_condition",
@@ -6783,24 +6556,6 @@
             ]
           },
           {
-            "id": "opt_card_condition_0",
-            "title": "时间 / 进度 / 人群条件",
-            "order": 4,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "按时间、进度和人群触发。",
-            "image": {
-              "id": "optimg_opt_card_condition_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:02.982026+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_condition_4",
             "title": "周期重置",
             "desc": "",
@@ -6837,24 +6592,6 @@
                 "image": null
               }
             ]
-          },
-          {
-            "id": "opt_card_condition_1",
-            "title": "任务计数 / 周期重置",
-            "order": 5,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "统计任务并周期重置。",
-            "image": {
-              "id": "optimg_opt_card_condition_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.068537+00:00"
-            },
-            "options": []
           },
           {
             "id": "dir_card_condition_0",
@@ -6904,7 +6641,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_remote",
@@ -7096,42 +6834,6 @@
             ]
           },
           {
-            "id": "opt_card_remote_0",
-            "title": "模块开关 / 参数 / 分群",
-            "order": 4,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "远程控制模块、参数和分群。",
-            "image": {
-              "id": "optimg_opt_card_remote_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.148924+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_remote_1",
-            "title": "A/B 测试 / 灰度发布",
-            "order": 5,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "做AB实验和灰度发布。",
-            "image": {
-              "id": "optimg_opt_card_remote_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.234334+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_remote_0",
             "title": "模组开关",
             "desc": "",
@@ -7179,7 +6881,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.789Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_data",
@@ -7381,24 +7084,6 @@
             ]
           },
           {
-            "id": "opt_card_data_0",
-            "title": "曝光 / 转化 / 收益 / 留存",
-            "order": 5,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "记录核心商业化指标。",
-            "image": {
-              "id": "optimg_opt_card_data_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.328100+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_data_5",
             "title": "项目适配记录",
             "desc": "",
@@ -7435,24 +7120,6 @@
                 "image": null
               }
             ]
-          },
-          {
-            "id": "opt_card_data_1",
-            "title": "实验结论 / 项目适配记录",
-            "order": 6,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "沉淀实验结论和项目经验。",
-            "image": {
-              "id": "optimg_opt_card_data_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.420257+00:00"
-            },
-            "options": []
           },
           {
             "id": "dir_card_data_0",
@@ -7502,7 +7169,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.790Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       },
       {
         "id": "card_compliance",
@@ -7712,42 +7380,6 @@
             ]
           },
           {
-            "id": "opt_card_compliance_0",
-            "title": "语言 / 币种 / 时区",
-            "order": 5,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "适配语言、币种和时区。",
-            "image": {
-              "id": "optimg_opt_card_compliance_0",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.503053+00:00"
-            },
-            "options": []
-          },
-          {
-            "id": "opt_card_compliance_1",
-            "title": "隐私 / 年龄 / 市场规则",
-            "order": 6,
-            "categoryId": "cat_infra",
-            "tags": [
-              "共用能力"
-            ],
-            "desc": "处理隐私、年龄和市场合规。",
-            "image": {
-              "id": "optimg_opt_card_compliance_1",
-              "mime": "image/webp",
-              "w": 720,
-              "h": 405,
-              "updatedAt": "2026-10-29T12:07:03.583445+00:00"
-            },
-            "options": []
-          },
-          {
             "id": "dir_card_compliance_0",
             "title": "语言",
             "desc": "",
@@ -7795,7 +7427,8 @@
           "h": 360,
           "updatedAt": "2026-10-30T07:13:30.790Z"
         },
-        "updatedAt": "2026-10-30T03:30:01.485Z"
+        "updatedAt": "2026-10-30T03:30:01.485Z",
+        "variantMode": true
       }
     ],
     "tagPresets": [
@@ -7959,8 +7592,12 @@
             "opt_ref_card_economy_0_0",
             "opt_ref_card_economy_0_1",
             "opt_ref_card_economy_0_2",
-            "opt_card_economy_0",
-            "opt_card_economy_1"
+            "dir_card_economy_1",
+            "dir_card_economy_2",
+            "dir_card_economy_3",
+            "dir_card_economy_4",
+            "dir_card_economy_5",
+            "dir_card_economy_0"
           ],
           "card_ad_system": [
             "opt_ref_card_ad_system_1_0",
@@ -7979,13 +7616,17 @@
             "opt_ref_card_ad_system_5_0",
             "opt_ref_card_ad_system_5_1",
             "opt_ref_card_ad_system_5_2",
-            "opt_card_ad_system_0",
-            "opt_card_ad_system_1",
             "opt_ref_card_ad_system_0_0",
             "opt_ref_card_ad_system_0_1",
             "opt_ref_card_ad_system_0_2",
             "opt_ref_card_ad_system_0_3",
-            "opt_ref_card_ad_system_0_4"
+            "opt_ref_card_ad_system_0_4",
+            "dir_card_ad_system_1",
+            "dir_card_ad_system_2",
+            "dir_card_ad_system_3",
+            "dir_card_ad_system_4",
+            "dir_card_ad_system_5",
+            "dir_card_ad_system_0"
           ],
           "card_payment": [
             "opt_ref_card_payment_1_0",
@@ -7997,12 +7638,14 @@
             "opt_ref_card_payment_3_0",
             "opt_ref_card_payment_3_1",
             "opt_ref_card_payment_3_2",
-            "opt_card_payment_0",
-            "opt_card_payment_1",
             "opt_ref_card_payment_0_0",
             "opt_ref_card_payment_0_1",
             "opt_ref_card_payment_0_2",
-            "opt_ref_card_payment_0_3"
+            "opt_ref_card_payment_0_3",
+            "dir_card_payment_1",
+            "dir_card_payment_2",
+            "dir_card_payment_3",
+            "dir_card_payment_0"
           ],
           "card_condition": [
             "opt_ref_card_condition_1_0",
@@ -8017,11 +7660,14 @@
             "opt_ref_card_condition_4_0",
             "opt_ref_card_condition_4_1",
             "opt_ref_card_condition_4_2",
-            "opt_card_condition_0",
-            "opt_card_condition_1",
             "opt_ref_card_condition_0_0",
             "opt_ref_card_condition_0_1",
-            "opt_ref_card_condition_0_2"
+            "opt_ref_card_condition_0_2",
+            "dir_card_condition_1",
+            "dir_card_condition_2",
+            "dir_card_condition_3",
+            "dir_card_condition_4",
+            "dir_card_condition_0"
           ],
           "card_remote": [
             "opt_ref_card_remote_1_0",
@@ -8038,11 +7684,14 @@
             "opt_ref_card_remote_4_0",
             "opt_ref_card_remote_4_1",
             "opt_ref_card_remote_4_2",
-            "opt_card_remote_0",
-            "opt_card_remote_1",
             "opt_ref_card_remote_0_0",
             "opt_ref_card_remote_0_1",
-            "opt_ref_card_remote_0_2"
+            "opt_ref_card_remote_0_2",
+            "dir_card_remote_1",
+            "dir_card_remote_2",
+            "dir_card_remote_3",
+            "dir_card_remote_4",
+            "dir_card_remote_0"
           ],
           "card_data": [
             "opt_ref_card_data_1_0",
@@ -8063,11 +7712,15 @@
             "opt_ref_card_data_5_0",
             "opt_ref_card_data_5_1",
             "opt_ref_card_data_5_2",
-            "opt_card_data_0",
-            "opt_card_data_1",
             "opt_ref_card_data_0_0",
             "opt_ref_card_data_0_1",
-            "opt_ref_card_data_0_2"
+            "opt_ref_card_data_0_2",
+            "dir_card_data_1",
+            "dir_card_data_2",
+            "dir_card_data_3",
+            "dir_card_data_4",
+            "dir_card_data_5",
+            "dir_card_data_0"
           ],
           "card_compliance": [
             "opt_ref_card_compliance_1_0",
@@ -8085,11 +7738,15 @@
             "opt_ref_card_compliance_5_0",
             "opt_ref_card_compliance_5_1",
             "opt_ref_card_compliance_5_2",
-            "opt_card_compliance_0",
-            "opt_card_compliance_1",
             "opt_ref_card_compliance_0_0",
             "opt_ref_card_compliance_0_1",
-            "opt_ref_card_compliance_0_2"
+            "opt_ref_card_compliance_0_2",
+            "dir_card_compliance_1",
+            "dir_card_compliance_2",
+            "dir_card_compliance_3",
+            "dir_card_compliance_4",
+            "dir_card_compliance_5",
+            "dir_card_compliance_0"
           ]
         },
         "createdAt": "2026-10-28T11:04:25.449Z",
@@ -8126,8 +7783,12 @@
           "opt_ref_card_economy_0_0",
           "opt_ref_card_economy_0_1",
           "opt_ref_card_economy_0_2",
-          "opt_card_economy_0",
-          "opt_card_economy_1"
+          "dir_card_economy_1",
+          "dir_card_economy_2",
+          "dir_card_economy_3",
+          "dir_card_economy_4",
+          "dir_card_economy_5",
+          "dir_card_economy_0"
         ],
         "card_ad_system": [
           "opt_ref_card_ad_system_1_0",
@@ -8146,13 +7807,17 @@
           "opt_ref_card_ad_system_5_0",
           "opt_ref_card_ad_system_5_1",
           "opt_ref_card_ad_system_5_2",
-          "opt_card_ad_system_0",
-          "opt_card_ad_system_1",
           "opt_ref_card_ad_system_0_0",
           "opt_ref_card_ad_system_0_1",
           "opt_ref_card_ad_system_0_2",
           "opt_ref_card_ad_system_0_3",
-          "opt_ref_card_ad_system_0_4"
+          "opt_ref_card_ad_system_0_4",
+          "dir_card_ad_system_1",
+          "dir_card_ad_system_2",
+          "dir_card_ad_system_3",
+          "dir_card_ad_system_4",
+          "dir_card_ad_system_5",
+          "dir_card_ad_system_0"
         ],
         "card_payment": [
           "opt_ref_card_payment_1_0",
@@ -8164,12 +7829,14 @@
           "opt_ref_card_payment_3_0",
           "opt_ref_card_payment_3_1",
           "opt_ref_card_payment_3_2",
-          "opt_card_payment_0",
-          "opt_card_payment_1",
           "opt_ref_card_payment_0_0",
           "opt_ref_card_payment_0_1",
           "opt_ref_card_payment_0_2",
-          "opt_ref_card_payment_0_3"
+          "opt_ref_card_payment_0_3",
+          "dir_card_payment_1",
+          "dir_card_payment_2",
+          "dir_card_payment_3",
+          "dir_card_payment_0"
         ],
         "card_condition": [
           "opt_ref_card_condition_1_0",
@@ -8184,11 +7851,14 @@
           "opt_ref_card_condition_4_0",
           "opt_ref_card_condition_4_1",
           "opt_ref_card_condition_4_2",
-          "opt_card_condition_0",
-          "opt_card_condition_1",
           "opt_ref_card_condition_0_0",
           "opt_ref_card_condition_0_1",
-          "opt_ref_card_condition_0_2"
+          "opt_ref_card_condition_0_2",
+          "dir_card_condition_1",
+          "dir_card_condition_2",
+          "dir_card_condition_3",
+          "dir_card_condition_4",
+          "dir_card_condition_0"
         ],
         "card_remote": [
           "opt_ref_card_remote_1_0",
@@ -8205,11 +7875,14 @@
           "opt_ref_card_remote_4_0",
           "opt_ref_card_remote_4_1",
           "opt_ref_card_remote_4_2",
-          "opt_card_remote_0",
-          "opt_card_remote_1",
           "opt_ref_card_remote_0_0",
           "opt_ref_card_remote_0_1",
-          "opt_ref_card_remote_0_2"
+          "opt_ref_card_remote_0_2",
+          "dir_card_remote_1",
+          "dir_card_remote_2",
+          "dir_card_remote_3",
+          "dir_card_remote_4",
+          "dir_card_remote_0"
         ],
         "card_data": [
           "opt_ref_card_data_1_0",
@@ -8230,11 +7903,15 @@
           "opt_ref_card_data_5_0",
           "opt_ref_card_data_5_1",
           "opt_ref_card_data_5_2",
-          "opt_card_data_0",
-          "opt_card_data_1",
           "opt_ref_card_data_0_0",
           "opt_ref_card_data_0_1",
-          "opt_ref_card_data_0_2"
+          "opt_ref_card_data_0_2",
+          "dir_card_data_1",
+          "dir_card_data_2",
+          "dir_card_data_3",
+          "dir_card_data_4",
+          "dir_card_data_5",
+          "dir_card_data_0"
         ],
         "card_compliance": [
           "opt_ref_card_compliance_1_0",
@@ -8252,11 +7929,15 @@
           "opt_ref_card_compliance_5_0",
           "opt_ref_card_compliance_5_1",
           "opt_ref_card_compliance_5_2",
-          "opt_card_compliance_0",
-          "opt_card_compliance_1",
           "opt_ref_card_compliance_0_0",
           "opt_ref_card_compliance_0_1",
-          "opt_ref_card_compliance_0_2"
+          "opt_ref_card_compliance_0_2",
+          "dir_card_compliance_1",
+          "dir_card_compliance_2",
+          "dir_card_compliance_3",
+          "dir_card_compliance_4",
+          "dir_card_compliance_5",
+          "dir_card_compliance_0"
         ]
       }
     }

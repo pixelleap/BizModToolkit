@@ -454,7 +454,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_pack_shop",
@@ -525,7 +526,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_random_reward",
@@ -868,7 +870,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_level_struct",
@@ -917,7 +920,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_flash",
@@ -1165,7 +1169,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_level_result",
@@ -1596,7 +1601,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_piggy",
@@ -1824,7 +1830,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_booster",
@@ -2114,7 +2121,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_vip",
@@ -2385,7 +2393,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_revive",
@@ -2690,7 +2699,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_noads",
@@ -2796,23 +2806,6 @@
         ]
       },
       {
-        "id": "opt_card_noads_0",
-        "title": "移除指定广告类型",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费"
-        ],
-        "desc": "付费关闭指定广告。",
-        "image": {
-          "id": "optimg_opt_card_noads_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:57.983388+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_noads_0",
         "title": "移除指定广告类型",
         "order": 999,
@@ -2855,7 +2848,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_ingame_goal",
@@ -3068,7 +3062,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_content_unlock",
@@ -3397,7 +3392,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_boost",
@@ -3624,7 +3620,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_ad_slot",
@@ -3836,7 +3833,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_n1owjv4amm",
@@ -3881,7 +3879,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_checkin",
@@ -4150,7 +4149,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_free_chest",
@@ -4220,7 +4220,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_vip_event",
@@ -4273,7 +4274,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_cumulative",
@@ -4327,7 +4329,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_challenge",
@@ -4568,7 +4571,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_pass",
@@ -4840,7 +4844,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_collect",
@@ -5075,7 +5080,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_quest",
@@ -5285,7 +5291,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_rank",
@@ -5493,7 +5500,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_segment",
@@ -5756,7 +5764,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_energy",
@@ -5937,39 +5946,6 @@
         ]
       },
       {
-        "id": "opt_card_energy_1",
-        "title": "看广告 / 使用金币补充",
-        "categoryId": "cat_paid",
-        "tags": [
-          "广告",
-          "货币"
-        ],
-        "desc": "看广告或金币恢复体力。",
-        "image": {
-          "id": "optimg_opt_card_energy_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:00.895962+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_energy_3",
-        "title": "自然恢复",
-        "categoryId": "cat_paid",
-        "tags": [],
-        "desc": "体力随时间自动恢复。",
-        "image": {
-          "id": "optimg_opt_card_energy_3",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:00.981793+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_energy_0",
         "title": "体力",
         "order": 999,
@@ -6009,7 +5985,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_meta_growth",
@@ -6158,57 +6135,6 @@
         ]
       },
       {
-        "id": "opt_card_meta_growth_0",
-        "title": "属性升级 / 能力解锁",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费"
-        ],
-        "desc": "用资源升级属性或解锁能力。",
-        "image": {
-          "id": "optimg_opt_card_meta_growth_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.066793+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_meta_growth_1",
-        "title": "付费加速 / 成长基金",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费"
-        ],
-        "desc": "付费加速成长或购买基金。",
-        "image": {
-          "id": "optimg_opt_card_meta_growth_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.147267+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_db3daqg89e",
-        "title": "付费元素 / 属性",
-        "categoryId": "cat_paid",
-        "tags": [
-          "付费"
-        ],
-        "desc": "付费获得额外元素或属性。",
-        "image": {
-          "id": "optimg_opt_db3daqg89e",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.244399+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_meta_growth_0",
         "title": "属性升级",
         "order": 999,
@@ -6251,7 +6177,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_character",
@@ -6541,7 +6468,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_album",
@@ -6749,21 +6677,6 @@
         "options": []
       },
       {
-        "id": "opt_card_album_1",
-        "title": "进度 / 未解锁预览",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "展示套系进度和未解锁内容。",
-        "image": {
-          "id": "optimg_opt_card_album_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:01.661698+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "opt_dvvbc812gv",
         "title": "收藏功能",
         "categoryId": "cat_none",
@@ -6821,7 +6734,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_export",
@@ -7078,7 +6992,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_decor",
@@ -7257,36 +7172,6 @@
         ]
       },
       {
-        "id": "opt_card_decor_0",
-        "title": "家园 / 房间 / 地图修复",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "建造和修复家园地图。",
-        "image": {
-          "id": "optimg_opt_card_decor_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.087685+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_decor_1",
-        "title": "阶段解锁 / 装饰收集",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "按阶段解锁装饰。",
-        "image": {
-          "id": "optimg_opt_card_decor_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.174661+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_decor_0",
         "title": "家园",
         "order": 999,
@@ -7326,7 +7211,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_bg",
@@ -7374,7 +7260,8 @@
         },
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_economy",
@@ -7631,42 +7518,9 @@
             "options": []
           }
         ]
-      },
-      {
-        "id": "opt_card_economy_0",
-        "title": "固定 / 随机 / 权重奖励",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "统一三种奖励发放方式。",
-        "image": {
-          "id": "optimg_opt_card_economy_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.442890+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_economy_1",
-        "title": "货币 / 库存 / 发奖校验",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "管理货币库存并校验发奖。",
-        "image": {
-          "id": "optimg_opt_card_economy_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.529241+00:00"
-        },
-        "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_ad_system",
@@ -7896,40 +7750,6 @@
         ]
       },
       {
-        "id": "opt_card_ad_system_0",
-        "title": "激励 / 插屏 / 横幅",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "接入三类广告位。",
-        "image": {
-          "id": "optimg_opt_card_ad_system_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.622283+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_ad_system_1",
-        "title": "频控 / 保护期 / 兜底",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "控制广告频率并处理失败。",
-        "image": {
-          "id": "optimg_opt_card_ad_system_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.704408+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_ad_system_0",
         "title": "激励广告",
         "order": 999,
@@ -7991,7 +7811,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_payment",
@@ -8130,40 +7951,6 @@
         ]
       },
       {
-        "id": "opt_card_payment_0",
-        "title": "商品目录 / 订单校验",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "管理商品和订单校验。",
-        "image": {
-          "id": "optimg_opt_card_payment_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.791187+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_payment_1",
-        "title": "恢复购买 / 订阅状态",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "恢复购买并同步订阅。",
-        "image": {
-          "id": "optimg_opt_card_payment_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.884419+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_payment_0",
         "title": "商品目录",
         "order": 999,
@@ -8214,7 +8001,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_condition",
@@ -8393,40 +8181,6 @@
         ]
       },
       {
-        "id": "opt_card_condition_0",
-        "title": "时间 / 进度 / 人群条件",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "按时间、进度和人群触发。",
-        "image": {
-          "id": "optimg_opt_card_condition_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:02.982026+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_condition_1",
-        "title": "任务计数 / 周期重置",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "统计任务并周期重置。",
-        "image": {
-          "id": "optimg_opt_card_condition_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.068537+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_condition_0",
         "title": "时间",
         "order": 999,
@@ -8466,7 +8220,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_remote",
@@ -8667,40 +8422,6 @@
         ]
       },
       {
-        "id": "opt_card_remote_0",
-        "title": "模块开关 / 参数 / 分群",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "远程控制模块、参数和分群。",
-        "image": {
-          "id": "optimg_opt_card_remote_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.148924+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_remote_1",
-        "title": "A/B 测试 / 灰度发布",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "做AB实验和灰度发布。",
-        "image": {
-          "id": "optimg_opt_card_remote_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.234334+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_remote_0",
         "title": "模组开关",
         "order": 999,
@@ -8740,7 +8461,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_data",
@@ -8992,40 +8714,6 @@
         ]
       },
       {
-        "id": "opt_card_data_0",
-        "title": "曝光 / 转化 / 收益 / 留存",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "记录核心商业化指标。",
-        "image": {
-          "id": "optimg_opt_card_data_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.328100+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_data_1",
-        "title": "实验结论 / 项目适配记录",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "沉淀实验结论和项目经验。",
-        "image": {
-          "id": "optimg_opt_card_data_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.420257+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_data_0",
         "title": "曝光",
         "order": 999,
@@ -9065,7 +8753,8 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_compliance",
@@ -9284,40 +8973,6 @@
         ]
       },
       {
-        "id": "opt_card_compliance_0",
-        "title": "语言 / 币种 / 时区",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "适配语言、币种和时区。",
-        "image": {
-          "id": "optimg_opt_card_compliance_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.503053+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_compliance_1",
-        "title": "隐私 / 年龄 / 市场规则",
-        "categoryId": "cat_infra",
-        "tags": [
-          "共用能力"
-        ],
-        "desc": "处理隐私、年龄和市场合规。",
-        "image": {
-          "id": "optimg_opt_card_compliance_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:07:03.583445+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_compliance_0",
         "title": "语言",
         "order": 999,
@@ -9357,6 +9012,7 @@
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   }
 ]
