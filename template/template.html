@@ -155,6 +155,7 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .opt-tag-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
 .opt-tag-chip{font-size:10.5px;padding:3px 7px;border:1px solid #D8DEE8;border-radius:999px;background:#fff;color:#667085;cursor:pointer}
 .opt-tag-chip.on{background:#E8F0FE;border-color:#9FB8F5;color:#1E4C9E;font-weight:600}
+.opt-order-btn{font-size:10px;padding:2px 5px;border:1px solid #D8DEE8;border-radius:5px;background:#fff;color:#667085;cursor:pointer}
 .opt-edit-top{display:flex;gap:6px;align-items:center}
 .opt-edit-title{flex:1;min-width:0}
 .opt-edit-top select{max-width:118px}
@@ -439,7 +440,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.5.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.6.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -852,7 +853,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.5.0';
+const APP_VERSION = '4.6.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -861,20 +862,31 @@ const EDITOR_NAME_KEY = 'mb.editorName';
 const DEFAULT_HOVER_DELAY = 1000;
 const HOVER_DELAY_KEY = 'mb.hoverDelay';
 function hoverDelayMs() {
-  let v = 1;
-  let hasValue = false;
+  let v = 0;
   try {
     const raw = localStorage.getItem(HOVER_DELAY_KEY);
-    if (raw != null && raw !== '') { v = parseFloat(raw); hasValue = true; }
-  } catch (e) { v = 1; }
-  if (!isFinite(v)) v = 1;
-  if (hasValue && v === 0) return 0;
+    if (raw != null && raw !== '') v = parseFloat(raw);
+  } catch (e) { v = 0; }
+  if (!isFinite(v)) v = 0;
   v = clamp(v, 0, 10);
   return Math.round(v * 1000);
 }
+const LEAVE_DELAY_KEY = 'mb.leaveDelay';
+function leaveDelayMs() {
+  let v = 0.5;
+  try { const raw = localStorage.getItem(LEAVE_DELAY_KEY); if (raw != null && raw !== '') v = parseFloat(raw); } catch (e) { v = 0.5; }
+  if (!isFinite(v)) v = 0.5;
+  return Math.round(clamp(v, 0, 5) * 1000);
+}
+function leaveDelaySeconds() { return leaveDelayMs() / 1000; }
+function setLeaveDelay(seconds) {
+  const v = clamp(isFinite(Number(seconds)) ? Number(seconds) : 0.5, 0, 5);
+  try { localStorage.setItem(LEAVE_DELAY_KEY, String(v)); } catch (e) { /* ignore */ }
+  return v;
+}
 function hoverDelaySeconds() { return hoverDelayMs() / 1000; }
 function setHoverDelay(seconds) {
-  const v = clamp(isFinite(Number(seconds)) ? Number(seconds) : 1, 0, 10);
+  const v = clamp(isFinite(Number(seconds)) ? Number(seconds) : 0, 0, 10);
   try { localStorage.setItem(HOVER_DELAY_KEY, String(v)); } catch (e) { /* ignore */ }
   return v;
 }
@@ -898,7 +910,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.5.0';
+const CACHE_VERSION = '4.6.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1045,7 +1057,7 @@ const ROWS_DEFAULT = [
 ];
 /* __MB_ROWS_DEFAULT_END__ */
 
-const TAG_PRESETS_DEFAULT = ['广告', '付费', 'VIP', '留存', '消耗', '收集', '重抽', '复活', '共用能力', '售卖容器', '权益商品', '内容型', '目标驱动', '竞争'];
+const TAG_PRESETS_DEFAULT = ['付费', '广告', 'VIP', '货币', '资源', '共用能力', '其他'];
 
 /* 每张卡：行 / 标题 / 正文（逐行=一条变体）/ 备注 / 标签 / 主分类 */
 /* __MB_CARDS_DEFAULT_START__ */
@@ -1717,7 +1729,10 @@ function normalizeState(input) {
       updatedAt: c.updatedAt || s.updatedAt || nowISO()
     };
   });
-  s.tagPresets = Array.isArray(s.tagPresets) && s.tagPresets.length ? s.tagPresets.map(String) : TAG_PRESETS_DEFAULT.slice();
+  const legacyTags = new Set(['留存', '消耗', '收集', '重抽', '复活', '售卖容器', '权益商品', '内容型', '目标驱动', '竞争']);
+  s.tagPresets = (Array.isArray(s.tagPresets) && s.tagPresets.length ? s.tagPresets.map(String) : TAG_PRESETS_DEFAULT.slice())
+    .filter(function (t) { return t && !legacyTags.has(t); });
+  if (!s.tagPresets.length) s.tagPresets = TAG_PRESETS_DEFAULT.slice();
   const rawTagColors = (s.tagColors && typeof s.tagColors === 'object') ? s.tagColors : {};
   s.tagColors = {};
   Object.keys(rawTagColors).forEach(function (k) {
@@ -3628,7 +3643,7 @@ function hideHoverCard() {
 }
 function scheduleHideHoverCard() {
   cancelHoverTimers();
-  hoverState.hideTimer = setTimeout(function () { hideHoverCard(); }, 300);
+  hoverState.hideTimer = setTimeout(function () { hideHoverCard(); }, leaveDelayMs());
 }
 function fillHoverCard(card) {
   const cat = catOf(card.categoryId);
@@ -3706,7 +3721,7 @@ function hideOptionCard() {
 }
 function scheduleHideOptionCard() {
   cancelOptionHide();
-  optionState.hideTimer = setTimeout(function () { hideOptionCard(); }, 260);
+  optionState.hideTimer = setTimeout(function () { hideOptionCard(); }, leaveDelayMs());
 }
 const pickerState = { cardId: null, draft: new Set(), original: new Set() };
 function pickerSelected(id) { return pickerState.draft.has(id); }
@@ -4261,17 +4276,21 @@ function fillInspector() {
   if (document.activeElement !== dEl) dEl.value = card.desc || '';
   const groups = topOptionsOf(card);
   const catOptions = state.categories.slice().sort(function (a, b) { return a.order - b.order; });
-  function leafEditor(o, level) {
+  function leafEditor(o, level, parentId) {
     const paid = isPaidOption(o);
     const tags = Array.isArray(o.tags) ? o.tags : [];
+    const move = level === 2
+      ? '<button class="opt-order-btn" data-opt-up="' + escAttr(o.id) + '" data-parent="' + escAttr(parentId) + '" title="上移">↑</button><button class="opt-order-btn" data-opt-down="' + escAttr(o.id) + '" data-parent="' + escAttr(parentId) + '" title="下移">↓</button>'
+      : '<button class="opt-order-btn" data-top-up="' + escAttr(o.id) + '" title="上移">↑</button><button class="opt-order-btn" data-top-down="' + escAttr(o.id) + '" title="下移">↓</button>';
     return '<div class="opt-edit" data-opt-edit="' + escAttr(o.id) + '">' +
       '<div class="opt-kind' + (level === 2 ? ' child' : '') + '">' + (level === 2 ? '二级选项' : '一级选项 · 直接选择') + '</div>' +
-      '<div class="opt-edit-top">' +
+      '<div class="opt-edit-top">' + move +
       '<input type="text" class="opt-edit-title" data-opt-title="' + escAttr(o.id) + '" maxlength="60" value="' + escAttr(o.title) + '" placeholder="选项名称">' +
       '<select data-opt-cat="' + escAttr(o.id) + '">' + catOptions.map(function (c) { return '<option value="' + escAttr(c.id) + '"' + (c.id === o.categoryId ? ' selected' : '') + '>' + esc(c.name) + '</option>'; }).join('') + '</select>' +
       '<button class="icon-btn opt-edit-del" data-opt-del="' + escAttr(o.id) + '" title="删除二级选项">×</button></div>' +
-      '<div class="opt-edit-meta"><div class="opt-tag-chips">' + ['付费','广告','VIP','货币','资源','共用能力','其他'].map(function (t) {
-        return '<button type="button" class="opt-tag-chip' + (tags.indexOf(t) >= 0 ? ' on' : '') + '" data-opt-tag="' + escAttr(o.id) + '" data-tag="' + escAttr(t) + '">' + esc(t) + '</button>';
+      '<div class="opt-edit-meta"><div class="opt-tag-chips">' + (state.tagPresets || []).map(function (t) {
+        const col = tagColor(t);
+        return '<button type="button" class="opt-tag-chip' + (tags.indexOf(t) >= 0 ? ' on' : '') + '" data-opt-tag="' + escAttr(o.id) + '" data-tag="' + escAttr(t) + '" style="' + (tags.indexOf(t) >= 0 ? 'border-color:' + col + ';color:' + col + ';background:' + col + '18' : '') + '">' + esc(t) + '</button>';
       }).join('') + '</div>' +
       (paid ? '<span class="opt-edit-paid">付费点</span>' : '') + '</div>' +
       '<textarea class="opt-edit-desc" data-opt-desc="' + escAttr(o.id) + '" maxlength="800" placeholder="这个选项的说明">' + esc(o.desc || '') + '</textarea>' +
@@ -4283,9 +4302,10 @@ function fillInspector() {
     const kids = Array.isArray(g.options) ? g.options : [];
     if (!kids.length) return leafEditor(g, 1);
     return '<div class="opt-group-edit" data-top-edit="' + escAttr(g.id) + '"><div class="opt-kind">一级选项</div><div class="opt-edit-top" style="margin-bottom:6px">' +
+      '<button class="opt-order-btn" data-top-up="' + escAttr(g.id) + '" title="上移">↑</button><button class="opt-order-btn" data-top-down="' + escAttr(g.id) + '" title="下移">↓</button>' +
       '<input type="text" class="opt-edit-title" data-top-title="' + escAttr(g.id) + '" maxlength="60" value="' + escAttr(g.title) + '" placeholder="一级选项名称">' +
       '<button class="icon-btn opt-edit-del" data-top-del="' + escAttr(g.id) + '" title="删除一级选项">×</button></div>' +
-      '<div class="option-editor opt-group-kids">' + kids.map(function (o) { return leafEditor(o, 2); }).join('') + '</div>' +
+      '<div class="option-editor opt-group-kids">' + kids.map(function (o) { return leafEditor(o, 2, g.id); }).join('') + '</div>' +
       '<button class="btn sm" type="button" data-top-add-child="' + escAttr(g.id) + '" style="margin-top:6px">＋ 添加二级选项</button></div>';
   }).join('') : '<div class="field-hint">还没有选项，点下面添加。</div>';
   const thumbSrc = getThumb(card);
@@ -4437,16 +4457,24 @@ function renderSettings() {
   });
   html.push('</div>');
 
-  html.push('<div class="form-section"><h4>标签预设</h4>' +
-    '<input type="text" id="tagPresetInput" style="width:100%;height:32px;border:1px solid var(--line);border-radius:8px;padding:0 10px" value="' +
-    escAttr(state.tagPresets.join(', ')) + '" placeholder="用逗号分隔">' +
-    '<div class="field-hint">与分类同名的标签会自动使用该分类颜色。修改后失焦即保存。</div></div>');
-
-  const tagSet = new Set(state.tagPresets || []);
-  state.cards.forEach(function (c) { optionsOf(c).forEach(function (o) { (o.tags || []).forEach(function (t) { tagSet.add(t); }); }); });
-  Object.keys(state.tagColors || {}).forEach(function (t) { tagSet.add(t); });
-  const tagList = Array.from(tagSet).map(String).filter(Boolean).sort(function (a, b) { return a.localeCompare(b, 'zh'); });
+  const tagList = (state.tagPresets || []).slice();
+  html.push('<div class="form-section"><h4>标签</h4>' +
+    '<div style="display:flex;gap:6px"><input type="text" id="tagPresetInput" style="flex:1;height:32px;border:1px solid var(--line);border-radius:8px;padding:0 10px" placeholder="输入新标签，例如：限时">' +
+    '<button class="btn sm" id="tagPresetAdd">添加</button></div>' +
+    '<div class="field-hint">编辑模式侧边栏使用这里同一套标签；删除标签会同时从所有选项移除。</div></div>');
   html.push('<div class="form-section"><h4>标签颜色</h4>');
+  if (!tagList.length) html.push('<div class="field-hint">还没有标签。</div>');
+  tagList.forEach(function (t) {
+    const c = tagColor(t) || '#94A3B8';
+    html.push('<div class="srow">' +
+      '<input type="color" value="' + c + '" data-tag-color-global="' + escAttr(t) + '" title="修改全局标签颜色">' +
+      '<span class="name" style="font-size:12px;color:var(--text)">' + esc(t) + '</span>' +
+      '<button class="rop danger" data-tag-del-global="' + escAttr(t) + '" title="删除标签">×</button>' +
+      '</div>');
+  });
+  html.push('<div class="field-hint">按标签文字全局生效，所有卡片上的同名标签一起变。</div></div>');
+
+
   if (!tagList.length) html.push('<div class="field-hint">还没有标签。</div>');
   tagList.forEach(function (t) {
     const c = tagColor(t) || '#94A3B8';
@@ -4461,9 +4489,12 @@ function renderSettings() {
     '<div class="srow" style="gap:8px;align-items:center">' +
     '<span style="font-size:12px;color:var(--muted)">等待时间（秒）</span>' +
     '<input type="number" id="hoverDelayInput" min="0" max="10" step="0.5" value="' + hoverDelaySeconds() + '" style="width:88px;height:30px;border:1px solid var(--line);border-radius:8px;padding:0 8px">' +
-    '<span class="field-hint" style="margin:0">默认 1 秒，可设 0 秒 · 只影响本机</span>' +
+    '<span class="field-hint" style="margin:0">默认 0 秒 · 只影响本机</span>' +
     '</div>' +
-    '<div class="field-hint">鼠标停在卡片上先走进度条，满设定时间再弹说明；范围 0–10 秒。</div>' +
+    '<div class="field" style="display:flex;gap:8px;align-items:center;margin-top:10px"><label style="margin:0;flex:1">鼠标离开后保留</label>' +
+    '<input type="number" id="leaveDelayInput" min="0" max="5" step="0.5" value="' + leaveDelaySeconds() + '" style="width:88px;height:30px;border:1px solid var(--line);border-radius:8px;padding:0 8px">' +
+    '<span class="field-hint" style="margin:0">秒</span></div>' +
+    '<div class="field-hint">鼠标停在卡片上先走进度条，满设定时间再弹说明；范围 0–10 秒。离开后的窗口保留 0–5 秒。</div>' +
     '</div>');
 
   html.push('<div class="form-section"><h4>数据与身份</h4>' +
@@ -4537,6 +4568,23 @@ async function deleteRow(id) {
     s.cards.forEach(c => { if (c.rowId === id) { c.rowId = dest.id; c.order = idx++; } });
   });
   renderSettings();
+}
+function addTagPreset(name) {
+  const t = String(name || '').trim().slice(0, 30);
+  if (!t) return;
+  if ((state.tagPresets || []).indexOf(t) >= 0) { toast('标签已存在'); return; }
+  commit(function (s) { if (!Array.isArray(s.tagPresets)) s.tagPresets = []; s.tagPresets.push(t); }, { label: '新增标签' });
+  const input = $('#tagPresetInput'); if (input) input.value = '';
+}
+function deleteTagPreset(name) {
+  const t = String(name || '').trim();
+  if (!t) return;
+  commit(function (s) {
+    s.tagPresets = (s.tagPresets || []).filter(function (x) { return x !== t; });
+    delete (s.tagColors || {})[t];
+    s.cards.forEach(function (c) { optionsOf(c).forEach(function (o) { o.tags = (o.tags || []).filter(function (x) { return x !== t; }); }); });
+  }, { label: '删除标签「' + t + '」' });
+  toast('已删除标签：' + t);
 }
 function setTagPresets(str) {
   const arr = String(str || '').split(/[,，、]/).map(s => s.trim()).filter(Boolean);
@@ -5162,6 +5210,22 @@ function bindUI() {
     });
     return out.slice(0, 12);
   }
+  function moveTopOption(cardId, topId, dir) {
+    const card = findCard(cardId); if (!card) return;
+    const arr = topOptionsOf(card).slice(); const i = arr.findIndex(function (g) { return g.id === topId; });
+    const j = i + dir; if (i < 0 || j < 0 || j >= arr.length) return;
+    const t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    patchCard(cardId, { options: arr, optionsSeeded: true }, { label: '调整一级选项顺序' }); fillInspector();
+  }
+  function moveChildOption(cardId, parentId, optId, dir) {
+    const card = findCard(cardId); if (!card) return;
+    const groups = topOptionsOf(card).map(function (g) { return Object.assign({}, g, { options: (g.options || []).slice() }); });
+    const g = groups.find(function (x) { return x.id === parentId; }); if (!g) return;
+    const i = g.options.findIndex(function (o) { return o.id === optId; }); const j = i + dir;
+    if (i < 0 || j < 0 || j >= g.options.length) return;
+    const t = g.options[i]; g.options[i] = g.options[j]; g.options[j] = t;
+    patchCard(cardId, { options: groups, optionsSeeded: true }, { label: '调整二级选项顺序' }); fillInspector();
+  }
   function updateTop(cardId, topId, patch, label) {
     const card = findCard(cardId); if (!card) return;
     const next = topOptionsOf(card).map(function (g) { return g.id === topId ? Object.assign({}, g, patch) : g; });
@@ -5194,6 +5258,10 @@ function bindUI() {
       const tags = (leaf.tags || []).slice(); const i = tags.indexOf(tag); if (i >= 0) tags.splice(i, 1); else tags.push(tag);
       updateOption(cardNow.id, oid, { tags: tags }, '修改选项标签'); fillInspector(); return;
     }
+    const topUp = e.target.closest('[data-top-up]'); const topDown = e.target.closest('[data-top-down]');
+    if (topUp || topDown) { moveTopOption(cardNow.id, (topUp || topDown).getAttribute(topUp ? 'data-top-up' : 'data-top-down'), topUp ? -1 : 1); return; }
+    const optUp = e.target.closest('[data-opt-up]'); const optDown = e.target.closest('[data-opt-down]');
+    if (optUp || optDown) { const b = optUp || optDown; moveChildOption(cardNow.id, b.getAttribute('data-parent'), b.getAttribute(optUp ? 'data-opt-up' : 'data-opt-down'), optUp ? -1 : 1); return; }
     const topDel = e.target.closest('[data-top-del]');
     if (topDel) {
       const gid = topDel.getAttribute('data-top-del');
@@ -5484,6 +5552,9 @@ function bindUI() {
 
   /* 设置内容 */
   $('#settingsBody').addEventListener('click', e => {
+    if (e.target.closest('#tagPresetAdd')) { addTagPreset($('#tagPresetInput').value); fillSettings(); return; }
+    const delTag = e.target.closest('[data-tag-del-global]');
+    if (delTag) { deleteTagPreset(delTag.getAttribute('data-tag-del-global')); fillSettings(); return; }
     const b = e.target.closest('[data-act]');
     if (!b) return;
     const act = b.dataset.act, id = b.dataset.id;
@@ -5506,11 +5577,15 @@ function bindUI() {
     if (t.dataset.catName) { updateCategory(t.dataset.catName, { name: t.value.trim() || '未命名分类' }); renderSettings(); }
     else if (t.dataset.rowName) { updateRow(t.dataset.rowName, { name: t.value.trim() || '未命名分组' }); renderSettings(); }
     else if (t.dataset.tagColorGlobal) { setTagColor(t.dataset.tagColorGlobal, t.value); renderSettings(); }
-    else if (t.id === 'tagPresetInput') setTagPresets(t.value);
+    
     else if (t.id === 'hoverDelayInput') {
       const v = setHoverDelay(t.value);
       t.value = v;
       toast('悬停等待已设为 ' + v + ' 秒');
+    } else if (t.id === 'leaveDelayInput') {
+      const v = setLeaveDelay(t.value);
+      t.value = v;
+      toast('离开保留已设为 ' + v + ' 秒');
     }
   });
   $('#settingsBody').addEventListener('input', e => {
