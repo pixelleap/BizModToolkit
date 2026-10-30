@@ -16,11 +16,12 @@ https://pixelleap.github.io/BizModToolkit/
 - 只保留一个「默认配置」
 - 选择模式 / 编辑模式（检查器里直接编辑变体与 feat）
 - 模块选项、说明图、标签、分类
+- 选项（feat）行上直接显示标签 chip（v4.22.0 起）
 - JSON / PNG / SVG 导出与导入
 - 编辑密码
 - 自动读取最新 `docs/data.json`
 
-变体 / feat 的结构细节和改造记录见 [`docs/AI-REDO.md`](docs/AI-REDO.md)；模块合并的决策记录见 [`docs/MERGE-REVIEW.md`](docs/MERGE-REVIEW.md)。
+变体 / feat 的结构细节和改造记录见 [`docs/AI-REDO.md`](docs/AI-REDO.md)；模块合并的决策记录见 [`docs/MERGE-REVIEW.md`](docs/MERGE-REVIEW.md)；模组库审计与标签方案见 [`docs/LIBRARY-AUDIT.md`](docs/LIBRARY-AUDIT.md)、[`docs/TAG-REVIEW.md`](docs/TAG-REVIEW.md)。
 
 ## 不保存、不缓存
 
@@ -174,6 +175,13 @@ npm run seed:data
 > 改成 Public 会把 Git 历史里的旧数据也公开。
 
 ## 版本
+
+v4.22.0（2026-10-30）
+
+- 选项（feat）行上显示标签 chip：选择弹窗、悬停层都显示，最多 3 个（超出 +n）
+- 标签颜色扩展到 23 个词表（广告系橙 / 付费系红 / 留存系蓝 / 成长系绿 / 底座紫）
+- 新增 `docs/LIBRARY-AUDIT.md`（模组库 vs 功能清单审计）、`docs/TAG-REVIEW.md`（标签清单 + 每个 feat 的打标建议）
+- **未改任何数据**：删除 / 打标等你确认清单后单独执行
 
 v4.21.0（2026-10-30）
 

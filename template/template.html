@@ -362,6 +362,10 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .picker-tip .tc{display:flex;gap:4px;flex-wrap:wrap}
 .picker-tip .tc span{font-size:10px;padding:2px 6px;border-radius:999px;background:#F1F4F8;color:#667085}
 .picker-opt.on .picker-opt-title{font-weight:600;color:#182230}
+.opt-main{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.opt-tags{display:flex;gap:4px;flex-wrap:wrap}
+.opt-tag{font-size:9.5px;line-height:1.5;padding:0 5px;border-radius:4px;border:1px solid transparent;white-space:nowrap}
+.opt-tag.more{color:#98A2B3;background:#F1F4F8;border-color:#E3E9F2}
 .picker-variant .picker-group-title{cursor:pointer}
 .picker-feats{margin-top:2px}
 .picker-feats.off{opacity:.42}
@@ -464,7 +468,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.21.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.22.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -874,7 +878,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.21.0';
+const APP_VERSION = '4.22.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -931,7 +935,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.21.0';
+const CACHE_VERSION = '4.22.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1675,12 +1679,24 @@ function tagColor(tag) {
   if (t && state.tagColors && /^#[0-9a-f]{6}$/i.test(state.tagColors[t] || '')) return state.tagColors[t];
   const cat = state.categories.find(c => c.name === t);
   if (cat) return cat.color;
-  if (t === '广告' || t === '广告点') return TAG_PALETTE.ad;
-  if (t === '付费' || t === '付费点' || t === 'VIP' || t === '重抽' || t === '复活' || t === '售卖容器' || t === '权益商品') return TAG_PALETTE.paid;
-  if (t.indexOf('留存') >= 0 || t === '目标驱动' || t === '竞争') return TAG_PALETTE.retention;
-  if (t.indexOf('内容') >= 0 || t === '收集') return TAG_PALETTE.growth;
-  if (t.indexOf('底座') >= 0 || t === '共用能力') return TAG_PALETTE.infra;
+  if (t === '广告' || t === '广告点' || t.indexOf('广告') >= 0) return TAG_PALETTE.ad;
+  if (t === '付费' || t === '付费点' || t === 'VIP' || t === '重抽' || t === '复活' || t === '售卖容器' || t === '售卖机制' || t === '权益商品' || t.indexOf('付费') >= 0 || t.indexOf('权益') >= 0) return TAG_PALETTE.paid;
+  if (t.indexOf('留存') >= 0 || t === '目标驱动' || t === '竞争' || t === '转化') return TAG_PALETTE.retention;
+  if (t.indexOf('内容') >= 0 || t === '收集' || t === '成长' || t.indexOf('消耗') >= 0 || t.indexOf('资源') >= 0 || t === '货币' || t === '道具') return TAG_PALETTE.growth;
+  if (t.indexOf('底座') >= 0 || t === '共用能力' || t.indexOf('合规') >= 0) return TAG_PALETTE.infra;
   return null;
+}
+/* 选项上的标签 chip；最多 3 个，超出显示 +n */
+function optionTagChips(o, max) {
+  const tags = (o && Array.isArray(o.tags)) ? o.tags.filter(Boolean) : [];
+  if (!tags.length) return '';
+  const lim = max || 3;
+  const shown = tags.slice(0, lim);
+  const rest = tags.length - shown.length;
+  return '<span class="opt-tags">' + shown.map(function (t) {
+    const c = tagColor(t) || '#94A3B8';
+    return '<span class="opt-tag" style="color:' + c + ';background:' + c + '18;border-color:' + c + '33">' + esc(t) + '</span>';
+  }).join('') + (rest > 0 ? '<span class="opt-tag more">+' + rest + '</span>' : '') + '</span>';
 }
 
 const MAX_SHOTS = 6;
@@ -3780,7 +3796,7 @@ function fillHoverCard(card) {
       (feats.length ? '<div class="hc-opt-list' + (on ? '' : ' off') + '">' + feats.map(function (o) {
         return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
           '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
-          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div>' + optionTagChips(o, 2) + '</div></div>';
       }).join('') + '</div>' : '') + '</div>';
   }).join('') : groups.map(function (g) {
     if (g.direct) {
@@ -3797,7 +3813,7 @@ function fillHoverCard(card) {
       '<div class="hc-opt-list">' + g.options.map(function (o) {
         return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
           '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
-          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div>' + optionTagChips(o, 2) + '</div></div>';
       }).join('') + '</div></div>';
   }).join('')) : '<div class="field-hint" style="padding:2px 0">这个模块还没有变体</div>';
   $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加变体';
@@ -3895,13 +3911,14 @@ function renderOptionPicker() {
       return '<div class="picker-group picker-variant' + (on ? ' on' : '') + '" data-picker-group="' + escAttr(g.id) + '">' +
         '<div class="picker-group-head">' +
           '<button type="button" class="picker-group-check' + (on ? ' on' : '') + '" data-picker-variant-toggle="' + escAttr(g.id) + '" title="' + (on ? '停用这个变体' : '启用这个变体') + '">' + (on ? '✓' : '') + '</button>' +
-          '<span class="picker-group-title">' + esc(g.title) + '</span>' +
+          '<span class="picker-group-title">' + esc(g.title) + '</span>' + optionTagChips(g, 2) +
           '<span class="picker-group-count">' + (feats.length ? (n + ' / ' + feats.length + ' feat') : (on ? '已启用' : '未启用')) + '</span>' +
         '</div>' +
         (g.desc ? '<div class="picker-group-desc">' + esc(g.desc) + '</div>' : '') +
         (feats.length ? '<div class="picker-feats' + (on ? '' : ' off') + '">' + feats.map(function (o) {
           return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
-            '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+            '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span>' +
+            '<span class="opt-main"><span class="picker-opt-title">' + esc(o.title) + '</span>' + optionTagChips(o) + '</span></div>';
         }).join('') + '</div>' +
           '<div class="picker-group-actions">' +
             '<button type="button" class="picker-mini" data-picker-variant-all="' + escAttr(g.id) + '">全选 feat</button>' +
@@ -3911,7 +3928,7 @@ function renderOptionPicker() {
     }
     if (g.direct) {
       const o = g.options[0]; const on = pickerSelected(o.id);
-      return '<div class="picker-opt' + (on ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '"><span class="picker-opt-check">' + (on ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+      return '<div class="picker-opt' + (on ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '"><span class="picker-opt-check">' + (on ? '✓' : '') + '</span><span class="opt-main"><span class="picker-opt-title">' + esc(o.title) + '</span>' + optionTagChips(o) + '</span></div>';
     }
     const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length;
     const all = g.options.length > 0 && n === g.options.length;
@@ -3920,7 +3937,7 @@ function renderOptionPicker() {
       (g.desc ? '<div class="picker-group-desc">' + esc(g.desc) + '</div>' : '') +
       (g.options || []).map(function (o) {
         return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
-          '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+          '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="opt-main"><span class="picker-opt-title">' + esc(o.title) + '</span>' + optionTagChips(o) + '</span></div>';
       }).join('') + '</div>';
   }).join('') : '<div class="field-hint">这个模块还没有变体</div>';
 }

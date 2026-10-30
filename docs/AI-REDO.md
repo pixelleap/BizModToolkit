@@ -86,3 +86,12 @@ msedge --headless=new --dump-dom "http://127.0.0.1:4176/?selftest=1"   # 自检
 ## 下次会话建议
 
 > 读 docs/AI-REDO.md 和 docs/MERGE-REVIEW.md。下一步可选：清 selftest/uitest 历史失败；或继续按业务把剩下的原子变体归并。
+
+## v4.22.0 之后待办
+
+`docs/LIBRARY-AUDIT.md`（模组库 vs 功能清单审计）和 `docs/TAG-REVIEW.md`（标签清单 + 每个 feat 的打标建议）已产出，**都还没执行**。等确认后：
+
+1. 按 AUDIT 的 A 类删/改名 9 个变体、按 B 类并 4 张卡
+2. 按 TAG-REVIEW 把 390 个 feat 的标签换成新词表（`其他` 退役，`VIP` → `权益商品`）
+
+工具：`node tools/tag-plan.mjs` 可重新生成 TAG-REVIEW（改了 docs/data.json 之后要重跑）。
