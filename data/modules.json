@@ -2,7 +2,7 @@
   {
     "id": "card_reward_choice",
     "order": 0,
-    "title": "游玩前奖励方式",
+    "title": "游玩前奖励选择",
     "rowId": "row_level",
     "categoryId": "cat_paid",
     "tags": [
@@ -18,166 +18,111 @@
     "desc": "开局或结算前让玩家从多个奖励中选一个。",
     "options": [
       {
-        "id": "dir_card_reward_choice_1",
-        "title": "其他模式",
-        "order": 1,
-        "options": [
-          {
-            "id": "opt_ref_card_reward_choice_1_0",
-            "title": "随机获得1个奖励",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费",
-              "其他"
-            ],
-            "desc": "随机获得1个奖励",
-            "image": null,
-            "options": []
-          },
-          {
-            "id": "opt_ref_card_reward_choice_1_1",
-            "title": "预设3个阶段奖励",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费",
-              "其他"
-            ],
-            "desc": "预设3个阶段奖励",
-            "image": null,
-            "options": []
-          },
-          {
-            "id": "opt_ref_card_reward_choice_1_2",
-            "title": "使用结算宝箱奖励",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费",
-              "其他"
-            ],
-            "desc": "使用结算宝箱奖励",
-            "image": null,
-            "options": []
-          }
-        ]
-      },
-      {
-        "id": "opt_card_reward_choice_0",
-        "title": "N选1",
-        "categoryId": "cat_paid",
-        "tags": [
-          "广告",
-          "VIP"
-        ],
-        "desc": "从多个奖励中只选一个。",
-        "image": {
-          "id": "optimg_opt_card_reward_choice_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:55.028082+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_reward_choice_1",
-        "title": "追加选择",
-        "categoryId": "cat_paid",
-        "tags": [
-          "广告",
-          "付费",
-          "其他"
-        ],
-        "desc": "在默认奖励外再追加一个。",
-        "image": {
-          "id": "optimg_opt_card_reward_choice_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:55.110081+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_1t0t1ui2jv",
-        "title": "N选N",
-        "categoryId": "cat_paid",
-        "tags": [
-          "广告",
-          "其他"
-        ],
-        "desc": "看广告后把可选奖励全部拿走。",
-        "image": {
-          "id": "optimg_opt_1t0t1ui2jv",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:55.188081+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_reward_choice_0",
-        "title": "开局4选1",
-        "order": 999,
+        "title": "4选1",
+        "desc": "开局给出候选奖励，玩家选其中一个。常见做法是 3~4 个候选里选 1；广告 / VIP 用来加候选位或换更好的候选。",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_reward_choice_0_0",
-            "title": "随机展示4个奖励，选择1个",
+            "title": "基础奖励位",
             "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费",
-              "其他"
-            ],
-            "desc": "随机展示4个奖励，选择1个",
-            "image": null,
-            "options": []
+            "tags": [],
+            "desc": "展示4个奖励，选择1个",
+            "image": null
           },
           {
             "id": "opt_ref_card_reward_choice_0_1",
             "title": "广告专属奖励位",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费",
-              "其他"
+              "广告"
             ],
             "desc": "广告专属奖励位",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_reward_choice_0_2",
-            "title": "会员专属奖励位",
+            "title": "VIP专属奖励位",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费",
-              "其他"
+              "VIP"
             ],
             "desc": "会员专属奖励位",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_reward_choice_0_3",
             "title": "看广告重抽",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费",
-              "其他"
+              "广告"
             ],
             "desc": "看广告重抽",
-            "image": null,
-            "options": []
+            "image": null
+          },
+          {
+            "id": "feat_reward_random",
+            "title": "随机出奖励",
+            "desc": "候选奖励按权重随机生成，不是固定池。",
+            "categoryId": "cat_paid",
+            "tags": [
+              "其他"
+            ],
+            "image": null
+          }
+        ]
+      },
+      {
+        "id": "dir_card_reward_choice_1",
+        "title": "重抽",
+        "desc": "先给一次选择，再让玩家重抽一次。重抽可以挂在广告、VIP 或货币上，本质是把「不满意」变成一次变现机会。",
+        "isGroup": true,
+        "options": [
+          {
+            "id": "opt_ref_card_reward_choice_1_0",
+            "title": "看广告重抽",
+            "categoryId": "cat_paid",
+            "tags": [
+              "广告"
+            ],
+            "desc": "随机获得1个奖励",
+            "image": null
+          },
+          {
+            "id": "opt_ref_card_reward_choice_1_1",
+            "title": "VIP重抽",
+            "categoryId": "cat_paid",
+            "tags": [
+              "VIP"
+            ],
+            "desc": "预设3个阶段奖励",
+            "image": null
+          },
+          {
+            "id": "opt_qcjfqyrih1",
+            "title": "货币重抽",
+            "categoryId": "cat_paid",
+            "tags": [
+              "货币"
+            ],
+            "desc": "",
+            "image": null
+          },
+          {
+            "id": "feat_reward_fixed",
+            "title": "固定奖励池",
+            "desc": "重抽仍从固定池里出，不引入新的随机维度。",
+            "categoryId": "cat_paid",
+            "tags": [
+              "其他"
+            ],
+            "image": null
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_shop",
@@ -596,39 +541,24 @@
       "随机出奖励"
     ],
     "note": "",
-    "desc": "通关奖励采用随机或固定发放。",
+    "desc": "【迁移中】随机 / 固定 已作为 feat 并入「游玩前奖励选择」和「结算时奖励方式」；确认无误后再删除本模块。",
     "options": [
       {
-        "id": "opt_card_random_reward_1",
-        "title": "随机出奖励",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "通关后按权重随机掉落。",
-        "image": {
-          "id": "optimg_opt_card_random_reward_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:55.766026+00:00"
-        },
+        "id": "opt_0j3wimaz0b",
+        "title": "随机",
+        "desc": "通关奖励按权重随机掉落，用不确定性制造惊喜。",
+        "isGroup": true,
         "options": []
       },
       {
-        "id": "opt_h3895xjd8n",
+        "id": "opt_a1ury351jj",
         "title": "固定",
-        "categoryId": "cat_none",
-        "tags": [],
-        "desc": "通关固定发放指定奖励。",
-        "image": {
-          "id": "optimg_opt_h3895xjd8n",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:55.850644+00:00"
-        },
+        "desc": "通关固定发放指定奖励，给玩家稳定预期。",
+        "isGroup": true,
         "options": []
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_bundle",
@@ -1259,205 +1189,103 @@
     "options": [
       {
         "id": "dir_card_level_result_1",
-        "title": "宝箱奖励",
-        "order": 1,
+        "title": "宝箱奖励N选1",
+        "desc": "结算时用宝箱开出候选奖励，再从里面选。候选数量、可选数量、能否全拿都可以做成付费点。",
+        "isGroup": true,
         "options": [
           {
-            "id": "opt_ref_card_level_result_1_0",
-            "title": "随机出奖励，默认最多可选1项",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费"
-            ],
-            "desc": "随机出奖励，默认最多可选1项",
-            "image": null,
-            "options": []
-          },
-          {
             "id": "opt_ref_card_level_result_1_1",
-            "title": "VIP专属（增加可选项）",
+            "title": "VIP专属奖励位",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "VIP"
             ],
             "desc": "VIP专属（增加可选项）",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_level_result_1_2",
-            "title": "付费增加可选项",
+            "title": "付费专属奖励位",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
               "付费"
             ],
             "desc": "付费增加可选项",
-            "image": null,
-            "options": []
-          },
-          {
-            "id": "opt_ref_card_level_result_1_3",
-            "title": "广告增加可选项",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费"
-            ],
-            "desc": "广告增加可选项",
-            "image": null,
-            "options": []
-          },
-          {
-            "id": "opt_ref_card_level_result_1_4",
-            "title": "局内可升级宝箱",
-            "categoryId": "cat_paid",
-            "tags": [
-              "广告",
-              "付费"
-            ],
-            "desc": "局内可升级宝箱",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_level_result_1_5",
             "title": "广告领取全部",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "广告"
             ],
             "desc": "广告领取全部",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
-            "id": "opt_ref_card_level_result_1_6",
-            "title": "广告领取双倍",
+            "id": "feat_level_random",
+            "title": "随机出奖励",
+            "desc": "宝箱里的候选按权重随机，可补保底。",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "其他"
             ],
-            "desc": "广告领取双倍",
-            "image": null,
-            "options": []
+            "image": null
           }
         ]
       },
       {
-        "id": "opt_card_level_result_0",
-        "title": "默认奖励 + 金币",
-        "categoryId": "cat_paid",
-        "tags": [],
-        "desc": "结算发基础奖励并附金币。",
-        "image": {
-          "id": "optimg_opt_card_level_result_0",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:56.593341+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_level_result_1",
-        "title": "奖励翻倍功能",
-        "categoryId": "cat_paid",
-        "tags": [
-          "广告"
-        ],
-        "desc": "看广告让结算奖励翻倍。",
-        "image": {
-          "id": "optimg_opt_card_level_result_1",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:56.702109+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_card_level_result_3",
-        "title": "多奖励时全拿",
-        "categoryId": "cat_none",
-        "tags": [
-          "广告"
-        ],
-        "desc": "看广告拿走全部候选奖励。",
-        "image": {
-          "id": "optimg_opt_card_level_result_3",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:56.782108+00:00"
-        },
-        "options": []
-      },
-      {
-        "id": "opt_o0yc9b5g43",
-        "title": "VIP双倍奖励",
-        "categoryId": "cat_paid",
-        "tags": [
-          "VIP"
-        ],
-        "desc": "VIP结算时自动双倍。",
-        "image": {
-          "id": "optimg_opt_o0yc9b5g43",
-          "mime": "image/webp",
-          "w": 720,
-          "h": 405,
-          "updatedAt": "2026-10-29T12:06:56.865452+00:00"
-        },
-        "options": []
-      },
-      {
         "id": "dir_card_level_result_0",
         "title": "直接奖励",
-        "order": 999,
+        "desc": "结算直接把奖励发给玩家，不做选择。适合把变现放在「翻倍 / 加成」上，而不是选择环节。",
+        "isGroup": true,
         "options": [
           {
             "id": "opt_ref_card_level_result_0_0",
-            "title": "金币、道具、资源",
+            "title": "货币、道具、资源",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "资源",
+              "货币"
             ],
             "desc": "金币、道具、资源",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_level_result_0_1",
             "title": "看广告双倍",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "广告"
             ],
             "desc": "看广告双倍",
-            "image": null,
-            "options": []
+            "image": null
           },
           {
             "id": "opt_ref_card_level_result_0_2",
             "title": "看广告参与倍率小游戏",
             "categoryId": "cat_paid",
             "tags": [
-              "广告",
-              "付费"
+              "广告"
             ],
             "desc": "看广告参与倍率小游戏",
-            "image": null,
-            "options": []
+            "image": null
+          },
+          {
+            "id": "feat_level_fixed",
+            "title": "固定发放",
+            "desc": "结算固定发指定奖励，不做随机。",
+            "categoryId": "cat_paid",
+            "tags": [
+              "其他"
+            ],
+            "image": null
           }
         ]
       }
-    ]
+    ],
+    "variantMode": true
   },
   {
     "id": "card_gacha",

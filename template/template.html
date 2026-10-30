@@ -362,6 +362,11 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .picker-tip .tc{display:flex;gap:4px;flex-wrap:wrap}
 .picker-tip .tc span{font-size:10px;padding:2px 6px;border-radius:999px;background:#F1F4F8;color:#667085}
 .picker-opt.on .picker-opt-title{font-weight:600;color:#182230}
+.picker-variant .picker-group-title{cursor:pointer}
+.picker-feats{margin-top:2px}
+.picker-feats.off{opacity:.42}
+.picker-mini{margin-top:6px;padding:2px 8px;border:1px solid #D5DDEA;border-radius:6px;background:#fff;color:#475467;font-size:10.5px;cursor:pointer}
+.picker-mini:hover{border-color:#9FB8F5;color:#1849A9}
 @media(max-width:720px){.picker-grid{grid-template-columns:1fr;overflow:auto}.picker-left{display:none}.picker-modal{height:92vh;max-height:92vh;width:100%;max-width:100%}.picker-group-head{justify-content:flex-start}}
 .oc-head{padding:12px 14px 8px;border-bottom:1px solid var(--line2);flex:none}
 .oc-title{font-weight:800;font-size:16px;line-height:1.35;color:var(--text)}
@@ -459,7 +464,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.18.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.19.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -869,7 +874,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.18.0';
+const APP_VERSION = '4.19.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -926,7 +931,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.18.0';
+const CACHE_VERSION = '4.19.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1413,7 +1418,7 @@ function defaultSelection() {
     optionSelections: (d.optionSelections && typeof d.optionSelections === 'object' && !Array.isArray(d.optionSelections)) ? clone(d.optionSelections) : {}
   };
 }
-function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
+function normalizeTopOptions(rawOptions, cardId, categories, cardCat, variantMode) {
   const cats = Array.isArray(categories) ? categories : [];
   const catOk = function (id) { return cats.some(function (k) { return k.id === id; }); };
   const raw = Array.isArray(rawOptions) ? rawOptions : [];
@@ -1452,7 +1457,7 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
       const gid = (typeof g.id === 'string' && /^[a-z0-9_]+$/.test(g.id)) ? g.id : ('dir_' + cardId + '_' + gi);
       const title = String(g.title || '基础').slice(0, 120);
       if (!Array.isArray(g.options) || !g.options.length) {
-        if (g.isGroup === true) { groups.set(gid, { id: gid, title: title, desc: String(g.desc || '').slice(0, 800), order: order, options: [], isGroup: true }); }
+        if (g.isGroup === true || variantMode) { groups.set(gid, { id: gid, title: title, desc: String(g.desc || '').slice(0, 800), order: order, options: [], isGroup: true }); }
         else directLeaf(g, order);
         return;
       }
@@ -1496,7 +1501,8 @@ function defaultState() {
       title: c.title, body: c.body.slice(), note: c.note || '', tags: c.tags.slice(),
       categoryId: c.cat, customColor: null,
       desc: DEFAULT_DESC[CARD_IDS[i]] || '',
-      options: normalizeTopOptions(c.options, CARD_IDS[i], CATEGORIES_DEFAULT, c.cat),
+      variantMode: c.variantMode === true,
+      options: normalizeTopOptions(c.options, CARD_IDS[i], CATEGORIES_DEFAULT, c.cat, c.variantMode === true),
       optionsSeeded: true,
       shots: [],
       thumb: null,
@@ -1548,12 +1554,26 @@ function topOptionsOf(card) { return (card && Array.isArray(card.options)) ? car
 function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else out.push(g); }); return out; }
 function optionsOf(card) { return leafOptionsOf(card); }
 function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; return { id: g.id, title: g.title || '基础', direct: !hasChildren, options: hasChildren ? g.options : [g] }; }); }
+/* 变体 / feat 结构：卡片开启 variantMode 后，一级选项 = 变体，二级选项 = feat。
+   变体有独立的启用状态（选中集合里存变体 id），feat 只有在变体启用时才有意义；
+   变体启用 != 全选 feat。未开启 variantMode 的卡片保持旧的「组 = 批量勾选」语义。 */
+function isVariantCard(card) { return !!(card && card.variantMode === true); }
+function variantIdsOf(card) {
+  if (!isVariantCard(card)) return [];
+  return topOptionsOf(card).map(function (g) { return g.id; });
+}
+function featsOfVariant(variant) { return (variant && Array.isArray(variant.options)) ? variant.options : []; }
+function selectionValidIds(card) {
+  const set = new Set(optionsOf(card).map(function (o) { return o.id; }));
+  variantIdsOf(card).forEach(function (id) { set.add(id); });
+  return set;
+}
 function selectedOptionIds(cardId) {
   const map = (activeProject() && activeProject().optionSelections && typeof activeProject().optionSelections === 'object') ? activeProject().optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
   const card = findCard(cardId);
   if (!card) return [];
-  const valid = new Set(optionsOf(card).map(function (o) { return o.id; }));
+  const valid = selectionValidIds(card);
   return arr.filter(function (id) { return valid.has(id); });
 }
 function selectedOptions(cardId) {
@@ -1575,7 +1595,10 @@ function cardColor(card, selected) {
   const sel = (typeof selected === 'boolean') ? selected : isSelected(card.id);
   if (!sel) return CARD_COLOR_DEFAULT;
   const opts = selectedOptions(card.id);
-  if (!opts.length) return CARD_COLOR_DEFAULT;
+  if (!opts.length) {
+    if (isVariantCard(card) && selectedOptionIds(card.id).length) return card.categoryId === 'cat_paid' ? CARD_COLOR_PAID : CARD_COLOR_FREE;
+    return CARD_COLOR_DEFAULT;
+  }
   return opts.some(isPaidOption) ? CARD_COLOR_PAID : CARD_COLOR_FREE;
 }
 function cardDisplayTags(card) {
@@ -1740,7 +1763,7 @@ function normalizeState(input) {
       : ((Array.isArray(c.body) ? c.body : []).map(function (line, oi) {
           return { id: 'opt_' + id + '_' + oi, title: String(line || ''), categoryId: c.categoryId, tags: c.tags, desc: c.desc };
         }));
-    const options = normalizeTopOptions(sourceOptions, id, s.categories, c.categoryId);
+    const options = normalizeTopOptions(sourceOptions, id, s.categories, c.categoryId, c.variantMode === true);
     return {
       id: id,
       rowId: rowIds.has(c.rowId) ? c.rowId : fallbackRow,
@@ -1752,6 +1775,7 @@ function normalizeState(input) {
       categoryId: s.categories.some(k => k.id === c.categoryId) ? c.categoryId : 'cat_none',
       customColor: /^#[0-9a-f]{6}$/i.test(c.customColor || '') ? c.customColor : null,
       desc: typeof c.desc === 'string' ? c.desc.slice(0, 800) : '',
+      variantMode: c.variantMode === true,
       options: options,
       optionsSeeded: true,
       shots: normalizeShots(c, id),
@@ -1838,7 +1862,8 @@ function normalizeState(input) {
   Object.keys(rawDefaultOptions).forEach(function (cid) {
     const card = s.cards.find(function (c) { return c.id === cid; });
     if (!card) return;
-    const arr = Array.isArray(rawDefaultOptions[cid]) ? rawDefaultOptions[cid].filter(function (oid) { return optionsOf(card).some(function (o) { return o.id === oid; }); }) : [];
+    const validIds = selectionValidIds(card);
+    const arr = Array.isArray(rawDefaultOptions[cid]) ? rawDefaultOptions[cid].filter(function (oid) { return validIds.has(oid); }) : [];
     if (arr.length) defaultOptionSelections[cid] = Array.from(new Set(arr));
   });
   const defaultSelected = (Array.isArray(sourceDefaults.selected) ? sourceDefaults.selected : [])
@@ -2214,7 +2239,14 @@ function toggleOption(cardId, optionId) {
     const arr = Array.isArray(p.optionSelections[cardId]) ? p.optionSelections[cardId].slice() : [];
     const i = arr.indexOf(optionId);
     if (i >= 0) arr.splice(i, 1);
-    else { arr.push(optionId); if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId); }
+    else {
+      arr.push(optionId);
+      if (isVariantCard(card)) {
+        const parent = topOptionsOf(card).find(function (g) { return featsOfVariant(g).some(function (o) { return o.id === optionId; }); });
+        if (parent && arr.indexOf(parent.id) < 0) arr.push(parent.id);
+      }
+      if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId);
+    }
     if (!arr.length) { p.selected = p.selected.filter(function (x) { return x !== cardId; }); delete p.optionSelections[cardId]; }
     else p.optionSelections[cardId] = arr;
     p.updatedAt = nowISO();
@@ -2274,8 +2306,9 @@ function layoutCardContent(card, width, selected) {
   let rawBody = [];
   const groups = optionGroupsOf(card);
   const shownGroups = groups.slice(0, 8);
+  const variantMode = isVariantCard(card);
   shownGroups.forEach(function (g) {
-    const on = g.direct ? chosen.has(g.id) : g.options.some(function (o) { return chosen.has(o.id); });
+    const on = variantMode ? chosen.has(g.id) : (g.direct ? chosen.has(g.id) : g.options.some(function (o) { return chosen.has(o.id); }));
     const font = on ? FONTS.bodyBold(LAY.bodySize) : bodyFont;
     wrapText(String(g.title || '基础'), panelW - LAY.cardPadX * 2, font, 2).forEach(function (text) {
       rawBody.push({ text: text, selected: on, mode: on ? 'on' : (hasChosen ? 'off' : 'default') });
@@ -3687,9 +3720,30 @@ function fillHoverCard(card) {
   $('#hcSel').classList.toggle('on', sel);
   const opts = optionsOf(card);
   const chosen = new Set(selectedOptionIds(card.id));
-  const groups = optionGroupsOf(card);
-  $('#hcOptCount').textContent = opts.length ? (chosen.size + ' / ' + opts.length + ' 已选') : '';
-  $('#hcOptList').innerHTML = opts.length ? groups.map(function (g) {
+  const variantMode = isVariantCard(card);
+  const groups = variantMode ? topOptionsOf(card) : optionGroupsOf(card);
+  if (variantMode) {
+    const vTotal = groups.length;
+    const vOn = groups.filter(function (g) { return chosen.has(g.id); }).length;
+    const fTotal = groups.reduce(function (n, g) { return n + featsOfVariant(g).length; }, 0);
+    const fOn = groups.reduce(function (n, g) { return n + featsOfVariant(g).filter(function (o) { return chosen.has(o.id); }).length; }, 0);
+    $('#hcOptCount').textContent = vTotal ? (vOn + ' / ' + vTotal + ' 变体 · ' + fOn + ' / ' + fTotal + ' feat') : '';
+  } else {
+    $('#hcOptCount').textContent = opts.length ? (chosen.size + ' / ' + opts.length + ' 已选') : '';
+  }
+  $('#hcOptList').innerHTML = opts.length ? (variantMode ? topOptionsOf(card).map(function (g) {
+    const feats = featsOfVariant(g);
+    const on = chosen.has(g.id);
+    const n = feats.filter(function (o) { return chosen.has(o.id); }).length;
+    return '<div class="hc-opt-block' + (on ? ' group-on' : '') + '">' +
+      '<div class="hc-opt-head"><button type="button" class="hc-group-check' + (on ? ' on' : '') + '" data-hover-variant-toggle="' + escAttr(g.id) + '" title="' + (on ? '停用这个变体' : '启用这个变体') + '">' + (on ? '✓' : '') + '</button><span>' + esc(g.title) + '</span><span class="hc-opt-count">' + (feats.length ? (n + ' / ' + feats.length) : (on ? '已启用' : '')) + '</span></div>' +
+      (g.desc ? '<div class="hc-group-desc">' + esc(g.desc) + '</div>' : '') +
+      (feats.length ? '<div class="hc-opt-list' + (on ? '' : ' off') + '">' + feats.map(function (o) {
+        return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
+          '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
+          '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
+      }).join('') + '</div>' : '') + '</div>';
+  }).join('') : groups.map(function (g) {
     if (g.direct) {
       const o = g.options[0]; const on = chosen.has(o.id);
       return '<div class="hc-opt' + (on ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
@@ -3706,7 +3760,7 @@ function fillHoverCard(card) {
           '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
           '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
       }).join('') + '</div></div>';
-  }).join('') : '<div class="field-hint" style="padding:2px 0">这个模块还没有功能选项</div>';
+  }).join('')) : '<div class="field-hint" style="padding:2px 0">这个模块还没有功能选项</div>';
   $('#hcOptDesc').textContent = opts.length ? '悬停选项查看详情' : '在编辑模式里给模块添加选项';
   const desc = String(card.desc || '').trim();
   const bodyEl = $('#hcBody');
@@ -3775,16 +3829,47 @@ function closeOptionPicker() {
 }
 function renderOptionPicker() {
   const card = findCard(pickerState.cardId); if (!card) return;
+  const variantMode = isVariantCard(card);
   const thumb = getThumb(card);
   const tags = cardDisplayTags(card);
   const groups = topOptionsOf(card);
   const selectedTitles = [];
-  groups.forEach(function (g) { const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length; if (n) selectedTitles.push(g.title + ' ' + n + ' 项'); });
+  if (variantMode) {
+    groups.forEach(function (g) {
+      if (!pickerSelected(g.id)) return;
+      const feats = featsOfVariant(g);
+      const n = feats.filter(function (o) { return pickerSelected(o.id); }).length;
+      selectedTitles.push(g.title + (feats.length ? '（' + n + '/' + feats.length + ' feat）' : ''));
+    });
+  } else {
+    groups.forEach(function (g) { const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length; if (n) selectedTitles.push(g.title + ' ' + n + ' 项'); });
+  }
   $('#pickerCard').innerHTML = (thumb ? '<img src="' + escAttr(thumb) + '" alt="">' : '<div class="picker-noimg">无缩略图</div>') +
     '<h3>' + esc(card.title) + '</h3><p>' + esc(card.desc || '') + '</p>' +
     '<div class="picker-tags">' + tags.map(function (t) { return '<span class="hc-tag">' + esc(t) + '</span>'; }).join('') + '</div>' +
     (selectedTitles.length ? '<p style="margin-top:8px;color:#475467">已选：' + esc(selectedTitles.join(' · ')) + '</p>' : '');
   $('#pickerGroups').innerHTML = groups.length ? groups.map(function (g, gi) {
+    if (variantMode) {
+      const feats = featsOfVariant(g);
+      const on = pickerSelected(g.id);
+      const n = feats.filter(function (o) { return pickerSelected(o.id); }).length;
+      return '<div class="picker-group picker-variant' + (on ? ' on' : '') + '" data-picker-group="' + escAttr(g.id) + '">' +
+        '<div class="picker-group-head">' +
+          '<button type="button" class="picker-group-check' + (on ? ' on' : '') + '" data-picker-variant-toggle="' + escAttr(g.id) + '" title="' + (on ? '停用这个变体' : '启用这个变体') + '">' + (on ? '✓' : '') + '</button>' +
+          '<span class="picker-group-title">' + esc(g.title) + '</span>' +
+          '<span class="picker-group-count">' + (feats.length ? (n + ' / ' + feats.length + ' feat') : (on ? '已启用' : '未启用')) + '</span>' +
+        '</div>' +
+        (g.desc ? '<div class="picker-group-desc">' + esc(g.desc) + '</div>' : '') +
+        (feats.length ? '<div class="picker-feats' + (on ? '' : ' off') + '">' + feats.map(function (o) {
+          return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
+            '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
+        }).join('') + '</div>' +
+          '<div class="picker-group-actions">' +
+            '<button type="button" class="picker-mini" data-picker-variant-all="' + escAttr(g.id) + '">全选 feat</button>' +
+            '<button type="button" class="picker-mini" data-picker-variant-clear="' + escAttr(g.id) + '">清空 feat</button>' +
+          '</div>' : '') +
+        '</div>';
+    }
     if (g.direct) {
       const o = g.options[0]; const on = pickerSelected(o.id);
       return '<div class="picker-opt' + (on ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '"><span class="picker-opt-check">' + (on ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
@@ -3800,8 +3885,41 @@ function renderOptionPicker() {
       }).join('') + '</div>';
   }).join('') : '<div class="field-hint">这个模块还没有选项</div>';
 }
+function pickerVariantOf(card, variantId) {
+  return topOptionsOf(card).find(function (x) { return x.id === variantId; }) || null;
+}
+function pickerVariantToggle(variantId) {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  const g = pickerVariantOf(card, variantId); if (!g) return;
+  if (pickerState.draft.has(variantId)) {
+    pickerState.draft.delete(variantId);
+    featsOfVariant(g).forEach(function (o) { pickerState.draft.delete(o.id); });
+  } else {
+    pickerState.draft.add(variantId);
+  }
+  renderOptionPicker();
+}
+function pickerVariantAll(variantId) {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  const g = pickerVariantOf(card, variantId); if (!g) return;
+  pickerState.draft.add(variantId);
+  featsOfVariant(g).forEach(function (o) { pickerState.draft.add(o.id); });
+  renderOptionPicker();
+}
+function pickerVariantClearFeats(variantId) {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  const g = pickerVariantOf(card, variantId); if (!g) return;
+  pickerState.draft.add(variantId);
+  featsOfVariant(g).forEach(function (o) { pickerState.draft.delete(o.id); });
+  renderOptionPicker();
+}
 function togglePickerLeaf(optId) {
   if (!pickerState.cardId) return;
+  const card = findCard(pickerState.cardId);
+  if (isVariantCard(card)) {
+    const parent = topOptionsOf(card).find(function (g) { return featsOfVariant(g).some(function (o) { return o.id === optId; }); });
+    if (parent) pickerState.draft.add(parent.id);
+  }
   if (pickerState.draft.has(optId)) pickerState.draft.delete(optId); else pickerState.draft.add(optId);
   renderOptionPicker();
 }
@@ -3830,6 +3948,26 @@ function pickerGroupToggle(groupId) {
   const kids = g.options || []; const all = kids.length && kids.every(function (o) { return pickerState.draft.has(o.id); });
   kids.forEach(function (o) { if (all) pickerState.draft.delete(o.id); else pickerState.draft.add(o.id); });
   renderOptionPicker();
+}
+function toggleHoverVariant(cardId, variantId) {
+  const card = findCard(cardId); if (!card) return;
+  const g = topOptionsOf(card).find(function (x) { return x.id === variantId; }); if (!g) return;
+  const set = new Set(selectedOptionIds(cardId));
+  const on = set.has(variantId);
+  commit(function (s) {
+    const p = s.projects.find(function (x) { return x.id === s.ui.activeProjectId; }); if (!p) return;
+    if (!p.optionSelections) p.optionSelections = {};
+    const arr = new Set(Array.isArray(p.optionSelections[cardId]) ? p.optionSelections[cardId] : []);
+    if (on) {
+      arr.delete(variantId);
+      featsOfVariant(g).forEach(function (o) { arr.delete(o.id); });
+    } else {
+      arr.add(variantId);
+    }
+    if (arr.size) { p.optionSelections[cardId] = Array.from(arr); if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId); }
+    else { delete p.optionSelections[cardId]; p.selected = p.selected.filter(function (x) { return x !== cardId; }); }
+  }, { scope: 'selection', label: on ? '停用变体' : '启用变体' });
+  setTimeout(function () { if (state.ui.mode === 'select') showHoverCard(cardId); }, 0);
 }
 function toggleHoverGroup(cardId, groupId) {
   const card = findCard(cardId); if (!card) return;
@@ -4808,7 +4946,7 @@ function importJSON() {
         const cardIds = new Set(state.cards.map(function (c) { return c.id; }));
         const valid = {};
         state.cards.forEach(function (c) {
-          const set = new Set(optionsOf(c).map(function (o) { return o.id; }));
+          const set = selectionValidIds(c);
           Object.keys(sp.optionSelections || {}).forEach(function (cid) { if (cid === c.id) valid[c.id] = (sp.optionSelections[cid] || []).filter(function (id) { return set.has(id); }); });
         });
         const selected = (Array.isArray(sp.selected) ? sp.selected : []).filter(function (id) { return cardIds.has(id); }).filter(function (id) { return valid[id] && valid[id].length; });
@@ -5225,6 +5363,11 @@ function bindUI() {
   $('#pickerClear').addEventListener('click', clearOptionPicker);
   $('#optionPicker').addEventListener('click', function (e) {
     if (e.target === $('#optionPicker')) { closeOptionPicker(); return; }
+    const vt = e.target.closest('[data-picker-variant-toggle]'); if (vt) { pickerVariantToggle(vt.getAttribute('data-picker-variant-toggle')); return; }
+    const va = e.target.closest('[data-picker-variant-all]'); if (va) { pickerVariantAll(va.getAttribute('data-picker-variant-all')); return; }
+    const vc = e.target.closest('[data-picker-variant-clear]'); if (vc) { pickerVariantClearFeats(vc.getAttribute('data-picker-variant-clear')); return; }
+    const vhead = e.target.closest('.picker-variant .picker-group-head');
+    if (vhead) { const host = vhead.closest('[data-picker-group]'); if (host) { pickerVariantToggle(host.getAttribute('data-picker-group')); return; } }
     const toggle = e.target.closest('[data-picker-group-toggle]'); if (toggle) { pickerGroupToggle(toggle.getAttribute('data-picker-group-toggle')); return; }
     const opt = e.target.closest('[data-picker-opt]'); if (opt) { togglePickerLeaf(opt.getAttribute('data-picker-opt')); return; }
   });
@@ -5749,6 +5892,8 @@ function bindUI() {
   $('#optionCard').addEventListener('mouseenter', cancelOptionHide);
   $('#optionCard').addEventListener('mouseleave', scheduleHideOptionCard);
   $('#hcOptList').addEventListener('click', function (e) {
+    const vbtn = e.target.closest('[data-hover-variant-toggle]');
+    if (vbtn) { e.preventDefault(); e.stopPropagation(); if (hoverState.id) toggleHoverVariant(hoverState.id, vbtn.getAttribute('data-hover-variant-toggle')); return; }
     const gbtn = e.target.closest('[data-hover-group-toggle]');
     if (gbtn) { e.preventDefault(); e.stopPropagation(); if (hoverState.id) toggleHoverGroup(hoverState.id, gbtn.getAttribute('data-hover-group-toggle')); return; }
     const row = e.target.closest('.hc-opt');
@@ -7027,6 +7172,23 @@ async function init() {
     updateSharedBadge();
   }
   requestAnimationFrame(function () { renderBoard(); });
+  const pickerCard = params.get('picker');
+  if (pickerCard) setTimeout(function () {
+    if (!findCard(pickerCard)) return;
+    openOptionPicker(pickerCard);
+    const pick = (params.get('pick') || '').split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+    if (pick.length) { pick.forEach(function (id) { pickerState.draft.add(id); }); renderOptionPicker(); }
+  }, 320);
+  if (params.get('demo') === 'variant') {
+    const dp = activeProject();
+    dp.selected = Array.from(new Set((dp.selected || []).concat(['card_reward_choice', 'card_level_result', 'card_random_reward'])));
+    dp.optionSelections = dp.optionSelections || {};
+    dp.optionSelections['card_reward_choice'] = ['dir_card_reward_choice_0', 'opt_ref_card_reward_choice_0_1', 'opt_ref_card_reward_choice_0_2'];
+    dp.optionSelections['card_level_result'] = ['dir_card_level_result_1'];
+    dp.optionSelections['card_random_reward'] = ['opt_0j3wimaz0b'];
+    state.defaults = { selected: dp.selected.slice(), optionSelections: clone(dp.optionSelections) };
+    renderAll();
+  }
   if (params.get('demo') === 'shots') {
     const demoCard = state.cards[0];
     const demoShot = function (w, h, color, text) {

@@ -8,21 +8,19 @@ https://pixelleap.github.io/BizModToolkit/
 
 ## 功能
 
-- 模块 / 选项 / 选项 三层结构
-- 43 个模块
-- 261 个一级选项（基础组已拆开，一级/二级在编辑器中分色）
-- 603 个二级选项
-- 同一一级选项内可多选二级选项\n- 点击模块打开选择弹窗，点「确认」才生效\n- 点弹窗外/按 Esc 丢弃未确认修改
-
-- 43 个商业化模块
+- 43 个商业化模块，**模块 / 变体 / feat** 三层结构（v4.19.0 起）
+- 192 个一级选项、433 个二级选项
+- 奖励类 3 个模块已开启变体模式：变体有独立启用状态，启用后才可多选 feat；启用变体 ≠ 全选 feat
+- 其余模块仍是「组 = 批量勾选」的旧语义，互不影响
+- 点击模块打开选择弹窗，点「确认」才生效；点弹窗外 / 按 Esc 丢弃未确认修改
 - 只保留一个「默认配置」
 - 选择模式 / 编辑模式
 - 模块选项、说明图、标签、分类
 - JSON / PNG / SVG 导出与导入
-
-- JSON 导入 / 导出
 - 编辑密码
 - 自动读取最新 `docs/data.json`
+
+变体 / feat 的结构细节和改造记录见 [`docs/AI-REDO.md`](docs/AI-REDO.md)。
 
 ## 不保存、不缓存
 
@@ -112,16 +110,33 @@ docs/
 
 ```powershell
 cd D:\Workspace\module-board
-python -m http.server 4174 --directory docs
+node tools\serve.cjs 4176
 ```
 
 打开：
 
 ```text
-http://127.0.0.1:4174/
+http://127.0.0.1:4176/
 ```
 
 直接双击 `index.html` 只能看内置快照；联网更新请用 HTTP 地址。
+
+无头截图（不用开浏览器窗口，用于自查）：
+
+```powershell
+& "$env:ProgramFiles(x86)\Microsoft\Edge\Application\msedge.exe" --headless=new --disable-gpu `
+  --window-size=1440,900 --virtual-time-budget=9000 --screenshot="$PWD\tmp\home.png" `
+  "http://127.0.0.1:4176/"
+```
+
+调试参数：
+
+| 参数 | 作用 |
+|---|---|
+| `?picker=<cardId>` | 直接打开该模块的选择弹窗 |
+| `&pick=<id,id>` | 预勾选选项，配合 picker 截图 |
+| `?demo=variant` | 给默认配置勾上奖励模块的变体（看卡片正面 / 悬停层） |
+| `?hover=<cardId>` | 直接显示悬停卡片 |
 
 ## 构建
 
@@ -160,7 +175,14 @@ npm run seed:data
 
 ## 版本
 
-v4.6.0
+v4.19.0（2026-10-30）
+
+- 奖励模块改成「变体 → feat」：变体有独立启用状态，启用后才可多选 feat
+- 「奖励形式」未删除，随机 / 固定 已拆成 feat 并入两个奖励模块
+- 其余模块保持旧的组勾选语义
+- 新增调试参数 `?picker=` / `?pick=` / `?demo=variant`
+
+v4.18.0 及更早
 
 - 只保留默认配置
 - 删除项目切换
