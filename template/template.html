@@ -156,6 +156,11 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .opt-tag-chip{font-size:10.5px;padding:3px 7px;border:1px solid #D8DEE8;border-radius:999px;background:#fff;color:#667085;cursor:pointer}
 .opt-tag-chip.on{background:#E8F0FE;border-color:#9FB8F5;color:#1E4C9E;font-weight:600}
 .opt-order-btn{font-size:10px;padding:2px 5px;border:1px solid #D8DEE8;border-radius:5px;background:#fff;color:#667085;cursor:pointer}
+.ai-box{font-size:11px;line-height:1.55;color:#475467;background:#F7F9FC;border:1px solid #E1E8F2;border-radius:8px;padding:8px;max-height:260px;overflow:auto}
+.ai-box b{color:#182230}
+.ai-row{padding:3px 0;border-bottom:1px dashed #E7ECF3}
+.ai-row:last-child{border-bottom:0}
+.ai-k{color:#2F6FED;font-weight:600}
 .opt-edit-top{display:flex;gap:6px;align-items:center}
 .opt-edit-title{flex:1;min-width:0}
 .opt-edit-top select{max-width:118px}
@@ -454,7 +459,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.17.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.18.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -530,6 +535,11 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
           <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加一级选项</button>
           <input type="file" id="optImageFile" accept="image/*" class="hidden">
           <div class="field-hint">选项分类/标签决定卡片红蓝；悬停卡片时先显示选项，再显示说明。</div>
+        </div>
+        <div class="field hidden" id="inspAi">
+          <label>AI 结构（只读）</label>
+          <div id="inspAiBody" class="ai-box"></div>
+          <div class="field-hint">模式 / 角色 / 参数 / 依赖，用于 AI 选择和校验。</div>
         </div>
         <div class="field">
           <label>卡片缩略图（16:9，固定）</label>
@@ -859,7 +869,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.17.0';
+const APP_VERSION = '4.18.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -916,7 +926,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
-const CACHE_VERSION = '4.6.0';
+const CACHE_VERSION = '4.18.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -4370,6 +4380,30 @@ function fillInspector() {
       '<div class="option-editor opt-group-kids">' + kids.map(function (o) { return leafEditor(o, 2, g.id); }).join('') + '</div>' +
       '<button class="btn sm" type="button" data-top-add-child="' + escAttr(g.id) + '" style="margin-top:6px">＋ 添加二级选项</button></div>';
   }).join('') : '<div class="field-hint">还没有选项，点下面添加。</div>';
+  const aiBox = $('#inspAi');
+  if (aiBox) {
+    if (!card.ai) aiBox.classList.add('hidden');
+    else {
+      aiBox.classList.remove('hidden');
+      const fmt = function (v) { return v == null ? '' : (typeof v === 'object' ? JSON.stringify(v) : String(v)); };
+      const rows = [];
+      rows.push('<div class="ai-row"><b>模块</b> ' + esc(card.ai.family || '') + ' · ' + esc((card.ai.conditions || []).join(' / ')) + '</div>');
+      const pm = card.ai.params || {};
+      Object.keys(pm).forEach(function (k) {
+        const v = pm[k] || {};
+        rows.push('<div class="ai-row"><span class="ai-k">' + esc(k) + '</span>：' + esc(v.type || '') + (v.values ? ' [' + esc(v.values.join(' / ')) + ']' : '') + ' 默认 ' + esc(fmt(v.default)) + '</div>');
+      });
+      optionGroupsOf(card).forEach(function (g) {
+        const tg = topOptionsOf(card).find(function (x) { return x.id === g.id; });
+        if (tg && tg.ai) rows.push('<div class="ai-row"><b>' + esc(g.title) + '</b> · ' + esc(tg.ai.role || '') + ' · ' + esc(tg.ai.selectionMode || '') + (tg.ai.params ? ' · ' + esc(fmt(tg.ai.params)) : '') + '</div>');
+        g.options.forEach(function (o) {
+          if (!o.ai) return;
+          rows.push('<div class="ai-row" style="padding-left:10px">· ' + esc(o.title) + ' · ' + esc(o.ai.role || '') + (o.ai.channel ? ' / ' + esc(o.ai.channel) : '') + (o.ai.params ? ' · ' + esc(fmt(o.ai.params)) : '') + (o.ai.requires && o.ai.requires.length ? ' · 依赖 ' + esc(o.ai.requires.join(',')) : '') + '</div>');
+        });
+      });
+      $('#inspAiBody').innerHTML = rows.join('');
+    }
+  }
   const thumbSrc = getThumb(card);
   const thumbEmpty = $('#thumbEmpty'), thumbPreview = $('#thumbPreview');
   if (thumbEmpty) thumbEmpty.classList.toggle('hidden', !!thumbSrc);

@@ -1,0 +1,57 @@
+{
+  "project": "AI 样板",
+  "source": "docs/data.json",
+  "modules": [
+    {
+      "moduleId": "card_reward_choice",
+      "mode": "4选1",
+      "params": {
+        "payoutMode": "random",
+        "choiceCount": 4,
+        "chooseCount": 1
+      },
+      "enhancements": [
+        {
+          "optionId": "广告专属奖励位",
+          "params": {
+            "extraSlotCount": 1,
+            "adWatchCount": 1,
+            "maxPerLevel": 1
+          }
+        },
+        {
+          "optionId": "看广告重抽",
+          "params": {
+            "adWatchCount": 1,
+            "rerollMax": 1
+          }
+        }
+      ],
+      "enhancementGroups": [
+        {
+          "groupId": "重抽",
+          "options": [
+            "看广告重抽"
+          ]
+        }
+      ]
+    },
+    {
+      "moduleId": "card_level_result",
+      "mode": "宝箱奖励N选1",
+      "params": {
+        "payoutMode": "random",
+        "defaultOptionCount": 1,
+        "choiceCount": 1
+      },
+      "enhancements": [
+        {
+          "optionId": "VIP专属奖励位",
+          "params": {
+            "extraSlotCount": 1
+          }
+        }
+      ]
+    }
+  ]
+}
