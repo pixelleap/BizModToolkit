@@ -452,7 +452,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.10.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.11.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -525,7 +525,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
         <div class="field">
           <label>功能选项</label>
           <div class="option-editor" id="inspOptions"></div>
-          <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加选项</button>
+          <button class="btn sm" id="inspOptionAdd" type="button" style="margin-top:6px">＋ 添加一级选项</button>
           <input type="file" id="optImageFile" accept="image/*" class="hidden">
           <div class="field-hint">选项分类/标签决定卡片红蓝；悬停卡片时先显示选项，再显示说明。</div>
         </div>
@@ -857,7 +857,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.10.0';
+const APP_VERSION = '4.11.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1250,7 +1250,7 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
   }
   function addLeaf(o, directionId, directionTitle, directionOrder) {
     if (!o) return;
-    if (!groups.has(directionId)) groups.set(directionId, { id: directionId, title: directionTitle || '基础', order: directionOrder, options: [] });
+    if (!groups.has(directionId)) groups.set(directionId, { id: directionId, title: directionTitle || '基础', order: directionOrder, options: [], isGroup: false });
     const oid = (typeof o.id === 'string' && /^[a-z0-9_]+$/.test(o.id)) ? o.id : ('opt_' + cardId + '_' + groups.get(directionId).options.length);
     const opt = {
       id: oid,
@@ -1266,9 +1266,14 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
     raw.forEach(function (g, gi) {
       if (!g) return;
       const order = typeof g.order === 'number' ? g.order : gi;
-      if (!Array.isArray(g.options) || !g.options.length) { directLeaf(g, order); return; }
       const gid = (typeof g.id === 'string' && /^[a-z0-9_]+$/.test(g.id)) ? g.id : ('dir_' + cardId + '_' + gi);
       const title = String(g.title || '基础').slice(0, 120);
+      if (!Array.isArray(g.options) || !g.options.length) {
+        if (g.isGroup === true) { groups.set(gid, { id: gid, title: title, order: order, options: [], isGroup: true }); }
+        else directLeaf(g, order);
+        return;
+      }
+      groups.set(gid, { id: gid, title: title, order: order, options: [], isGroup: true });
       g.options.forEach(function (o) { addLeaf(o, gid, title, order); });
     });
   } else {
@@ -1277,7 +1282,7 @@ function normalizeTopOptions(rawOptions, cardId, categories, cardCat) {
       addLeaf(o, gid, (o && o.directionTitle) || '基础', Number(o && o.directionOrder) || (o && o.directionId ? 0 : 999));
     });
   }
-  return Array.from(groups.values()).filter(function (g) { return g.options.length; }).concat(direct).sort(function (a, b) { return a.order - b.order || a.title.localeCompare(b.title, 'zh'); }).map(function (g) { return (g.options && g.options.length) ? { id: g.id, title: g.title, options: g.options } : g; });
+  return Array.from(groups.values()).filter(function (g) { return g.options.length || g.isGroup; }).concat(direct).sort(function (a, b) { return a.order - b.order || a.title.localeCompare(b.title, 'zh'); }).map(function (g) { return (g.options && (g.options.length || g.isGroup)) ? { id: g.id, title: g.title, isGroup: !!g.isGroup, options: g.options } : g; });
 }
 function defaultProject() {
   const d = defaultSelection();
@@ -1357,9 +1362,9 @@ const CARD_COLOR_DEFAULT = '#D8DEE9';
 const CARD_COLOR_PAID = '#D9534F';
 const CARD_COLOR_FREE = '#5B8DEF';
 function topOptionsOf(card) { return (card && Array.isArray(card.options)) ? card.options : []; }
-function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else out.push(g); }); return out; }
+function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(function (g) { if (Array.isArray(g.options) && g.options.length) (g.options || []).forEach(function (o) { out.push(o); }); else if (!g.isGroup) out.push(g); }); return out; }
 function optionsOf(card) { return leafOptionsOf(card); }
-function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; return { id: g.id, title: g.title || '基础', direct: !hasChildren, options: hasChildren ? g.options : [g] }; }); }
+function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { const hasChildren = Array.isArray(g.options) && g.options.length > 0; const isGroup = hasChildren || g.isGroup === true; return { id: g.id, title: g.title || '基础', direct: !isGroup, options: isGroup ? (g.options || []) : [g] }; }); }
 function selectedOptionIds(cardId) {
   const map = (activeProject() && activeProject().optionSelections && typeof activeProject().optionSelections === 'object') ? activeProject().optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
@@ -4181,7 +4186,7 @@ function fillInspector() {
   }
   $('#inspOptions').innerHTML = groups.length ? groups.map(function (g) {
     const kids = Array.isArray(g.options) ? g.options : [];
-    if (!kids.length) return leafEditor(g, 1);
+    if (!kids.length && !g.isGroup) return leafEditor(g, 1);
     return '<div class="opt-group-edit" data-top-edit="' + escAttr(g.id) + '"><div class="opt-kind">一级选项</div><div class="opt-edit-top" style="margin-bottom:6px">' +
       '<button class="opt-order-btn" data-top-up="' + escAttr(g.id) + '" title="上移">↑</button><button class="opt-order-btn" data-top-down="' + escAttr(g.id) + '" title="下移">↓</button>' +
       '<input type="text" class="opt-edit-title" data-top-title="' + escAttr(g.id) + '" maxlength="60" value="' + escAttr(g.title) + '" placeholder="一级选项名称">' +
@@ -5213,7 +5218,7 @@ function bindUI() {
     if (!view.inspectingId) return;
     const card = findCard(view.inspectingId);
     if (!card) return;
-    const opt = { id: uid('opt'), title: '新选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null, options: [] };
+    const opt = { id: uid('opt'), title: '新一级选项', categoryId: card.categoryId, tags: (card.tags || []).slice(), desc: '', image: null, options: [], isGroup: true };
     const groups = topOptionsOf(card).concat([opt]);
     patchCard(card.id, { options: groups, optionsSeeded: true }, { label: '添加一级选项' }); fillInspector();
   });
