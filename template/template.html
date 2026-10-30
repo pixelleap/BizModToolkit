@@ -333,6 +333,8 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .picker-group{border:1px solid #E3E9F2;border-radius:10px;padding:9px 10px;margin-bottom:9px;background:#FCFDFE}
 .picker-group.on{border-color:#9FB8F5;background:#F7FAFF}
 .picker-group-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.picker-group-check{width:16px;height:16px;flex:none;border:1.5px solid #B7C0CE;border-radius:4px;background:#fff;color:#fff;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.picker-group-check.on{background:#3FAE8F;border-color:#3FAE8F}
 .picker-group-title{font-weight:700;font-size:12.5px;color:#344054}
 .picker-group-count{font-size:10.5px;color:#98A2B3}
 .picker-group-actions{display:flex;gap:6px;margin-top:6px}
@@ -440,7 +442,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.6.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.7.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -853,7 +855,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.6.0';
+const APP_VERSION = '4.7.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -3757,13 +3759,13 @@ function renderOptionPicker() {
       return '<div class="picker-opt' + (on ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '"><span class="picker-opt-check">' + (on ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
     }
     const n = (g.options || []).filter(function (o) { return pickerSelected(o.id); }).length;
+    const all = g.options.length > 0 && n === g.options.length;
     return '<div class="picker-group' + (n ? ' on' : '') + '" data-picker-group="' + escAttr(g.id) + '">' +
-      '<div class="picker-group-head"><span class="picker-group-title">' + esc(g.title) + '</span><span class="picker-group-count">' + n + ' / ' + g.options.length + '</span></div>' +
+      '<div class="picker-group-head"><button type="button" class="picker-group-check' + (all ? ' on' : '') + '" data-picker-group-toggle="' + escAttr(g.id) + '" title="' + (all ? '清空这一组' : '全选这一组') + '">' + (all ? '✓' : '') + '</button><span class="picker-group-title">' + esc(g.title) + '</span><span class="picker-group-count">' + n + ' / ' + g.options.length + '</span></div>' +
       (g.options || []).map(function (o) {
         return '<div class="picker-opt' + (pickerSelected(o.id) ? ' on' : '') + '" data-picker-opt="' + escAttr(o.id) + '">' +
           '<span class="picker-opt-check">' + (pickerSelected(o.id) ? '✓' : '') + '</span><span class="picker-opt-title">' + esc(o.title) + '</span></div>';
-      }).join('') +
-      '<div class="picker-group-actions"><button class="btn sm" type="button" data-picker-all="' + escAttr(g.id) + '">全选</button><button class="btn sm" type="button" data-picker-none="' + escAttr(g.id) + '">清空</button></div></div>';
+      }).join('') + '</div>';
   }).join('') : '<div class="field-hint">这个模块还没有选项</div>';
 }
 function togglePickerLeaf(optId) {
@@ -3774,6 +3776,13 @@ function togglePickerLeaf(optId) {
 function pickerGroupSet(groupId, on) {
   const card = findCard(pickerState.cardId); if (!card) return;
   topOptionsOf(card).forEach(function (g) { if (g.id !== groupId) return; (g.options || []).forEach(function (o) { if (on) pickerState.draft.add(o.id); else pickerState.draft.delete(o.id); }); });
+  renderOptionPicker();
+}
+function pickerGroupToggle(groupId) {
+  const card = findCard(pickerState.cardId); if (!card) return;
+  const g = topOptionsOf(card).find(function (x) { return x.id === groupId; }); if (!g) return;
+  const kids = g.options || []; const all = kids.length && kids.every(function (o) { return pickerState.draft.has(o.id); });
+  kids.forEach(function (o) { if (all) pickerState.draft.delete(o.id); else pickerState.draft.add(o.id); });
   renderOptionPicker();
 }
 function confirmOptionPicker() {
@@ -5114,8 +5123,7 @@ function bindUI() {
   $('#pickerClear').addEventListener('click', clearOptionPicker);
   $('#optionPicker').addEventListener('click', function (e) {
     if (e.target === $('#optionPicker')) { closeOptionPicker(); return; }
-    const all = e.target.closest('[data-picker-all]'); if (all) { pickerGroupSet(all.getAttribute('data-picker-all'), true); return; }
-    const none = e.target.closest('[data-picker-none]'); if (none) { pickerGroupSet(none.getAttribute('data-picker-none'), false); return; }
+    const toggle = e.target.closest('[data-picker-group-toggle]'); if (toggle) { pickerGroupToggle(toggle.getAttribute('data-picker-group-toggle')); return; }
     const opt = e.target.closest('[data-picker-opt]'); if (opt) { togglePickerLeaf(opt.getAttribute('data-picker-opt')); return; }
   });
 
