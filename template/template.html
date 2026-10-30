@@ -296,7 +296,10 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-scroll{overflow:auto;flex:1 1 auto;min-height:0;padding:8px 14px 2px}
 .hc-opt-block{padding:6px 7px 8px;border:1px solid #E7ECF3;border-radius:9px;margin-bottom:8px;background:#FCFDFE}
 .hc-opt-block.group-on{border-color:#C9D8F5;background:#F7FAFF}
-.hc-opt-head{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:#667085;margin-bottom:5px}
+.hc-opt-head{display:flex;justify-content:flex-start;align-items:center;gap:6px;font-size:11px;font-weight:700;color:#667085;margin-bottom:5px}
+.hc-group-check{width:14px;height:14px;flex:none;border:1.5px solid #B7C0CE;border-radius:4px;background:#fff;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.hc-group-check.on{background:#3FAE8F;border-color:#3FAE8F}
+.hc-opt-count{margin-left:auto}
 .hc-opt-count{font-weight:400;color:#98A2B3}
 .hc-opt-list{display:flex;flex-direction:column;gap:3px}
 .hc-opt{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;border-radius:8px;border:1px solid transparent;cursor:pointer;transition:background .12s,border-color .12s}
@@ -322,7 +325,8 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .hc-tag{font-size:10.5px;padding:2px 8px;border-radius:999px;background:#EEF1F5;color:#5B6573}
 .hc-foot{border-top:1px solid var(--line2);padding:7px 14px;font-size:11px;color:var(--muted2);background:#FCFCFD;margin-top:auto;flex:none}
 .option-card{position:fixed;z-index:95;width:360px;max-height:min(72vh,680px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 20px 46px rgba(16,24,40,.24),0 4px 10px rgba(16,24,40,.08);overflow:hidden;display:flex;flex-direction:column}
-.picker-modal{width:940px;max-width:100%;max-height:92vh}
+#optionPicker{justify-content:flex-start}
+.picker-modal{width:720px;max-width:calc(100% - 48px);max-height:92vh;margin-left:24px}
 .picker-grid{display:grid;grid-template-columns:300px minmax(0,1fr);gap:18px;min-height:0;overflow:hidden;padding:16px 18px}
 .picker-left{border:1px solid var(--line);border-radius:12px;padding:12px;background:#FAFBFC;min-width:0}
 .picker-left img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#E9EDF2;display:block}
@@ -332,11 +336,11 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .picker-right{overflow:auto;min-height:0;padding-right:2px}
 .picker-group{border:1px solid #E3E9F2;border-radius:10px;padding:9px 10px;margin-bottom:9px;background:#FCFDFE}
 .picker-group.on{border-color:#9FB8F5;background:#F7FAFF}
-.picker-group-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.picker-group-head{display:flex;align-items:center;justify-content:flex-start;gap:7px;margin-bottom:6px}
 .picker-group-check{width:16px;height:16px;flex:none;border:1.5px solid #B7C0CE;border-radius:4px;background:#fff;color:#fff;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .picker-group-check.on{background:#3FAE8F;border-color:#3FAE8F}
 .picker-group-title{font-weight:700;font-size:12.5px;color:#344054}
-.picker-group-count{font-size:10.5px;color:#98A2B3}
+.picker-group-count{font-size:10.5px;color:#98A2B3;margin-left:auto}
 .picker-group-actions{display:flex;gap:6px;margin-top:6px}
 .picker-opt{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;border-radius:7px;cursor:pointer;border:1px solid transparent}
 .picker-opt:hover{background:#F4F7FC}
@@ -345,7 +349,7 @@ body[data-mode="edit"] #board .rowLabel{cursor:pointer}
 .picker-opt.on .picker-opt-check{background:#3FAE8F;border-color:#3FAE8F}
 .picker-opt-title{font-size:12px;line-height:1.45;color:#344054;word-break:break-word}
 .picker-opt.on .picker-opt-title{font-weight:600;color:#182230}
-@media(max-width:720px){.picker-grid{grid-template-columns:1fr;overflow:auto}.picker-left{display:none}.picker-modal{height:92vh;max-height:92vh}}
+@media(max-width:720px){.picker-grid{grid-template-columns:1fr;overflow:auto}.picker-left{display:none}.picker-modal{height:92vh;max-height:92vh;width:100%;margin-left:0}.picker-group-head{justify-content:flex-start}}
 .oc-head{padding:12px 14px 8px;border-bottom:1px solid var(--line2);flex:none}
 .oc-title{font-weight:800;font-size:16px;line-height:1.35;color:var(--text)}
 .oc-meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
@@ -442,7 +446,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.7.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.8.0</small></div>
     </div>
     <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
@@ -855,7 +859,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.7.0';
+const APP_VERSION = '4.8.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -3670,8 +3674,9 @@ function fillHoverCard(card) {
         '<div class="hc-opt-main"><div class="hc-opt-title">' + esc(o.title) + '</div></div></div>';
     }
     const onCount = g.options.filter(function (o) { return chosen.has(o.id); }).length;
+    const allHover = g.options.length > 0 && onCount === g.options.length;
     return '<div class="hc-opt-block' + (onCount ? ' group-on' : '') + '">' +
-      '<div class="hc-opt-head"><span>' + esc(g.title) + '</span><span class="hc-opt-count">' + onCount + ' / ' + g.options.length + '</span></div>' +
+      '<div class="hc-opt-head"><button type="button" class="hc-group-check' + (allHover ? ' on' : '') + '" data-hover-group-toggle="' + escAttr(g.id) + '" title="' + (allHover ? '清空这一组' : '全选这一组') + '">' + (allHover ? '✓' : '') + '</button><span>' + esc(g.title) + '</span><span class="hc-opt-count">' + onCount + ' / ' + g.options.length + '</span></div>' +
       '<div class="hc-opt-list">' + g.options.map(function (o) {
         return '<div class="hc-opt' + (chosen.has(o.id) ? ' on' : '') + '" data-opt-id="' + escAttr(o.id) + '">' +
           '<span class="hc-opt-check">' + (chosen.has(o.id) ? '✓' : '') + '</span>' +
@@ -3784,6 +3789,22 @@ function pickerGroupToggle(groupId) {
   const kids = g.options || []; const all = kids.length && kids.every(function (o) { return pickerState.draft.has(o.id); });
   kids.forEach(function (o) { if (all) pickerState.draft.delete(o.id); else pickerState.draft.add(o.id); });
   renderOptionPicker();
+}
+function toggleHoverGroup(cardId, groupId) {
+  const card = findCard(cardId); if (!card) return;
+  const g = topOptionsOf(card).find(function (x) { return x.id === groupId; }); if (!g) return;
+  const kids = (g.options || []).map(function (o) { return o.id; }); if (!kids.length) return;
+  const set = new Set(selectedOptionIds(cardId));
+  const all = kids.every(function (id) { return set.has(id); });
+  commit(function (s) {
+    const p = s.projects.find(function (x) { return x.id === s.ui.activeProjectId; }); if (!p) return;
+    if (!p.optionSelections) p.optionSelections = {};
+    const arr = new Set(Array.isArray(p.optionSelections[cardId]) ? p.optionSelections[cardId] : []);
+    kids.forEach(function (id) { if (all) arr.delete(id); else arr.add(id); });
+    if (arr.size) { p.optionSelections[cardId] = Array.from(arr); if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId); }
+    else { delete p.optionSelections[cardId]; p.selected = p.selected.filter(function (x) { return x !== cardId; }); }
+  }, { scope: 'selection', label: all ? '清空选项组' : '全选选项组' });
+  if (hoverState.shown) showHoverCard(cardId);
 }
 function confirmOptionPicker() {
   const cardId = pickerState.cardId; if (!cardId) return;
@@ -5657,6 +5678,8 @@ function bindUI() {
   $('#optionCard').addEventListener('mouseenter', cancelOptionHide);
   $('#optionCard').addEventListener('mouseleave', scheduleHideOptionCard);
   $('#hcOptList').addEventListener('click', function (e) {
+    const gbtn = e.target.closest('[data-hover-group-toggle]');
+    if (gbtn) { e.preventDefault(); e.stopPropagation(); if (hoverState.id) toggleHoverGroup(hoverState.id, gbtn.getAttribute('data-hover-group-toggle')); return; }
     const row = e.target.closest('.hc-opt');
     if (!row || !hoverState.id) return;
     e.preventDefault();
