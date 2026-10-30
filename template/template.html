@@ -432,12 +432,14 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
   <header class="appbar">
     <div class="brand">
       <span class="logo"></span>
-      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.2.0</small></div>
+      <div><b>商业化模块工具箱</b><small>模块分配编辑器 · v4.3.0</small></div>
     </div>
-    <div class="proj-btn static" id="projectBtn" title="默认配置">
+    <button class="proj-btn" id="projectBtn" title="切换/新建项目">
       <span class="proj-name" id="projectName">默认配置</span>
-      <span class="proj-default" title="唯一默认配置">默认</span>
-    </div>
+      <span class="proj-default">项目</span>
+      <span class="caret">▾</span>
+    </button>
+    <div id="projectMenu" class="menu hidden"></div>
     <span id="sharedBadge" class="badge-share hidden" title="这是分享版，数据保存在本机"></span>
     <span id="repoBadge" class="repo-badge"></span>
     <div class="modebar" id="modeBar">
@@ -613,7 +615,6 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
       <section class="tab-panel" data-panel="export">
         <div class="tag-add" style="flex-wrap:wrap;margin-bottom:12px">
-          <button class="btn primary" id="importJsonInline">导入 JSON</button>
           <button class="btn" id="exportJsonInline">导出 JSON</button>
         </div>
         <div class="two-col">
@@ -831,7 +832,7 @@ kbd{display:inline-block;padding:1px 5px;border:1px solid var(--line);border-bot
 
 /* ------------------------- 1. 常量与默认数据 ------------------------- */
 const FONT = '"Microsoft YaHei","PingFang SC","Noto Sans SC","Segoe UI",sans-serif';
-const APP_VERSION = '4.2.0';
+const APP_VERSION = '4.3.0';
 const STORE_KEY = 'moduleBoard.v1';
 const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
@@ -1455,8 +1456,8 @@ const view = { scale: 1, layout: null, inspectingId: null, drag: null, inline: n
 function activeProject() {
   return state.projects.find(p => p.id === state.ui.activeProjectId) || state.projects[0];
 }
-function selectedSet() { return new Set((state.defaults && Array.isArray(state.defaults.selected)) ? state.defaults.selected : []); }
-function isSelected(id) { return !!(state.defaults && Array.isArray(state.defaults.selected) && state.defaults.selected.indexOf(id) >= 0); }
+function selectedSet() { return new Set(activeProject().selected || []); }
+function isSelected(id) { return !!(activeProject() && Array.isArray(activeProject().selected) && activeProject().selected.indexOf(id) >= 0); }
 function catOf(id) { return state.categories.find(c => c.id === id) || state.categories.find(c => c.id === 'cat_none') || state.categories[0]; }
 function rowOf(id) { return state.rows.find(r => r.id === id) || state.rows[state.rows.length - 1]; }
 function cardsOfRow(rowId) { return state.cards.filter(c => c.rowId === rowId).sort((a, b) => a.order - b.order); }
@@ -1469,7 +1470,7 @@ function leafOptionsOf(card) { const out = []; topOptionsOf(card).forEach(functi
 function optionsOf(card) { return leafOptionsOf(card); }
 function optionGroupsOf(card) { return topOptionsOf(card).map(function (g) { return { id: g.id, title: g.title || '基础', options: g.options || [] }; }); }
 function selectedOptionIds(cardId) {
-  const map = (state.defaults && state.defaults.optionSelections && typeof state.defaults.optionSelections === 'object') ? state.defaults.optionSelections : {};
+  const map = (activeProject() && activeProject().optionSelections && typeof activeProject().optionSelections === 'object') ? activeProject().optionSelections : {};
   const arr = Array.isArray(map[cardId]) ? map[cardId] : [];
   const card = findCard(cardId);
   if (!card) return [];
@@ -1761,14 +1762,11 @@ function normalizeState(input) {
     .filter(function (cid) { return cardIds.has(cid) && Array.isArray(defaultOptionSelections[cid]) && defaultOptionSelections[cid].length > 0; })
     .filter(function (cid) { if (defaultSeen.has(cid)) return false; defaultSeen.add(cid); return true; });
   s.defaults = { selected: defaultSelected, optionSelections: defaultOptionSelections };
-  s.projects = [{
-    id: 'prj_default', name: '默认配置',
-    selected: defaultSelected.slice(), optionSelections: clone(defaultOptionSelections),
-    createdAt: nowISO(), updatedAt: nowISO()
-  }];
+  s.projects = rawProjects;
+  if (!s.projects.length) s.projects = [{ id: 'prj_default', name: '默认配置', selected: [], optionSelections: {}, createdAt: nowISO(), updatedAt: nowISO() }];
   const ui = (s.ui && typeof s.ui === 'object') ? s.ui : {};
   s.ui = {
-    activeProjectId: 'prj_default',
+    activeProjectId: s.projects.some(function (p) { return p.id === ui.activeProjectId; }) ? ui.activeProjectId : s.projects[0].id,
     mode: ui.mode === 'edit' ? 'edit' : 'select',
     zoom: (ui.zoom === 'fit' || (typeof ui.zoom === 'number' && ui.zoom > 0)) ? ui.zoom : 'fit',
     filter: {
@@ -1792,7 +1790,7 @@ function initNamespace() {
   return { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BACKUP_KEY };
 }
 function loadState() {
-  if (IS_LOCAL_EDITOR || IS_DESKTOP || IS_WEB) return null;
+  if (IS_LOCAL_EDITOR || IS_DESKTOP) return null;
   try {
     const raw = localStorage.getItem(NS.stateKey);
     if (!raw) return null;
@@ -1850,10 +1848,6 @@ function exportWebData() {
 
 function scheduleSave() { clearTimeout(saveTimer); saveTimer = setTimeout(saveNow, 260); }
 function saveNow() {
-  if (IS_WEB) {
-    updateStats();
-    return;
-  }
   try {
     localStorage.setItem(NS.stateKey, JSON.stringify(state));
     saveError = false;
@@ -1908,7 +1902,6 @@ function idbDeleteImage(id) {
   }).catch(function () { return false; });
 }
 async function loadIndexedImages() {
-  if (IS_WEB) return;
   try {
     const db = await openImageDB();
     const keys = await new Promise(function (resolve, reject) {
@@ -1943,7 +1936,6 @@ function hydrateWebImages(images) {
 }
 function loadImageCache() {
   imageCache.clear();
-  if (IS_WEB) return;
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const k = localStorage.key(i);
@@ -1964,7 +1956,6 @@ function thumbOwnerId(id) {
 function saveShot(cardId, dataUrl, syncTarget) {
   imageCache.set(cardId, dataUrl);
   thumbImageCache.delete(cardId);
-  if (IS_WEB) return;
   idbPutImage(cardId, dataUrl);
   try {
     localStorage.setItem(NS.imgPrefix + cardId, dataUrl);
@@ -1979,7 +1970,6 @@ function saveShot(cardId, dataUrl, syncTarget) {
 function removeShot(cardId, syncTarget) {
   imageCache.delete(cardId);
   thumbImageCache.delete(cardId);
-  if (IS_WEB) return;
   idbDeleteImage(cardId);
   try { localStorage.removeItem(NS.imgPrefix + cardId); } catch (e) { /* ignore */ }
   localRemoveImage(syncTarget || thumbOwnerId(cardId) || cardId);
@@ -2112,12 +2102,13 @@ function toggleSelected(id, opts) {
   }
   const extra = Object.assign({ scope: 'selection', label: '勾选「' + ((card && card.title) || '模块') + '」' }, opts || {});
   commit(s => {
-    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
-    const arr = Array.isArray(s.defaults.selected) ? s.defaults.selected : [];
+    const p = s.projects.find(function (x) { return x.id === s.ui.activeProjectId; });
+    if (!p) return;
+    const arr = Array.isArray(p.selected) ? p.selected : [];
     const i = arr.indexOf(id);
     if (i >= 0) arr.splice(i, 1); else arr.push(id);
-    s.defaults.selected = arr;
-    syncProjectSelections(s, true);
+    p.selected = arr;
+    p.updatedAt = nowISO();
   }, extra);
 }
 function setSelected(id, on, opts) {
@@ -2132,22 +2123,16 @@ function toggleOption(cardId, optionId) {
   const keepHover = hoverState.shown && hoverState.id === cardId;
   const label = '选项「' + option.title + '」';
   commit(function (s) {
-    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
-    if (!s.defaults.optionSelections || typeof s.defaults.optionSelections !== 'object' || Array.isArray(s.defaults.optionSelections)) s.defaults.optionSelections = {};
-    const arr = Array.isArray(s.defaults.optionSelections[cardId]) ? s.defaults.optionSelections[cardId].slice() : [];
+    const p = s.projects.find(function (x) { return x.id === s.ui.activeProjectId; });
+    if (!p) return;
+    if (!p.optionSelections || typeof p.optionSelections !== 'object' || Array.isArray(p.optionSelections)) p.optionSelections = {};
+    const arr = Array.isArray(p.optionSelections[cardId]) ? p.optionSelections[cardId].slice() : [];
     const i = arr.indexOf(optionId);
     if (i >= 0) arr.splice(i, 1);
-    else {
-      arr.push(optionId);
-      if (s.defaults.selected.indexOf(cardId) < 0) s.defaults.selected.push(cardId);
-    }
-    if (!arr.length) {
-      s.defaults.selected = s.defaults.selected.filter(function (x) { return x !== cardId; });
-      delete s.defaults.optionSelections[cardId];
-    } else {
-      s.defaults.optionSelections[cardId] = arr;
-    }
-    syncProjectSelections(s, true);
+    else { arr.push(optionId); if (p.selected.indexOf(cardId) < 0) p.selected.push(cardId); }
+    if (!arr.length) { p.selected = p.selected.filter(function (x) { return x !== cardId; }); delete p.optionSelections[cardId]; }
+    else p.optionSelections[cardId] = arr;
+    p.updatedAt = nowISO();
   }, { scope: 'selection', label: label });
   if (keepHover) {
     showHoverCard(cardId);
@@ -3746,12 +3731,14 @@ function confirmOptionPicker() {
   const label = '选择「' + (findCard(cardId) || {}).title + '」选项';
   closeOptionPicker();
   commit(function (s) {
-    if (!s.defaults) s.defaults = { selected: [], optionSelections: {} };
-    const set = new Set(Array.isArray(s.defaults.selected) ? s.defaults.selected : []);
-    if (draft.length) { set.add(cardId); s.defaults.optionSelections[cardId] = draft; }
-    else { set.delete(cardId); delete s.defaults.optionSelections[cardId]; }
-    s.defaults.selected = Array.from(set);
-    syncProjectSelections(s, true);
+    const p = s.projects.find(function (x) { return x.id === s.ui.activeProjectId; });
+    if (!p) return;
+    const set = new Set(Array.isArray(p.selected) ? p.selected : []);
+    if (!p.optionSelections || typeof p.optionSelections !== 'object') p.optionSelections = {};
+    if (draft.length) { set.add(cardId); p.optionSelections[cardId] = draft; }
+    else { set.delete(cardId); delete p.optionSelections[cardId]; }
+    p.selected = Array.from(set);
+    p.updatedAt = nowISO();
   }, { scope: 'selection', label: label });
 }
 function clearOptionPicker() { pickerState.draft = new Set(); renderOptionPicker(); }
@@ -4324,6 +4311,55 @@ function patchCardSilent(id, patch, label) {
 }
 
 /* ------------------------- 14. 项目 ------------------------- */
+/* ------------------------- 14.5 项目 ------------------------- */
+function renderProjectMenu() {
+  const cur = activeProject();
+  const html = ['<div class="menu-head">项目 · ' + state.projects.length + ' 个</div>'];
+  state.projects.forEach(function (p) {
+    html.push('<div class="menu-item' + (p.id === cur.id ? ' active' : '') + '" data-project="' + escAttr(p.id) + '">' +
+      '<span>' + esc(p.name) + '</span><span class="count">' + (p.selected || []).length + ' 已选</span>' +
+      '<span class="ops"><button class="rop" data-proj-act="rename" data-id="' + escAttr(p.id) + '" title="重命名">✎</button>' +
+      '<button class="rop danger" data-proj-act="del" data-id="' + escAttr(p.id) + '" title="删除">×</button></span></div>');
+  });
+  html.push('<div class="menu-sep"></div><div class="menu-actions"><button class="btn" data-proj-act="new">＋ 新建项目</button>' +
+    '<button class="btn" data-proj-act="import">导入 JSON</button></div>');
+  $('#projectMenu').innerHTML = html.join('');
+}
+function openProjectMenu() {
+  const r = $('#projectBtn').getBoundingClientRect();
+  const m = $('#projectMenu'); m.style.position = 'fixed'; m.style.left = r.left + 'px'; m.style.top = (r.bottom + 6) + 'px';
+  renderProjectMenu(); m.classList.remove('hidden');
+}
+function closeProjectMenu() { const m = $('#projectMenu'); if (m) m.classList.add('hidden'); }
+function switchProject(id) {
+  if (!state.projects.some(function (p) { return p.id === id; })) return;
+  state.ui.activeProjectId = id; closeProjectMenu(); closeInspector(); scheduleSave(); renderAll();
+}
+async function newProject() {
+  const name = await askText({ title: '新建项目', value: '新项目', okText: '创建' });
+  if (!name) return;
+  const id = uid('prj'); const d = state.defaults || { selected: [], optionSelections: {} };
+  commit(function (s) {
+    s.projects.push({ id: id, name: String(name).slice(0, 40), selected: (d.selected || []).slice(), optionSelections: clone(d.optionSelections || {}), createdAt: nowISO(), updatedAt: nowISO() });
+    s.ui.activeProjectId = id;
+  }, { label: '新建项目' });
+  closeProjectMenu();
+}
+async function renameProject(id) {
+  const p = state.projects.find(function (x) { return x.id === id; }); if (!p) return;
+  const name = await askText({ title: '重命名项目', value: p.name, okText: '保存' });
+  if (!name || name === p.name) return;
+  commit(function (s) { const t = s.projects.find(function (x) { return x.id === id; }); if (t) t.name = String(name).slice(0, 40); }, { label: '重命名项目' });
+  closeProjectMenu();
+}
+async function deleteProject(id) {
+  if (state.projects.length <= 1) { toast('至少保留一个项目'); return; }
+  const p = state.projects.find(function (x) { return x.id === id; });
+  const ok = await askConfirm({ title: '删除项目', message: '删除「' + p.name + '」？', okText: '删除', danger: true });
+  if (!ok) return;
+  commit(function (s) { s.projects = s.projects.filter(function (x) { return x.id !== id; }); if (s.ui.activeProjectId === id) s.ui.activeProjectId = s.projects[0].id; }, { label: '删除项目' });
+  closeProjectMenu();
+}
 /* ------------------------- 15. 设置 ------------------------- */
 function renderSettings() {
   const cats = state.categories.slice().sort((a, b) => a.order - b.order);
@@ -4957,6 +4993,12 @@ function bindUI() {
   $('#editPromptDialog').addEventListener('click', e => {
     if (e.target === $('#editPromptDialog')) closeEditPrompt();
   });
+  $('#projectBtn').addEventListener('click', function (e) { e.stopPropagation(); const m = $('#projectMenu'); if (m.classList.contains('hidden')) openProjectMenu(); else closeProjectMenu(); });
+  $('#projectMenu').addEventListener('click', function (e) {
+    const act = e.target.closest('[data-proj-act]');
+    if (act) { const k = act.getAttribute('data-proj-act'), id = act.getAttribute('data-id'); closeProjectMenu(); if (k === 'new') newProject(); else if (k === 'import') importJSON(); else if (k === 'rename') renameProject(id); else if (k === 'del') deleteProject(id); return; }
+    const item = e.target.closest('[data-project]'); if (item) switchProject(item.getAttribute('data-project'));
+  });
   $('#pickerClose').addEventListener('click', closeOptionPicker);
   $('#pickerConfirm').addEventListener('click', confirmOptionPicker);
   $('#pickerClear').addEventListener('click', clearOptionPicker);
@@ -4968,6 +5010,7 @@ function bindUI() {
   });
 
   document.addEventListener('pointerdown', e => {
+    if (!e.target.closest('#projectMenu') && !e.target.closest('#projectBtn')) closeProjectMenu();
     if (!e.target.closest('#tagMenu') && !e.target.closest('#tagFilterBtn')) $('#tagMenu').classList.add('hidden');
     if (!e.target.closest('#hoverCard')) hideHoverCard();
   });
@@ -5284,7 +5327,6 @@ function bindUI() {
   });
   $('#shareIncludeShots').addEventListener('change', refreshShareFileUI);
   $('#shareMake').addEventListener('click', makeShareFile);
-  $('#importJsonInline').addEventListener('click', importJSON);
   $('#exportJsonInline').addEventListener('click', exportJSON);
   $('#dataPanel').addEventListener('click', e => {
     const b = e.target.closest('[data-data-act]');
@@ -6660,9 +6702,11 @@ async function init() {
   try { hadSaved = !!localStorage.getItem(NS.stateKey); } catch (e) { hadSaved = false; }
   let loaded = null;
   if (IS_WEB) {
-    WEB_DATA = await webFetchData();
-    webClearLegacyStorage();
-    if (WEB_DATA && WEB_DATA.state) loaded = normalizeState(WEB_DATA.state);
+    try { loaded = loadState(); } catch (e) { loaded = null; }
+    if (!loaded) {
+      WEB_DATA = await webFetchData();
+      if (WEB_DATA && WEB_DATA.state) loaded = normalizeState(WEB_DATA.state);
+    }
   } else {
     try { loaded = loadState(); } catch (e) { loaded = null; }
   }
