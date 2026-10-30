@@ -876,6 +876,7 @@ let NS = { seed: null, stateKey: STORE_KEY, imgPrefix: IMG_PREFIX, backupKey: BA
 const IS_LOCAL_EDITOR = (location.hostname === '127.0.0.1' || location.hostname === 'localhost') && location.port === '4173';
 const IS_DESKTOP = !!(window.desktopRepo && typeof window.desktopRepo.saveState === 'function');
 const IS_WEB = !IS_DESKTOP && !IS_LOCAL_EDITOR && /^https?:$/.test(location.protocol);
+const CACHE_VERSION = '4.4.0';
 const WEB_PASSWORD_HASH = 'a261be9fff649fbcf6a7871f3bbfc4275a94942325c6d9a6d02f6f97e577b459';
 let WEB_DATA = null;
 let localSyncReady = false;
@@ -1448,7 +1449,7 @@ function defaultState() {
     })),
     tagPresets: TAG_PRESETS_DEFAULT.slice(),
     tagColors: {},
-    meta: { editorName: '', lastEdit: null, editLog: [], shared: null, deletedCards: [], descSeed: 1, paletteVersion: 2 },
+    meta: { editorName: '', lastEdit: null, editLog: [], shared: null, deletedCards: [], descSeed: 1, paletteVersion: 2, cacheVersion: CACHE_VERSION },
     projects: bootProjects,
     defaults: defaultSel,
     ui: {
@@ -1747,6 +1748,7 @@ function normalizeState(input) {
     });
     s.meta.paletteVersion = 2;
   }
+  s.meta.cacheVersion = CACHE_VERSION;
   if (!s.meta.descSeed) {
     s.cards.forEach(function (c) { if (!c.desc) c.desc = DEFAULT_DESC[c.id] || ''; });
     s.meta.descSeed = 1;
@@ -1808,7 +1810,9 @@ function loadState() {
   try {
     const raw = localStorage.getItem(NS.stateKey);
     if (!raw) return null;
-    return normalizeState(JSON.parse(raw));
+    const parsed = JSON.parse(raw);
+    if (!parsed || !parsed.meta || parsed.meta.cacheVersion !== CACHE_VERSION) return null;
+    return normalizeState(parsed);
   } catch (err) { console.warn('[模块工具箱] 本地数据读取失败', err); return null; }
 }
 function webHash(text) {
