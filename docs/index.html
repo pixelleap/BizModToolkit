@@ -884,15 +884,15 @@ const BACKUP_KEY = 'moduleBoard.backup';
 const IMG_PREFIX = 'moduleBoard.img.';
 const SHARE_PREFIX = 'moduleBoard.share.';
 const EDITOR_NAME_KEY = 'mb.editorName';
-const DEFAULT_HOVER_DELAY = 1000;
+const DEFAULT_HOVER_DELAY = 300;
 const HOVER_DELAY_KEY = 'mb.hoverDelay';
 function hoverDelayMs() {
-  let v = 0;
+  let v = DEFAULT_HOVER_DELAY / 1000;
   try {
     const raw = localStorage.getItem(HOVER_DELAY_KEY);
     if (raw != null && raw !== '') v = parseFloat(raw);
-  } catch (e) { v = 0; }
-  if (!isFinite(v)) v = 0;
+  } catch (e) { v = DEFAULT_HOVER_DELAY / 1000; }
+  if (!isFinite(v)) v = DEFAULT_HOVER_DELAY / 1000;
   v = clamp(v, 0, 10);
   return Math.round(v * 1000);
 }
@@ -4608,7 +4608,7 @@ function renderSettings() {
     '<div class="srow" style="gap:8px;align-items:center">' +
     '<span style="font-size:12px;color:var(--muted)">等待时间（秒）</span>' +
     '<input type="number" id="hoverDelayInput" min="0" max="10" step="0.5" value="' + hoverDelaySeconds() + '" style="width:88px;height:30px;border:1px solid var(--line);border-radius:8px;padding:0 8px">' +
-    '<span class="field-hint" style="margin:0">默认 0 秒 · 只影响本机</span>' +
+    '<span class="field-hint" style="margin:0">默认 0.3 秒 · 只影响本机</span>' +
     '</div>' +
     '<div class="field" style="display:flex;gap:8px;align-items:center;margin-top:10px"><label style="margin:0;flex:1">鼠标离开后保留</label>' +
     '<input type="number" id="leaveDelayInput" min="0" max="5" step="0.5" value="' + leaveDelaySeconds() + '" style="width:88px;height:30px;border:1px solid var(--line);border-radius:8px;padding:0 8px">' +
@@ -6395,11 +6395,11 @@ function runSelfTest() {
     return true;
   });
 
-  check('悬停等待默认 1 秒且可设置', () => {
+  check('悬停等待默认 0.3 秒且可设置', () => {
     const orig = localStorage.getItem(HOVER_DELAY_KEY);
     try {
       localStorage.removeItem(HOVER_DELAY_KEY);
-      if (hoverDelayMs() !== 1000) throw new Error('默认不是 1 秒：' + hoverDelayMs());
+      if (hoverDelayMs() !== 300) throw new Error('默认不是 0.3 秒：' + hoverDelayMs());
       setHoverDelay(3);
       if (hoverDelayMs() !== 3000) throw new Error('设置未生效');
       setHoverDelay(0.2);
@@ -7162,9 +7162,6 @@ init();
 </script>
 </body>
 </html>
-
-
-
 
 
 
